@@ -25,10 +25,11 @@
 
 <style lang="scss">
 .sidebar-container {
-    width: 250px;
+    width: 25%;
+    max-width: 200px;
     position: relative;
     height: 100%;
-    margin: 0 80px 0 100px;
+    margin: 0 8% 0 10%;
 
     span {
         font-weight: bold;

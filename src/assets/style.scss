@@ -12,6 +12,7 @@ html {
                 background-color: #f7670f;
                 color: white;
                 font-weight: bold;
+                border: 0;
             }
 
             .link {
@@ -23,6 +24,28 @@ html {
                 &:hover {
                     text-decoration: underline;
                 }
+            }
+
+            .main-container {
+                border: 1px solid #dddddd;
+        
+                .main-header {
+                    border-bottom: 1px solid #dddddd;
+                    height: 40px;
+                    line-height: 40px;
+                    padding-left: 20px;
+        
+                    span {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .page-container {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
             }
         }
     }  

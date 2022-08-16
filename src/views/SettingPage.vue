@@ -1,8 +1,8 @@
 <template>
     <div class="page-container">
         <SideBar />
-        <div class="setting-container">
-            <div class="setting-header">
+        <div class="main-container">
+            <div class="main-header">
                 <span>帳戶設定</span>
             </div>
             <div class="input-container">
@@ -49,20 +49,8 @@ export default {
     display: flex;
     flex-direction: row;
 
-    .setting-container {
-        border: 1px solid #dddddd;
+    .main-container {
         width: 100%;
-
-        .setting-header {
-            border-bottom: 1px solid #dddddd;
-            height: 40px;
-            line-height: 40px;
-            padding-left: 20px;
-
-            span {
-                font-weight: bold;
-            }
-        }
 
         .input-container {
             width: 50%;
@@ -94,7 +82,6 @@ export default {
 
             #confirm {
                 margin: 30px 0 15px 0;
-                border: 0;
                 width: 120px;
                 border-radius: 20px;
                 height: 40px;

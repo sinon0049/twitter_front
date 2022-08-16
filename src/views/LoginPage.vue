@@ -59,7 +59,6 @@
     }
     #login {
         margin: 30px 0 15px 0;
-        border: 0;
         width: 400px;
         border-radius: 20px;
         height: 40px;
