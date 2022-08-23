@@ -1,3 +1,7 @@
+$orange: #ff6600;
+$link: #1589c9;
+$border: #e6ecf0;
+
 html {
     height: 100%;
 
@@ -8,17 +12,28 @@ html {
         #app {
             height: 100%;
 
+            span, a, button {
+                font-family: 'Noto Sans TC';
+            }
+
             .btn-orange {
-                background-color: #f7670f;
+                background-color: $orange;
                 color: white;
                 font-weight: bold;
                 border: 0;
             }
 
+            .btn-white {
+                background-color: white;
+                color: $orange;
+                font-weight: bold;
+                border: 1px solid $orange;
+            }
+
             .link {
                 border: 0;
                 background-color: white;
-                color: #1589c9;
+                color: $link;
                 text-decoration: none;
                 font-weight: bold;
                 &:hover {
@@ -27,10 +42,10 @@ html {
             }
 
             .main-container {
-                border: 1px solid #dddddd;
+                border: 1px solid $border;
         
                 .main-header {
-                    border-bottom: 1px solid #dddddd;
+                    border-bottom: 1px solid $border;
                     height: 40px;
                     line-height: 40px;
                     padding-left: 20px;

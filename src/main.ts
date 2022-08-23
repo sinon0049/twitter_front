@@ -8,10 +8,10 @@ import './assets/style.scss'
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { faGear, faHouse, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
-import { faUser } from "@fortawesome/free-regular-svg-icons"
+import { faUser, faHeart, faComment } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
-library.add(faGear, faHouse, faUser, faArrowRightFromBracket)
+library.add(faGear, faHouse, faUser, faArrowRightFromBracket, faHeart, faComment)
 
 const app = createApp(App);
 
