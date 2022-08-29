@@ -36,4 +36,13 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach((to, from, next) => {
+  const pathsWithoutAuth = ['/login', '/regist']
+  const localToken = localStorage.getItem('token')
+  if(!localToken && !pathsWithoutAuth.includes(to.fullPath)) {
+    router.push('/login')
+  }
+  else next()
+})
+
 export default router;
