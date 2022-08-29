@@ -15,10 +15,10 @@
                 <span>設定</span>
             </div>
             <button class="btn-orange" id="tweet">推文</button>
-            <div class="btn-group" id="logout">
+            <div class="btn-group" id="logout" @click.stop.prevent="logout">
                 <font-awesome-icon icon="arrow-right-from-bracket" size="xl" />
-            <span>登出</span>
-        </div>
+                <span>登出</span>
+            </div>
         </div>
     </div>
 </template>
@@ -73,3 +73,24 @@
     }
 }
 </style>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+
+export default defineComponent({
+    setup() {
+        const router = useRouter()
+        const logout = function() {
+            localStorage.removeItem('token')
+            router.push({
+                name: 'login'
+            })
+        }
+
+        return {
+            logout
+        }
+    },
+})
+</script>

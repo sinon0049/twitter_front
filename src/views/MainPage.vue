@@ -11,22 +11,22 @@
                 <button class="btn-orange">推文</button>
             </div>
             <div class="tweet-container">
-                <div class="tweet-card">
+                <div class="tweet-card" v-for="item in tweetList.data">
                     <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
                     <div class="tweet-content">
                         <div class="name">
-                            <span>ABC</span>
-                            <span class="account">@ABC</span>
+                            <span>{{item["User"]["name"]}}</span>
+                            <span class="account">@{{item["User"]["account"]}}</span>
                         </div>
-                        <div class="content">asdakdonewfiun kodnwoidnewoidwem kaslcmsdinweiodnweoim kasldmsalkdmqwlkdmwqkldmqwdlkqwmdlzd cxmnvgjtrkgbtrnjcknekcrencok</div>
+                        <div class="content">{{item["description"]}}</div>
                         <div class="icon">
                             <div>
                                 <font-awesome-icon :icon="['far', 'comment']" style="color: #657786;"/>
-                                <span>10</span>
+                                <span>{{item["Replies"]['length']}}</span>
                             </div>
                             <div>
                                 <font-awesome-icon :icon="['far', 'heart']" style="color: #657786;" />
-                                <span>20</span>
+                                <span>{{item["Likes"]['length']}}</span>
                             </div>
                         </div>
                     </div>
@@ -121,14 +121,48 @@
 }
 </style>
 
-<script lang="ts">
+<!-- <script setup lang="ts">
 import SideBar from "../components/SideBar.vue"
 import PopularList from "../components/PopularList.vue"
+import { onMounted, reactive } from "vue";
+import { usersAPI } from '../apis/user'
 
-export default {
+onMounted( async () => {
+    const resData = await usersAPI.getData()
+    const userData = reactive(resData.data)
+})
+</script> -->
+
+
+<script lang="ts">
+import { defineComponent, onMounted, reactive, readonly } from 'vue'
+import SideBar from "../components/SideBar.vue"
+import PopularList from "../components/PopularList.vue"
+import { usersAPI } from '@/apis/user'
+
+export default defineComponent({
+    setup() {
+        const tweetList = reactive({
+            data: null
+        })
+        let data = {}
+        onMounted( async () => {
+            try {
+                const response = await usersAPI.getData()
+                tweetList.data = response.data
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        return {
+            tweetList,
+            data
+        }
+    },
     components: {
         SideBar,
         PopularList,
     }
-}
+})
 </script>
+

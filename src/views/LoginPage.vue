@@ -4,13 +4,13 @@
         <h3>登入Alphitter</h3>
         <div class="input">
             <label for="account">帳號</label>
-            <input type="text" id="account">
+            <input type="text" id="account" v-model="signInData.account">
         </div>
         <div class="input">
             <label for="password">密碼</label>
-            <input type="password" id="password">
+            <input type="password" id="password" v-model="signInData.password" @keyup.enter="signIn">
         </div>
-        <button id="login" class="btn-orange">登入</button>
+        <button id="login" class="btn-orange" @click.stop.prevent="signIn">登入</button>
         <div id="options-container">
             <router-link to="/regist" class="link">註冊Alphitter</router-link>
             <span>‧</span>
@@ -77,3 +77,42 @@
     }
 }
 </style>
+
+<script lang="ts">
+import { defineComponent, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { usersAPI } from '../apis/user'
+
+export default defineComponent({
+    setup() {
+        const signInData = reactive({
+            account: '',
+            password: ''
+        })
+
+        const router = useRouter()
+        const route = useRoute()
+
+        const signIn = async function() {
+            try {
+                const res = await usersAPI.signIn(signInData)
+                console.log(res.data.token)
+                const token: string = res.data.token
+                if(token) {
+                    localStorage.setItem('token', token)
+                    router.push({
+                        name: 'main'
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        return {
+            signInData,
+            signIn
+        }
+    },
+})
+</script>

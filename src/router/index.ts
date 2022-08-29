@@ -30,7 +30,7 @@ const router = createRouter({
     },
     {
       path: "/main",
-      name: "settimainng",
+      name: "main",
       component: MainPage,
     }
   ],
