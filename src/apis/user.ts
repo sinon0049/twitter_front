@@ -8,8 +8,4 @@ export const usersAPI = {
     signIn: function(payLoad: signInData)  {
         return api.post('/user/signin', payLoad)
     },
-
-    getData: function() {
-        return api.get('/tweet/all')
-    }
 }

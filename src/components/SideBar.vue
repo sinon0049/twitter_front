@@ -3,20 +3,20 @@
         <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
         <div class="btn-container">
             <div class="btn-group">
-                <font-awesome-icon icon="home" size="xl" class="home" />
+                <font-awesome-icon icon="home" size="lg" class="home" />
                 <span>首頁</span>
             </div>
             <div class="btn-group">
-                <font-awesome-icon :icon="['far', 'user']" size="xl" class="user " />
+                <font-awesome-icon :icon="['far', 'user']" size="lg" class="user " />
                 <span>個人資料</span>
             </div>
             <div class="btn-group">
-                <font-awesome-icon icon="gear" size="xl" class="gear" />
+                <font-awesome-icon icon="gear" size="lg" class="gear" />
                 <span>設定</span>
             </div>
             <button class="btn-orange" id="tweet">推文</button>
             <div class="btn-group" id="logout" @click.stop.prevent="logout">
-                <font-awesome-icon icon="arrow-right-from-bracket" size="xl" />
+                <font-awesome-icon icon="arrow-right-from-bracket" size="lg" />
                 <span>登出</span>
             </div>
         </div>

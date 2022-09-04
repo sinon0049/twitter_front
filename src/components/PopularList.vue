@@ -3,45 +3,14 @@
         <div class="popular-head">
             <span>Popular</span>
         </div>
-        <div class="popular-card">
+        <div class="popular-card" v-for="item in followingList">
             <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
             <div class="user-name">
-                <span class="name">ABC</span>
-                <span class="account">@ABC</span>
+                <span class="name">{{item.name}}</span>
+                <span class="account">{{item.account}}</span>
             </div>
-            <button class="btn-orange">正在跟隨</button>
-        </div>
-        <div class="popular-card">
-            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-            <div class="user-name">
-                <span class="name">ABC</span>
-                <span class="account">@ABC</span>
-            </div>
-            <button class="btn-white">跟隨</button>
-        </div>
-        <div class="popular-card">
-            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-            <div class="user-name">
-
-            </div>
-        </div>
-        <div class="popular-card">
-            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-            <div class="user-name">
-
-            </div>
-        </div>
-        <div class="popular-card">
-            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-            <div class="user-name">
-
-            </div>
-        </div>
-        <div class="popular-card">
-            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-            <div class="user-name">
-
-            </div>
+            <button class="btn-orange" v-if="item.isFollower">正在跟隨</button>
+            <button class="btn-white" v-else>跟隨</button>
         </div>
     </div>
 </template>
@@ -108,3 +77,35 @@
     }
 }
 </style>
+
+<script lang="ts">
+import { followingsAPI } from '@/apis/following'
+import { defineComponent, onMounted, reactive } from 'vue'
+
+interface followingData {
+    id: number,
+    name: string,
+    account: string,
+    avatar: string,
+    isFollower: boolean
+}
+
+export default defineComponent({
+    setup() {
+        const followingList: followingData[] = reactive([])
+        onMounted(async () => {
+            try {
+                const { data } = await followingsAPI.getFollowingList()
+                data.forEach(function(item: followingData) {
+                    followingList.push(item)
+                })
+            } catch (error) {
+                console.log(error)
+            }  
+        })
+        return {
+            followingList,
+        }
+    },
+})
+</script>
