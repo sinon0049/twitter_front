@@ -12,8 +12,20 @@ html {
         #app {
             height: 100%;
 
+            .cursor-pointer {
+                cursor: pointer;
+            }
+
             span, a, button {
                 font-family: 'Noto Sans TC';
+            }
+
+            .light {
+                color: #657786
+            }
+
+            .orange {
+                color: $orange;
             }
 
             .btn-orange {
@@ -49,15 +61,69 @@ html {
 
                 .main-container {
                     border: 1px solid $border;
+                    width: 40%;
             
                     .main-header {
                         border-bottom: 1px solid $border;
                         height: 40px;
                         line-height: 40px;
                         padding-left: 20px;
+                        display: flex;
+                        align-items: center;
             
                         span {
                             font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            .reply-container {
+                overflow-y: auto;
+                flex: 1;
+                .reply-card {
+                    display: grid;
+                    grid-template-columns: 80px 1fr;
+                    height: fit-content;
+                    border-bottom: 1px solid #dddddd;
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        margin: {
+                            left: 15px;
+                            top: 10px;
+                        }
+                    }
+                    .reply-content {
+                        margin: {
+                            top: 10px;
+                            bottom: 10px;
+                        }
+                        .name {
+                            margin-bottom: 5px;
+                            span {
+                                display: inline-block;
+                                margin-right: 5px;
+                            }
+                        }
+                        .content {
+                            margin-bottom: 10px;
+                        }
+                        a {
+                            text-decoration: none;
+                            color: black;
+                        }
+                        .icon {
+                            display: flex;
+                            div {
+                                width: 40px;
+                                display: flex;
+                                justify-content: space-between;
+                                margin-right: 50px;
+                                span {
+                                    color: #657786;
+                                }
+                            }
                         }
                     }
                 }

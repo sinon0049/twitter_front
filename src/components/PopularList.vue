@@ -9,8 +9,11 @@
                 <span class="name">{{item.name}}</span>
                 <span class="account">{{item.account}}</span>
             </div>
-            <button class="btn-orange" v-if="item.isFollower">正在跟隨</button>
-            <button class="btn-white" v-else>跟隨</button>
+            <button class="btn-orange cursor-pointer" v-if="item.isFollower">正在跟隨</button>
+            <button class="btn-white cursor-pointer" v-else>跟隨</button>
+        </div>
+        <div class="popular-tail cursor-pointer">
+            <span>顯示更多</span>
         </div>
     </div>
 </template>
@@ -21,7 +24,8 @@
         left: 30px;
         top: 15px;
     }
-    width: 350px;
+    width: 35%;
+    max-width: 350px;
     height: fit-content;
     border-radius: 14px;
     background-color: #f5f8fa;
@@ -33,6 +37,19 @@
             font: {
                 weight: bold;
                 size: 18px;
+            }
+        }
+    }
+    .popular-tail {
+        height: 45px;
+        border-top: 1px solid #e6ecf0;
+        span {
+            line-height: 45px;
+            margin-left: 15px;
+            color: #ff6600;
+            font: {
+                size: 15px;
+                weight: bold;
             }
         }
     }

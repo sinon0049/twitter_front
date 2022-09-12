@@ -5,27 +5,31 @@
             <div class="main-header">
                 <span>首頁</span>
             </div>
-            <div class="tweet-card" id="tweet-input">
+            <div id="tweet-input">
                 <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
                 <textarea name="newTweet" cols="30" rows="10" placeholder="有什麼新鮮事?" maxlength="140"></textarea>
-                <button class="btn-orange">推文</button>
+                <button class="btn-orange cursor-pointer">推文</button>
             </div>
-            <div class="tweet-container">
-                <div class="tweet-card" v-for="item in tweetList">
-                    <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
-                    <div class="tweet-content">
-                        <div class="name">
+            <div class="reply-container">
+                <div class="reply-card" v-for="item in tweetList">
+                    <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="" class="cursor-pointer">
+                    <div class="reply-content">
+                        <div class="name cursor-pointer">
                             <span>{{item.User.name}}</span>
-                            <span class="account">@{{item.User.account}}</span>
+                            <span class="light">@{{item.User.account}}</span>
                         </div>
-                        <div class="content">{{item.description}}</div>
+                        <div class="content">
+                            <router-link :to="{ name: 'reply-list', params: { id: item.id }}">
+                                {{item.description}}
+                            </router-link>  
+                        </div>
                         <div class="icon">
-                            <div>
-                                <font-awesome-icon :icon="['far', 'comment']" style="color: #657786;"/>
+                            <div @click.stop.prevent="toggleModal" class="cursor-pointer">
+                                <font-awesome-icon :icon="['far', 'comment']" class="fa-icon" style="color: #657786;" />
                                 <span>{{item.Replies.length}}</span>
                             </div>
                             <div>
-                                <font-awesome-icon :icon="['far', 'heart']" style="color: #657786;" />
+                                <font-awesome-icon :icon="['far', 'heart']" class="fa-icon cursor-pointer" style="color: #657786;" />
                                 <span>{{item.Likes.length}}</span>
                             </div>
                         </div>
@@ -34,6 +38,11 @@
             </div>  
         </div>
         <PopularList />
+        <div class="modal" :class="{close: !isModalOpen}">
+            <div class="modal-header">
+                <font-awesome-icon class="icon" icon="x" size="lg"  @click.stop.prevent="toggleModal"/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,17 +54,25 @@
     #tweet-input {
         position: relative;
         border-bottom: 10px solid #e6ecf0;
+        display: flex;
         img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            margin: 10px auto auto 15px;
+            margin: {
+                top: 10px;
+                left: 15px;
+            };
         }
         textarea {
-            width: 75%;
+            width: 80%;
             border: 0;
-            height: 70%;
-            margin: auto 0 auto 0;
+            outline: 0;
+            height: 60%;
+            margin: {
+                top: 2%;
+                left: 3%;
+            };
             overflow: visible;
             resize: none;
         }
@@ -65,85 +82,64 @@
             border-radius: 20px;
             border: none;
             position: absolute;
-            bottom: 10px;
-            right: 15px;
+            bottom: 6px;
+            right: 5%;
         }
     }
-    .tweet-container {
-        overflow-y: auto;
-        flex: 1;
-    }
-    .tweet-card {
-        display: grid;
-        grid-template-columns: 80px 1fr;
-        height: fit-content;
-        border-bottom: 1px solid #dddddd;
-        img {
-            width: 50px;
-            height: 50px;
+}
+.modal {
+    width: 40%;
+    background-color: white;
+    position: absolute;
+    border: 1px solid black;
+    height: 60%;
+    left: 30%;
+    top: 15%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in 0.3s;
+    transform-origin: top;
+    .modal-header {
+        width: 100%;
+        height: 15%;
+        border: {
+            bottom: 1px solid #e6ecf0;
+        }
+        display: flex;
+        align-items: center;
+        .icon {
+            color: #ff6600;
             margin: {
-                left: 15px;
-                top: 10px;
-            }
-        }
-        .tweet-content {
-            margin: {
-                top: 10px;
-                bottom: 10px;
-            }
-            .name {
-                margin-bottom: 5px;
-                span {
-                    display: inline-block;
-                    margin-right: 5px;
-                }
-                .account {
-                    color: #657786;
-                }
-            }
-            .content {
-                margin-bottom: 10px;
-            }
-            .icon {
-                display: flex;
-                div {
-                    width: 40px;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-right: 50px;
-                    span {
-                        color: #657786;
-                    }
-                }
+                left: 3%;
             }
         }
     }
+}
+
+.close {
+    transform: scale(1, 0);
 }
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, readonly } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import SideBar from "../components/SideBar.vue"
 import PopularList from "../components/PopularList.vue"
 import { tweetsAPI } from '@/apis/tweet'
-
-interface userInfo {
-    name: string,
-    account: string
-}
-
-interface tweet {
-    id: number,
-    UserId: number,
-    description: string,
-    User: userInfo,
-    Replies: [],
-    Likes: []
-}
+import type { tweet } from 'env'
 
 export default defineComponent({
     setup() {
         const tweetList: tweet[] = reactive([])
+        const isModalOpen = ref(false)
+
+        const toggleModal = function () {
+            try {
+                isModalOpen.value = !isModalOpen.value
+                console.log('toggle')
+            } catch (error) {
+                console.log(error)
+            }
+        }
         onMounted( async () => {
             try {
                 const { data } = await tweetsAPI.getAllTweets()
@@ -156,6 +152,8 @@ export default defineComponent({
         })
         return {
             tweetList,
+            isModalOpen,
+            toggleModal
         }
     },
     components: {

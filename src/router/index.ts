@@ -4,6 +4,7 @@ import RegistPage from "../views/RegistPage.vue"
 import LoginPage from "../views/LoginPage.vue"
 import SettingPage from "../views/SettingPage.vue"
 import MainPage from "../views/MainPage.vue"
+import ReplyList from "../views/ReplyList.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: "/main",
       name: "main",
       component: MainPage,
+    },
+    {
+      path: "/reply/:id",
+      name: "reply-list",
+      component: ReplyList,
     }
   ],
 });

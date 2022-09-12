@@ -10,11 +10,11 @@
             <label for="password">密碼</label>
             <input type="password" id="password" v-model="signInData.password" @keyup.enter="signIn">
         </div>
-        <button id="login" class="btn-orange" @click.stop.prevent="signIn">登入</button>
+        <button id="login" class="btn-orange cursor-pointer" @click.stop.prevent="signIn">登入</button>
         <div id="options-container">
-            <router-link to="/regist" class="link">註冊Alphitter</router-link>
+            <router-link to="/regist" class="link cursor-pointer">註冊Alphitter</router-link>
             <span>‧</span>
-            <router-link to="/regist" class="link">後台登入</router-link>
+            <router-link to="/regist" class="link cursor-pointer">後台登入</router-link>
         </div>
     </div> 
 </template>
@@ -24,22 +24,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px;
+    padding: 50px 0;
     margin: 0 auto;
-    width:400px;
+    width: 100%;
+    max-width: 400px;
     position: relative;
     .input {
         display: flex;
         flex-direction: column;
         background-color: #ebebeb;
         margin-top: 20px;
+        width: 80%;
         label {
             position: relative;
             left: 5px;
             top: 2px;
         }
         input {
-            width: 400px;
             line-height: 20px;
             background-color: #ebebeb;
             border: {
@@ -59,7 +60,7 @@
     }
     #login {
         margin: 30px 0 15px 0;
-        width: 400px;
+        width: 80%;
         border-radius: 20px;
         height: 40px;
     }

@@ -2,20 +2,20 @@
     <div class="sidebar-container">
         <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
         <div class="btn-container">
-            <div class="btn-group">
+            <div class="btn-group cursor-pointer">
                 <font-awesome-icon icon="home" size="lg" class="home" />
                 <span>首頁</span>
             </div>
-            <div class="btn-group">
+            <div class="btn-group cursor-pointer">
                 <font-awesome-icon :icon="['far', 'user']" size="lg" class="user " />
                 <span>個人資料</span>
             </div>
-            <div class="btn-group">
+            <div class="btn-group cursor-pointer">
                 <font-awesome-icon icon="gear" size="lg" class="gear" />
                 <span>設定</span>
             </div>
-            <button class="btn-orange" id="tweet">推文</button>
-            <div class="btn-group" id="logout" @click.stop.prevent="logout">
+            <button class="btn-orange cursor-pointer" id="tweet">推文</button>
+            <div class="btn-group cursor-pointer" id="logout" @click.stop.prevent="logout">
                 <font-awesome-icon icon="arrow-right-from-bracket" size="lg" />
                 <span>登出</span>
             </div>

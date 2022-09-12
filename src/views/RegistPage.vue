@@ -22,8 +22,8 @@
             <label for="confirmPasswprd">密碼確認</label>
             <input type="password" id="confirmPassword">
         </div>
-        <button id="register" class="btn-orange">註冊</button>
-        <router-link to="/login" class="link">取消</router-link>
+        <button id="register" class="btn-orange cursor-pointer">註冊</button>
+        <router-link to="/login" class="link cursor-pointer">取消</router-link>
     </div> 
 </template>
 
@@ -32,11 +32,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px;
+    justify-content: center;
+    padding: 50px 0;
     margin: 0 auto;
-    width: 400px;
+    width: 100%;
+    max-width: 500px;
     .input {
         display: flex;
+        width: 80%;
         flex-direction: column;
         background-color: #ebebeb;
         margin-top: 20px;
@@ -46,7 +49,6 @@
             top: 2px;
         }
         input {
-            width: 400px;
             line-height: 20px;
             background-color: #ebebeb;
             border: {
@@ -66,7 +68,7 @@
     }
     #register {
         margin: 30px 0 15px 0;
-        width: 400px;
+        width: 80%;
         border-radius: 20px;
         height: 40px;
     }
