@@ -1,7 +1,7 @@
 <template>
-    <div class="page-container">
+    <div class="page-container" style="justify-content: end;">
         <SideBar />
-        <div class="main-container">
+        <div class="main-container" style="width: 74%;">
             <div class="main-header">
                 <span>帳戶設定</span>
             </div>
@@ -44,13 +44,8 @@ export default {
 
 <style lang="scss" scoped>
 .page-container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-
+    
     .main-container {
-        width: 100%;
 
         .input-container {
             width: 50%;

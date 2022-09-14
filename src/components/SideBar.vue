@@ -2,22 +2,22 @@
     <div class="sidebar-container">
         <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
         <div class="btn-container">
-            <div class="btn-group cursor-pointer">
+            <router-link :to="{name: 'main'}" class="btn-group cursor-pointer">
                 <font-awesome-icon icon="home" size="lg" class="home" />
                 <span>首頁</span>
-            </div>
-            <div class="btn-group cursor-pointer">
+            </router-link>
+            <router-link :to="{name: 'main'}" class="btn-group cursor-pointer">
                 <font-awesome-icon :icon="['far', 'user']" size="lg" class="user " />
                 <span>個人資料</span>
-            </div>
-            <div class="btn-group cursor-pointer" id="btn-popular">
+            </router-link>
+            <router-link :to="{name: 'main'}" class="btn-group cursor-pointer" id="btn-popular">
                 <font-awesome-icon icon="people-arrows" size="lg" />
                 <span>Popular list</span>
-            </div>
-            <div class="btn-group cursor-pointer">
+            </router-link>
+            <router-link :to="{name: 'setting'}" class="btn-group cursor-pointer">
                 <font-awesome-icon icon="gear" size="lg" class="orange" />
                 <span>設定</span>
-            </div>
+            </router-link>
             <button class="btn-orange cursor-pointer" id="tweet">推文</button>
             <div class="btn-group cursor-pointer" id="logout" @click.stop.prevent="logout">
                 <font-awesome-icon icon="arrow-right-from-bracket" size="lg" />
@@ -58,6 +58,8 @@
             height: 25px;
             line-height: 25px;
             margin-bottom: 15px;
+            text-decoration: none;
+            color: black;
         }
 
         #logout {

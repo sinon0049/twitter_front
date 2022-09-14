@@ -1,6 +1,6 @@
 <template>
   <h1>
-    This is HomeView
+    404 Not Found
   </h1>
 </template>
 
