@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import type { AxiosRequestConfig } from 'axios'
 
 const apiHelper = axios.create({
-    baseURL: 'http://localhost:4000',
+    baseURL: import.meta.env.VITE_BASE_URL,
 })
 
 apiHelper.interceptors.request.use(
