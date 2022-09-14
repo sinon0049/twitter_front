@@ -4,14 +4,16 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
+//bootstrap import
+import 'bootstrap'
 import './assets/style.scss'
 
+//font awesome import
 import { library } from "@fortawesome/fontawesome-svg-core"
-import { faGear, faHouse, faArrowRightFromBracket, faArrowLeft, faX } from "@fortawesome/free-solid-svg-icons"
+import { faGear, faHouse, faArrowRightFromBracket, faArrowLeft, faX, faPeopleArrows } from "@fortawesome/free-solid-svg-icons"
 import { faUser, faHeart, faComment } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-
-library.add(faGear, faHouse, faUser, faArrowRightFromBracket, faHeart, faComment, faArrowLeft, faX)
+library.add(faGear, faHouse, faUser, faArrowRightFromBracket, faHeart, faComment, faArrowLeft, faX, faPeopleArrows)
 
 const app = createApp(App);
 

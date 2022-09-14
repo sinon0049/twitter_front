@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
-        <h3>建立你的帳號</h3>
+        <h4>建立你的帳號</h4>
         <div class="input">
             <label for="account">帳號</label>
             <input type="text" id="account">

@@ -7,7 +7,7 @@
             </div>
             <div id="tweet-input">
                 <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
-                <textarea name="newTweet" cols="30" rows="10" placeholder="有什麼新鮮事?" maxlength="140"></textarea>
+                <textarea name="newTweet" cols="30" rows="5" placeholder="有什麼新鮮事?" maxlength="140"></textarea>
                 <button class="btn-orange cursor-pointer">推文</button>
             </div>
             <div class="reply-container">
@@ -15,7 +15,7 @@
                     <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="" class="cursor-pointer">
                     <div class="reply-content">
                         <div class="name cursor-pointer">
-                            <span>{{item.User.name}}</span>
+                            <span class="bold">{{item.User.name}}</span>
                             <span class="light">@{{item.User.account}}</span>
                         </div>
                         <div class="content">
@@ -24,7 +24,7 @@
                             </router-link>  
                         </div>
                         <div class="icon">
-                            <div @click.stop.prevent="toggleModal" class="cursor-pointer">
+                            <div @click.stop.prevent="toggleModal" class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal">
                                 <font-awesome-icon :icon="['far', 'comment']" class="fa-icon" style="color: #657786;" />
                                 <span>{{item.Replies.length}}</span>
                             </div>
@@ -38,9 +38,36 @@
             </div>  
         </div>
         <PopularList />
-        <div class="modal" :class="{close: !isModalOpen}">
-            <div class="modal-header">
-                <font-awesome-icon class="icon" icon="x" size="lg"  @click.stop.prevent="toggleModal"/>
+        <div class="modal fade" id="replyModal" data-bs-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <font-awesome-icon icon="x" class="orange" data-bs-dismiss="modal" size="lg"/>
+                    </div>
+                    <div class="container">
+                        <div class="modal-tweet modal-body">
+                            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
+                            <div class="user-info">
+                                <div>
+                                    <span class="bold">Apple</span>
+                                    <span class="light">@apple</span>
+                                </div>
+                                <div>
+                                    This is test data.
+                                </div>
+                                <div class="reply-target">
+                                    <span class="light">回覆給</span>
+                                    <span class="orange">@apple</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-reply modal-body">
+                            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
+                            <textarea name="" id="modal-reply-area" cols="40" rows="5" placeholder="推你的回覆"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-orange">回覆</button>
+                </div>
             </div>
         </div>
     </div>
@@ -55,6 +82,7 @@
         position: relative;
         border-bottom: 10px solid #e6ecf0;
         display: flex;
+        height: 200px;
         img {
             width: 50px;
             height: 50px;
@@ -67,37 +95,26 @@
         textarea {
             width: 80%;
             border: 0;
-            outline: 0;
+            border-radius: 5px;
             height: 60%;
             margin: {
                 top: 2%;
                 left: 3%;
+                right: 3%;
             };
-            overflow: visible;
-            resize: none;
         }
         button {
-            width: 66px;
-            height: 38px;
+            width: 70px;
+            height: 40px;
             border-radius: 20px;
             border: none;
             position: absolute;
-            bottom: 6px;
+            bottom: 5%;
             right: 5%;
         }
     }
 }
 .modal {
-    width: 40%;
-    background-color: white;
-    position: absolute;
-    border: 1px solid black;
-    height: 60%;
-    left: 30%;
-    top: 15%;
-    border-radius: 10px;
-    transition: transform 0.3s ease-in 0.3s;
-    transform-origin: top;
     .modal-header {
         width: 100%;
         height: 15%;
@@ -112,6 +129,45 @@
                 left: 3%;
             }
         }
+    }
+    .modal-body {
+        display: flex;
+        img {
+            width: 50px;
+            height: 50px;
+            margin: {
+                right: 3%;
+            }
+        }
+        .user-info {
+            .reply-target {
+                font-size: 13px;
+            }
+            div {
+                margin-bottom: 4%;
+            }
+        }
+        textarea {
+            width: 80%;
+            border: 0;
+            border-radius: 5px;
+            height: 60%;
+            margin: {
+                top: 2%;
+                right: 3%;
+            };
+        }
+    }
+        
+    button {
+        border-radius: 20px;
+        width: 70px;
+        height: 40px;
+        border: none;
+        align-self: flex-end;
+        position: relative;
+        right: 50px;
+        bottom: 8px;
     }
 }
 

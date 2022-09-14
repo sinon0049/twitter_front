@@ -6,8 +6,8 @@
         <div class="popular-card" v-for="item in followingList">
             <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="">
             <div class="user-name">
-                <span class="name">{{item.name}}</span>
-                <span class="account">{{item.account}}</span>
+                <span class="name bold">{{item.name}}</span>
+                <span class="account">@{{item.account}}</span>
             </div>
             <button class="btn-orange cursor-pointer" v-if="item.isFollower">正在跟隨</button>
             <button class="btn-white cursor-pointer" v-else>跟隨</button>
@@ -19,12 +19,17 @@
 </template>
 
 <style lang="scss" scoped>
+@media screen and (max-width: 960px) {
+    .popular-container {
+        display: none;
+    }
+}
 .popular-container {
     margin: {
         left: 30px;
         top: 15px;
     }
-    width: 35%;
+    width: 25%;
     max-width: 350px;
     height: fit-content;
     border-radius: 14px;

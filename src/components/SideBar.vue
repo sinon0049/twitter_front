@@ -10,8 +10,12 @@
                 <font-awesome-icon :icon="['far', 'user']" size="lg" class="user " />
                 <span>個人資料</span>
             </div>
+            <div class="btn-group cursor-pointer" id="btn-popular">
+                <font-awesome-icon icon="people-arrows" size="lg" />
+                <span>Popular list</span>
+            </div>
             <div class="btn-group cursor-pointer">
-                <font-awesome-icon icon="gear" size="lg" class="gear" />
+                <font-awesome-icon icon="gear" size="lg" class="orange" />
                 <span>設定</span>
             </div>
             <button class="btn-orange cursor-pointer" id="tweet">推文</button>
@@ -24,19 +28,26 @@
 </template>
 
 <style lang="scss">
+@media screen and (min-width: 960px) {
+    #btn-popular {
+        display: none;
+    }
+}
 .sidebar-container {
     width: 25%;
     max-width: 200px;
     position: relative;
     height: 100%;
-    margin: 0 8% 0 10%;
+    margin: {
+        right: 3%;
+    }
 
     span {
         font-weight: bold;
     }
 
     .btn-container {
-        height: 160px;
+        height: fit-content;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -46,6 +57,7 @@
             grid-template-columns: 45px 1fr;
             height: 25px;
             line-height: 25px;
+            margin-bottom: 15px;
         }
 
         #logout {
@@ -59,10 +71,6 @@
             width: 100%;
             border-radius: 17.5px;
         }
-    }
-
-    .gear {
-        color: #f7670f;
     }
 
     img {

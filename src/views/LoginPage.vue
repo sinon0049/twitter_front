@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
-        <h3>登入Alphitter</h3>
+        <h4>登入Alphitter</h4>
         <div class="input">
             <label for="account">帳號</label>
             <input type="text" id="account" v-model="signInData.account">
