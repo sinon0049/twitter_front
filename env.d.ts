@@ -4,7 +4,17 @@ export interface userInfo {
     id: number,
     name: string,
     account: string,
-    avatar?: string
+    avatar?: string,
+    email?: string,
+    introduction?: string,
+}
+
+export interface fullUserInfo extends userInfo {
+    password: string,
+    role: string,
+    token: string,
+    createdAt: Date,
+    updatedAt: Date
 }
 
 export interface reply {

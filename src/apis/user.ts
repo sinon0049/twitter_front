@@ -8,4 +8,7 @@ export const usersAPI = {
     signIn: function(payLoad: signInData)  {
         return api.post('/user/signin', payLoad)
     },
+    getCurrentUser: function() {
+        return api.get('/user/current_user')
+    }
 }

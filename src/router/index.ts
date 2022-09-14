@@ -5,6 +5,8 @@ import LoginPage from "../views/LoginPage.vue"
 import SettingPage from "../views/SettingPage.vue"
 import MainPage from "../views/MainPage.vue"
 import ReplyList from "../views/ReplyList.vue"
+import { useCurrentUser } from "@/stores/currentUser";
+import { usersAPI } from "@/apis/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,13 +44,19 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const pathsWithoutAuth = ['/login', '/regist']
   const localToken = localStorage.getItem('token')
+  const currentUser = useCurrentUser()
   if(!localToken && !pathsWithoutAuth.includes(to.fullPath)) {
     router.push('/login')
   }
-  else next()
+  else if(!localToken) next()
+  else {
+    const { data } = await usersAPI.getCurrentUser()
+    currentUser.storeCurrentUser(data)
+    next()
+  }
 })
 
 export default router;

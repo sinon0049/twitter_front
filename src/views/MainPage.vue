@@ -24,7 +24,7 @@
                             </router-link>  
                         </div>
                         <div class="icon">
-                            <div @click.stop.prevent="toggleModal" class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal">
+                            <div class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal">
                                 <font-awesome-icon :icon="['far', 'comment']" class="fa-icon" style="color: #657786;" />
                                 <span>{{item.Replies.length}}</span>
                             </div>
@@ -181,21 +181,15 @@ import { defineComponent, onMounted, reactive, ref } from 'vue'
 import SideBar from "../components/SideBar.vue"
 import PopularList from "../components/PopularList.vue"
 import { tweetsAPI } from '@/apis/tweet'
+import { useCurrentUser } from '@/stores/currentUser'
 import type { tweet } from 'env'
 
 export default defineComponent({
     setup() {
         const tweetList: tweet[] = reactive([])
         const isModalOpen = ref(false)
+        const currentUser = useCurrentUser()
 
-        const toggleModal = function () {
-            try {
-                isModalOpen.value = !isModalOpen.value
-                console.log('toggle')
-            } catch (error) {
-                console.log(error)
-            }
-        }
         onMounted( async () => {
             try {
                 const { data } = await tweetsAPI.getAllTweets()
@@ -209,7 +203,6 @@ export default defineComponent({
         return {
             tweetList,
             isModalOpen,
-            toggleModal
         }
     },
     components: {

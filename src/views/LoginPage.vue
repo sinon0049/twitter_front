@@ -83,6 +83,7 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usersAPI } from '../apis/user'
+import { useCurrentUser } from '@/stores/currentUser'
 
 export default defineComponent({
     setup() {
@@ -93,14 +94,15 @@ export default defineComponent({
 
         const router = useRouter()
         const route = useRoute()
+        const currentUser = useCurrentUser()
 
         const signIn = async function() {
             try {
-                const res = await usersAPI.signIn(signInData)
-                console.log(res.data.token)
-                const token: string = res.data.token
+                const { data } = await usersAPI.signIn(signInData)
+                const token: string = data.token
                 if(token) {
                     localStorage.setItem('token', token)
+                    currentUser.storeCurrentUser(data)
                     router.push({
                         name: 'main'
                     })
