@@ -1,10 +1,17 @@
 import { api } from "@/utils/helper";
+import type { request } from "env";
 
 export const tweetsAPI = {
     getAllTweets: function() {
         return api.get('/tweet')
     },
-    getTweet: function(id: number) {
-        return api.get(`/tweet/${id}`)
+    getTweet: function(payLoad: request) {
+        return api.get(`/tweet/${payLoad.id}`)
+    },
+    createTweet: function(payLoad: request) {
+        return api.post('/tweet', payLoad)
+    },
+    createReply: function(payLoad: request) {
+        return api.post('/reply', payLoad)
     }
 }

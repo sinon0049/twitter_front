@@ -8,15 +8,15 @@
             <div class="input-container">
                 <div class="input">
                     <label for="account">帳號</label>
-                    <input type="text" id="account">
+                    <input type="text" id="account" v-model="currentUser.info.account">
                 </div>
                 <div class="input">
                     <label for="name">名稱</label>
-                    <input type="text" id="name">
+                    <input type="text" id="name" v-model="currentUser.info.name">
                 </div>
                 <div class="input">
                     <label for="email">Email</label>
-                    <input type="email" id="email">
+                    <input type="email" id="email" v-model="currentUser.info.email">
                 </div>
                 <div class="input">
                     <label for="password">密碼</label>
@@ -33,13 +33,22 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+import { useCurrentUser } from "@/stores/currentUser";
 import SideBar from "../components/SideBar.vue"
 
-export default {
+export default defineComponent({
+    setup() {
+        const currentUser = useCurrentUser()
+
+        return {
+            currentUser
+        }
+    },
     components: {
-        SideBar,
+        SideBar
     }
-}
+})
 </script>
 
 <style lang="scss" scoped>

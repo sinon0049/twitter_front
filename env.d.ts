@@ -35,3 +35,10 @@ export interface tweet {
     Replies: reply[],
     Likes: []
 }
+
+export interface request {
+    id?: number,
+    description?: string,
+    TweetId?: number,
+    comment?: string
+}

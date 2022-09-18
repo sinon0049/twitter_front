@@ -71,6 +71,10 @@
             left: 15px;
             right: 15px;
         }
+        hr {
+            background-color: #e6ecf0;
+            opacity: 1;
+        }
         .tweet-header {
             display: flex;
             margin: 20px 0;
@@ -154,7 +158,7 @@ export default defineComponent({
         const { id } = useRoute().params
         console.log(Number(id))
         onMounted(async () => {
-            const { data } = await tweetsAPI.getTweet(Number(id))
+            const { data } = await tweetsAPI.getTweet({ id: Number(id)})
             Object.assign(tweet, data)
         })
 

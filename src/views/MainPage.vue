@@ -6,9 +6,9 @@
                 <span>首頁</span>
             </div>
             <div id="tweet-input">
-                <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
-                <textarea name="newTweet" cols="30" rows="5" placeholder="有什麼新鮮事?" maxlength="140"></textarea>
-                <button class="btn-orange cursor-pointer">推文</button>
+                <img :src="currentUser.info.avatar" alt="...">
+                <textarea name="newTweet" cols="30" rows="5" placeholder="有什麼新鮮事?" maxlength="140" v-model="tweetContent"></textarea>
+                <button class="btn-orange cursor-pointer" @click.stop.prevent="createTweet">推文</button>
             </div>
             <div class="reply-container">
                 <div class="reply-card" v-for="item in tweetList">
@@ -24,7 +24,7 @@
                             </router-link>  
                         </div>
                         <div class="icon">
-                            <div class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal">
+                            <div class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal" @click.stop.prevent="onReply(item.id)">
                                 <font-awesome-icon :icon="['far', 'comment']" class="fa-icon" style="color: #657786;" />
                                 <span>{{item.Replies.length}}</span>
                             </div>
@@ -42,31 +42,31 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <font-awesome-icon icon="x" class="orange" data-bs-dismiss="modal" size="lg"/>
+                        <font-awesome-icon icon="x" class="orange" data-bs-dismiss="modal" size="lg" @click.stop.prevent="clearReply"/>
                     </div>
                     <div class="container">
                         <div class="modal-tweet modal-body">
                             <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
                             <div class="user-info">
                                 <div>
-                                    <span class="bold">Apple</span>
-                                    <span class="light">@apple</span>
+                                    <span class="bold">{{currentReplyingTweet.User.name}} </span>
+                                    <span class="light">@{{currentReplyingTweet.User.account}}</span>
                                 </div>
                                 <div>
-                                    This is test data.
+                                    {{currentReplyingTweet.description}}.
                                 </div>
                                 <div class="reply-target">
                                     <span class="light">回覆給</span>
-                                    <span class="orange">@apple</span>
+                                    <span class="orange">@{{currentReplyingTweet.User.account}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-reply modal-body">
-                            <img src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4" alt="...">
-                            <textarea name="" id="modal-reply-area" cols="40" rows="5" placeholder="推你的回覆"></textarea>
+                            <img :src="currentUser.info.avatar" alt="...">
+                            <textarea name="" id="modal-reply-area" cols="40" rows="5" placeholder="推你的回覆" v-model="tweetComment"></textarea>
                         </div>
                     </div>
-                    <button type="button" class="btn-orange">回覆</button>
+                    <button type="button" class="btn-orange" @click.stop.prevent="createReply(currentReplyingTweet.id)">回覆</button>
                 </div>
             </div>
         </div>
@@ -186,9 +186,59 @@ import type { tweet } from 'env'
 
 export default defineComponent({
     setup() {
+        const tweetContent = ref('')
+        const tweetComment = ref('')
         const tweetList: tweet[] = reactive([])
         const isModalOpen = ref(false)
         const currentUser = useCurrentUser()
+        let currentReplyingTweet: tweet = reactive({
+            id: -1,
+            UserId: -1,
+            description: '',
+            User: {
+                id: -1,
+                name: '',
+                account: '',
+            },
+            Replies: [],
+            Likes: []
+        })
+
+        function onReply(id: number) {
+            tweetList.forEach(item => {
+                if(item.id === id) {
+                    Object.assign(currentReplyingTweet, item)
+                } 
+            })
+        }
+
+        function clearReply() {
+            tweetComment.value = ''
+        }
+
+        async function createTweet() {
+            try {
+                const payLoad = { description: tweetContent.value}
+                const { data } = await tweetsAPI.createTweet(payLoad) 
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        async function createReply(id: number) {
+            try {
+                const TweetId = id
+                const comment = tweetComment.value
+                const payLoad = {
+                    TweetId,
+                    comment
+                }
+                const { data } = await tweetsAPI.createReply(payLoad)
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
         onMounted( async () => {
             try {
@@ -202,7 +252,15 @@ export default defineComponent({
         })
         return {
             tweetList,
+            tweetContent,
             isModalOpen,
+            currentUser,
+            currentReplyingTweet,
+            tweetComment,
+            onReply,
+            createTweet,
+            createReply,
+            clearReply
         }
     },
     components: {
