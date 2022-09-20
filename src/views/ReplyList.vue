@@ -3,8 +3,8 @@
         <SideBar />
         <div class="main-container">
             <div class="main-header">
-                <font-awesome-icon icon="arrow-left" size="lg" />
-                <span>推文</span>
+                <font-awesome-icon icon="arrow-left" class="cursor-pointer" size="lg" @click="goBackToPrevPage"/>
+                <span>&nbsp;&nbsp;推文</span>
             </div>
             <div class="tweet-container">
                 <div class="tweet-header">
@@ -23,9 +23,9 @@
                 <hr>
                 <div id="count-list">
                     <span class>{{tweet.Replies.length}}</span>
-                    <span class="light">回覆 </span>
-                    <span>{{tweet.Likes.length}}</span>
-                    <span class="light">喜歡次數</span>
+                    <span class="light"> 回覆 &nbsp;&nbsp;</span>
+                    <span> {{tweet.Likes.length}}</span>
+                    <span class="light"> 喜歡次數</span>
                 </div>
                 <hr>
                 <div class="icon-container">
@@ -33,19 +33,19 @@
                     <font-awesome-icon :icon="['far', 'heart']" class="light icon"/>
                 </div>
             </div>
-            <hr class="break-line">
+            <hr>
             <div class="reply-container">
                 <div class="reply-card" v-for="item in tweet.Replies">
                     <img :src="item.User.avatar" alt="">
                     <div class="reply-content">
                         <div>
-                            <span>{{item.User.name}} </span>
-                            <span class="light">@{{item.User.account}}</span>
+                            <span>{{item.User.name}}</span>
+                            <span class="light"> @{{item.User.account}}</span>
                             <span class="light">．{{dateFromNow(item.createdAt)}}</span>
                         </div>
                         <div>
-                            <span class="light">回覆 </span>
-                            <span class="orange">@{{tweet.User.account}}</span>
+                            <span class="light">回覆</span>
+                            <span class="orange"> @{{tweet.User.account}}</span>
                         </div>
                         <div class="content">
                             {{item.comment}}
@@ -144,6 +144,7 @@ import { tweetsAPI } from '@/apis/tweet';
 import type { tweet } from 'env';
 import { useCurrentUser } from '@/stores/currentUser';
 import dayjs from 'dayjs';
+import router from '@/router';
 
 export default defineComponent({
     setup() {
@@ -185,11 +186,17 @@ export default defineComponent({
             return dayjs(tweet.createdAt).format('HH:MM．YYYY年MM月DD日')
         }
 
+        //back to previous page feature of arrow on main-header
+        function goBackToPrevPage() {
+            router.go(-1)
+        }
+
         return {
             tweet,
             currentUser,
             dateFromNow,
-            formattedDate
+            formattedDate,
+            goBackToPrevPage
         }
     },
     components: {

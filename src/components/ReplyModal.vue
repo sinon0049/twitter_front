@@ -10,15 +10,15 @@
                         <img :src="currentReplyingTweet.User.avatar" alt="...">
                         <div class="user-info">
                             <div>
-                                <span class="bold">{{currentReplyingTweet.User.name}} </span>
-                                <span class="light">@{{currentReplyingTweet.User.account}}</span>
+                                <span class="bold">{{currentReplyingTweet.User.name}}</span>
+                                <span class="light"> @{{currentReplyingTweet.User.account}}</span>
                             </div>
                             <div>
                                 {{currentReplyingTweet.description}}
                             </div>
                             <div class="reply-target">
                                 <span class="light">回覆給</span>
-                                <span class="orange">@{{currentReplyingTweet.User.account}}</span>
+                                <span class="orange"> @{{currentReplyingTweet.User.account}}</span>
                             </div>
                         </div>
                     </div>
