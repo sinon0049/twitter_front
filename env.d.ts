@@ -33,7 +33,9 @@ export interface tweet {
     description: string,
     User: userInfo,
     Replies: reply[],
-    Likes: []
+    Likes: [],
+    createdAt: Date,
+    updatedAt: Date
 }
 
 export interface request {

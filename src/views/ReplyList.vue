@@ -18,7 +18,7 @@
                     {{tweet.description}}
                 </div>
                 <div class="time-stamp light">
-                    上午10:05 2022年9月9日
+                    {{formattedDate()}}
                 </div>
                 <hr>
                 <div id="count-list">
@@ -41,6 +41,7 @@
                         <div>
                             <span>{{item.User.name}} </span>
                             <span class="light">@{{item.User.account}}</span>
+                            <span class="light">．{{dateFromNow(item.createdAt)}}</span>
                         </div>
                         <div>
                             <span class="light">回覆 </span>
@@ -142,6 +143,7 @@ import { useRoute } from 'vue-router';
 import { tweetsAPI } from '@/apis/tweet';
 import type { tweet } from 'env';
 import { useCurrentUser } from '@/stores/currentUser';
+import dayjs from 'dayjs';
 
 export default defineComponent({
     setup() {
@@ -157,19 +159,37 @@ export default defineComponent({
                 avatar: ''
             },
             Replies: [],
-            Likes: []
+            Likes: [],
+            createdAt: new Date(),
+            updatedAt: new Date()
         })
-        const { id } = useRoute().params
-        console.log(Number(id))
 
+        //get corresponding tweet of this page & assign to tweet
         onMounted(async () => {
+            const { id } = useRoute().params
             const { data } = await tweetsAPI.getTweet({ id: Number(id)})
             Object.assign(tweet, data)
+            //order replies by date
+            tweet.Replies.sort(function(a, b) {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            })
         })
+
+        //get time from now
+        function dateFromNow(date: Date) {
+            return dayjs().to(date)
+        }
+
+        //get formatted date
+        function formattedDate() {
+            return dayjs(tweet.createdAt).format('HH:MM．YYYY年MM月DD日')
+        }
 
         return {
             tweet,
             currentUser,
+            dateFromNow,
+            formattedDate
         }
     },
     components: {

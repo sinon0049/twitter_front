@@ -17,6 +17,7 @@
                         <div class="name cursor-pointer">
                             <span class="bold">{{item.User.name}}</span>
                             <span class="light">@{{item.User.account}}</span>
+                            <span class="light">．{{dateFromNow(item.createdAt)}}</span>
                         </div>
                         <div class="content">
                             <router-link :to="{ name: 'reply-list', params: { id: item.id }}">
@@ -96,6 +97,7 @@ import ReplyModal from '../components/ReplyModal.vue'
 import { tweetsAPI } from '@/apis/tweet'
 import { useCurrentUser } from '@/stores/currentUser'
 import type { tweet } from 'env'
+import dayjs from 'dayjs'
 
 export default defineComponent({
     setup() {
@@ -114,7 +116,9 @@ export default defineComponent({
                 avatar: ''
             },
             Replies: [],
-            Likes: []
+            Likes: [],
+            createdAt: new Date(),
+            updatedAt: new Date()
         })
 
         //assign clicked tweet to currentReplyingTweet for modal usage
@@ -147,6 +151,11 @@ export default defineComponent({
                 console.log(error)
             }
         })
+        
+        //get time from now
+        function dateFromNow(date: Date) {
+            return dayjs().to(date)
+        }
 
         return {
             tweetList,
@@ -156,6 +165,7 @@ export default defineComponent({
             tweetComment,
             onReply,
             createTweet,
+            dateFromNow
         }
     },
     components: {
