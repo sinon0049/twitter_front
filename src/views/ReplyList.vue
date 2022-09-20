@@ -29,7 +29,7 @@
                 </div>
                 <hr>
                 <div class="icon-container">
-                    <font-awesome-icon :icon="['far', 'comment']" class="light icon" style="margin-right: 25%;" />
+                    <font-awesome-icon :icon="['far', 'comment']" class="light icon" style="margin-right: 25%;" data-bs-toggle="modal" data-bs-target="#replyModal"/>
                     <font-awesome-icon :icon="['far', 'heart']" class="light icon"/>
                 </div>
             </div>
@@ -54,6 +54,7 @@
             </div> 
         </div>
         <PopularList />
+        <ReplyModal :currentReplyingTweet="tweet"/>
     </div>
 </template>
 
@@ -136,12 +137,15 @@
 import { defineComponent, onMounted, reactive } from 'vue'
 import SideBar from '../components/SideBar.vue'
 import PopularList from '../components/PopularList.vue';
+import ReplyModal from '../components/ReplyModal.vue'
 import { useRoute } from 'vue-router';
 import { tweetsAPI } from '@/apis/tweet';
 import type { tweet } from 'env';
+import { useCurrentUser } from '@/stores/currentUser';
 
 export default defineComponent({
     setup() {
+        const currentUser = useCurrentUser()
         const tweet: tweet = reactive({
             id: -1,
             UserId: -1,
@@ -157,6 +161,7 @@ export default defineComponent({
         })
         const { id } = useRoute().params
         console.log(Number(id))
+
         onMounted(async () => {
             const { data } = await tweetsAPI.getTweet({ id: Number(id)})
             Object.assign(tweet, data)
@@ -164,11 +169,13 @@ export default defineComponent({
 
         return {
             tweet,
+            currentUser,
         }
     },
     components: {
         SideBar,
-        PopularList
+        PopularList,
+        ReplyModal
     }
 })
 </script>
