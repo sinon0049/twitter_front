@@ -104,7 +104,7 @@ html {
                 }
             }
 
-            .reply-container {
+            .tweet-container {
                 overflow-y: auto;
                 flex: 1;
                 &::-webkit-scrollbar {
@@ -117,7 +117,7 @@ html {
                 &::-webkit-scrollbar-track {
                     border-left: 1px solid $border;
                 }
-                .reply-card {
+                .tweet-card {
                     display: grid;
                     grid-template-columns: 80px 1fr;
                     height: fit-content;
@@ -130,7 +130,7 @@ html {
                             top: 10px;
                         }
                     }
-                    .reply-content {
+                    .tweet-content {
                         margin: {
                             top: 10px;
                             bottom: 10px;
@@ -155,7 +155,7 @@ html {
                                 width: 40px;
                                 display: flex;
                                 justify-content: space-between;
-                                align-items: flex-start;
+                                align-items: center;
                                 margin-right: 50px;
                                 span {
                                     color: #657786;

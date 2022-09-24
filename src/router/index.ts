@@ -5,6 +5,7 @@ import LoginPage from "../views/LoginPage.vue"
 import SettingPage from "../views/SettingPage.vue"
 import MainPage from "../views/MainPage.vue"
 import ReplyList from "../views/ReplyList.vue"
+import SelfPage from '../views/SelfPage.vue'
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
 
@@ -35,6 +36,11 @@ const router = createRouter({
       path: "/reply/:id",
       name: "reply-list",
       component: ReplyList,
+    },
+    {
+      path: "/self",
+      name: "self-page",
+      component: SelfPage,
     },
     {
       path: "/",

@@ -6,8 +6,8 @@
                 <font-awesome-icon icon="home" size="lg" class="home" />
                 <span>首頁</span>
             </router-link>
-            <router-link :to="{name: 'main'}" class="btn-group cursor-pointer">
-                <font-awesome-icon :icon="['far', 'user']" size="lg" class="user " />
+            <router-link :to="{name: 'self-page'}" class="btn-group cursor-pointer">
+                <font-awesome-icon :icon="['far', 'user']" size="lg" class="user" />
                 <span>個人資料</span>
             </router-link>
             <router-link :to="{name: 'main'}" class="btn-group cursor-pointer" id="btn-popular">
@@ -15,7 +15,7 @@
                 <span>Popular list</span>
             </router-link>
             <router-link :to="{name: 'setting'}" class="btn-group cursor-pointer">
-                <font-awesome-icon icon="gear" size="lg" class="orange" />
+                <font-awesome-icon icon="gear" size="lg" />
                 <span>設定</span>
             </router-link>
             <button class="btn-orange cursor-pointer" id="tweet">推文</button>

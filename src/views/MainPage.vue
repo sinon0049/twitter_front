@@ -10,33 +10,7 @@
                 <textarea name="newTweet" cols="30" rows="5" placeholder="有什麼新鮮事?" maxlength="140" v-model="tweetContent"></textarea>
                 <button class="btn-orange cursor-pointer" @click.stop.prevent="createTweet">推文</button>
             </div>
-            <div class="reply-container">
-                <div class="reply-card" v-for="item in tweetList">
-                    <img :src="item.User.avatar" alt="" class="cursor-pointer">
-                    <div class="reply-content">
-                        <div class="name cursor-pointer">
-                            <span class="bold">{{item.User.name}}</span>
-                            <span class="light">@{{item.User.account}}</span>
-                            <span class="light">．{{dateFromNow(item.createdAt)}}</span>
-                        </div>
-                        <div class="content">
-                            <router-link :to="{ name: 'reply-list', params: { id: item.id }}">
-                                {{item.description}}
-                            </router-link>  
-                        </div>
-                        <div class="icon">
-                            <div class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#replyModal" @click.stop.prevent="onReply(item.id)">
-                                <font-awesome-icon :icon="['far', 'comment']" class="fa-icon" style="color: #657786;" />
-                                <span>{{item.Replies.length}}</span>
-                            </div>
-                            <div>
-                                <font-awesome-icon :icon="['far', 'heart']" class="fa-icon cursor-pointer" style="color: #657786;" />
-                                <span>{{item.Likes.length}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>  
+            <TweetList :tweetList="tweetList" @onReply="onReply"/>
         </div>
         <PopularList />
         <ReplyModal :currentReplyingTweet="currentReplyingTweet"/>
@@ -90,14 +64,14 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import SideBar from "../components/SideBar.vue"
 import PopularList from "../components/PopularList.vue"
 import ReplyModal from '../components/ReplyModal.vue'
+import TweetList from '../components/TweetList.vue'
 import { tweetsAPI } from '@/apis/tweet'
 import { useCurrentUser } from '@/stores/currentUser'
 import type { tweet } from 'env'
-import dayjs from 'dayjs'
 
 export default defineComponent({
     setup() {
@@ -151,11 +125,6 @@ export default defineComponent({
                 console.log(error)
             }
         })
-        
-        //get time from now
-        function dateFromNow(date: Date) {
-            return dayjs().to(date)
-        }
 
         return {
             tweetList,
@@ -165,13 +134,13 @@ export default defineComponent({
             tweetComment,
             onReply,
             createTweet,
-            dateFromNow
         }
     },
     components: {
         SideBar,
         PopularList,
-        ReplyModal
+        ReplyModal,
+        TweetList
     },
 })
 </script>
