@@ -1,46 +1,46 @@
 /// <reference types="vite/client" />
 
 export interface userInfo {
-    id: number,
-    name: string,
-    account: string,
-    avatar: string,
-    email?: string,
-    introduction?: string,
+  id: number;
+  name: string;
+  account: string;
+  avatar: string;
+  email?: string;
+  introduction?: string;
 }
 
 export interface fullUserInfo extends userInfo {
-    password: string,
-    role: string,
-    token: string,
-    createdAt: Date,
-    updatedAt: Date
+  password: string;
+  role: string;
+  token: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface reply {
-    id: number,
-    UserId: number,
-    TweetId: number,
-    comment: string,
-    createdAt: Date,
-    updatedAt: Date,
-    User: userInfo
+  id: number;
+  UserId: number;
+  TweetId: number;
+  comment: string;
+  createdAt: Date;
+  updatedAt: Date;
+  User: userInfo;
 }
 
 export interface tweet {
-    id: number,
-    UserId: number,
-    description: string,
-    User: userInfo,
-    Replies: reply[],
-    Likes: [],
-    createdAt: Date,
-    updatedAt: Date
+  id: number;
+  UserId: number;
+  description: string;
+  User: userInfo;
+  Replies: reply[];
+  Likes: [];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface request {
-    id?: number,
-    description?: string,
-    TweetId?: number,
-    comment?: string
+  id?: number;
+  description?: string;
+  TweetId?: number;
+  comment?: string;
 }

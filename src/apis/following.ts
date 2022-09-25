@@ -1,7 +1,7 @@
-import { api } from '../utils/helper'
+import { api } from "../utils/helper";
 
 export const followingsAPI = {
-    getFollowingList: function() {
-        return api.get('/followship')
-    }
-}
+  getFollowingList: function () {
+    return api.get("/followship");
+  },
+};
