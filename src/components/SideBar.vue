@@ -55,17 +55,14 @@
   margin: {
     right: 3%;
   }
-
   span {
     font-weight: bold;
   }
-
   .btn-container {
     height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     .btn-group {
       display: grid;
       grid-template-columns: 45px 1fr;
@@ -75,12 +72,10 @@
       text-decoration: none;
       color: black;
     }
-
     #logout {
       position: absolute;
       bottom: 10px;
     }
-
     #tweet {
       border: 0;
       height: 35px;
@@ -88,7 +83,6 @@
       border-radius: 17.5px;
     }
   }
-
   img {
     margin-top: 10px;
     width: 30px;

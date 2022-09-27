@@ -163,6 +163,8 @@ export default defineComponent({
       reply = "reply",
       like = "like",
     }
+    const currentUser = useCurrentUser();
+    const router = useRouter();
     const listStatus = ref(selfMenu.tweet);
     const tweetList: tweet[] = reactive([]);
     const likeList: tweet[] = reactive([]);
@@ -193,8 +195,6 @@ export default defineComponent({
       Followers: [],
       Likes: [],
     });
-    const currentUser = useCurrentUser();
-    const router = useRouter();
 
     //get all lists and user info when mounted and assign them to refs and reactives
     onMounted(async () => {

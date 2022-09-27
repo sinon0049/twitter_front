@@ -109,7 +109,6 @@ export default defineComponent({
       account: "",
       password: "",
     });
-
     const router = useRouter();
     const currentUser = useCurrentUser();
 

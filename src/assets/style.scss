@@ -7,15 +7,12 @@ $border: #e6ecf0;
 
 html {
     height: 100%;
-
     body {
         height: 100%;
         margin: 0;
         font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
-
         #app {
             height: 100%;
-            
             textarea {
                 overflow: visible;
                 resize: none;
@@ -30,43 +27,34 @@ html {
                     border-radius: 3px;
                 }
             }
-
             .bold {
                 font-weight: bold;
             }
-
             h4 {
                 margin-top: 5%;
             }
-
             .cursor-pointer {
                 cursor: pointer;
             }
-
             span, a, button {
                 font-family: 'Noto Sans TC';
             }
-
             .light {
                 color: #657786
             }
-
             .orange {
                 color: $orange;
             }
-
             .btn-orange {
                 background-color: $orange;
                 color: white;
                 border: 0;
             }
-
             .btn-white {
                 background-color: white;
                 color: $orange;
                 border: 1px solid $orange;
             }
-
             .link {
                 border: 0;
                 background-color: white;
@@ -77,18 +65,15 @@ html {
                     text-decoration: underline;
                 }
             }
-
             .page-container {
                 height: 100%;
                 width: 100%;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
-
                 .main-container {
                     border: 1px solid $border;
                     width: 40%;
-            
                     .main-header {
                         border-bottom: 1px solid $border;
                         height: 40px;
@@ -96,14 +81,12 @@ html {
                         padding-left: 20px;
                         display: flex;
                         align-items: center;
-            
                         span {
                             font-weight: bold;
                         }
                     }
                 }
             }
-
             .tweet-container {
                 overflow-y: auto;
                 flex: 1;

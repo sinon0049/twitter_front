@@ -111,32 +111,27 @@
         bottom: 2%;
       }
     }
-
     .time-stamp {
       margin: {
         bottom: 2%;
       }
     }
-
     hr {
       border: 0;
       height: 1px;
       background-color: #e6ecf0;
     }
-
     #count-list {
       margin: {
         top: 2%;
         bottom: 2%;
       }
     }
-
     .icon-container {
       margin: {
         top: 3%;
         bottom: 2%;
       }
-
       .icon {
         font-size: 20px;
       }

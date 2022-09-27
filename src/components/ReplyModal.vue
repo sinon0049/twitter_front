@@ -101,7 +101,6 @@
       }
     }
   }
-
   button {
     border-radius: 20px;
     width: 70px;

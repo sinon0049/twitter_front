@@ -81,7 +81,6 @@ export default defineComponent({
           }
         }
       }
-
       #confirm {
         margin: 30px 0 15px 0;
         width: 120px;
