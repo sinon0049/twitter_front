@@ -45,10 +45,10 @@
         </div>
       </div>
       <hr />
-      <div class="reply-container">
-        <div class="reply-card" v-for="item in tweet.Replies" :key="item.id">
+      <div class="tweet-container">
+        <div class="tweet-card" v-for="item in tweet.Replies" :key="item.id">
           <img :src="item.User.avatar" alt="" />
-          <div class="reply-content">
+          <div class="tweet-content">
             <div>
               <span>{{ item.User.name }}</span>
               <span class="light"> @{{ item.User.account }}</span>
@@ -181,12 +181,6 @@ export default defineComponent({
       const { id } = useRoute().params;
       const { data } = await tweetsAPI.getTweet({ id: Number(id) });
       Object.assign(tweet, data);
-      //order replies by date
-      tweet.Replies.sort(function (a, b) {
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      });
     });
 
     //get time from now

@@ -9,7 +9,10 @@
         <font-awesome-icon icon="home" size="lg" class="home" />
         <span>首頁</span>
       </router-link>
-      <router-link :to="{ name: 'self-page' }" class="btn-group cursor-pointer">
+      <router-link
+        :to="{ name: 'self-page', params: { id: currentUser.info.id } }"
+        class="btn-group cursor-pointer"
+      >
         <font-awesome-icon :icon="['far', 'user']" size="lg" class="user" />
         <span>個人資料</span>
       </router-link>
@@ -98,10 +101,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { useCurrentUser } from "@/stores/currentUser";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
+    const currentUser = useCurrentUser();
     const logout = function () {
       localStorage.removeItem("token");
       router.push({
@@ -111,6 +116,7 @@ export default defineComponent({
 
     return {
       logout,
+      currentUser,
     };
   },
 });

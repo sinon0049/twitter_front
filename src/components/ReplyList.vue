@@ -1,6 +1,6 @@
 <template>
   <div class="tweet-container">
-    <div class="tweet-card" v-for="item in tweetList" :key="item.id">
+    <div class="tweet-card" v-for="item in replyList" :key="item.id">
       <img :src="item.User.avatar" alt="" class="cursor-pointer" />
       <div class="tweet-content">
         <div class="name cursor-pointer">
@@ -8,45 +8,37 @@
           <span class="light">@{{ item.User.account }}</span>
           <span class="light">．{{ dateFromNow(item.createdAt) }}</span>
         </div>
+        <div class="reply-target">
+          <span class="light">回覆給</span>
+          <span class="orange"> @{{ item.Tweet.User.account }}</span>
+        </div>
         <div class="content">
           <router-link :to="{ name: 'reply-page', params: { id: item.id } }">
-            {{ item.description }}
+            {{ item.comment }}
           </router-link>
-        </div>
-        <div class="icon">
-          <div
-            class="cursor-pointer"
-            data-bs-toggle="modal"
-            data-bs-target="#replyModal"
-            @click.stop.prevent="$emit('onReply', item.id)"
-          >
-            <font-awesome-icon
-              :icon="['far', 'comment']"
-              class="fa-icon"
-              style="color: #657786"
-            />
-            <span>{{ item.Replies.length }}</span>
-          </div>
-          <div>
-            <font-awesome-icon
-              :icon="['far', 'heart']"
-              class="fa-icon cursor-pointer"
-              style="color: #657786"
-            />
-            <span>{{ item.Likes.length }}</span>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<style lang="scss">
+.tweet-content {
+  .reply-target {
+    font-size: 13px;
+  }
+  .content {
+    margin-top: 5px;
+  }
+}
+</style>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import dayjs from "dayjs";
 
 export default defineComponent({
-  props: ["tweetList"],
+  props: ["replyList"],
   setup() {
     //get time from now
     function dateFromNow(date: Date) {

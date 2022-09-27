@@ -14,4 +14,7 @@ export const tweetsAPI = {
   createReply: function (payLoad: request) {
     return api.post("/reply", payLoad);
   },
+  getTweetOfSelectedUser: function (payLoad: request) {
+    return api.get(`/tweet/user/${payLoad.id}`);
+  },
 };

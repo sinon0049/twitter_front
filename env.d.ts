@@ -17,6 +17,13 @@ export interface fullUserInfo extends userInfo {
   updatedAt: Date;
 }
 
+export interface userDetail extends userInfo {
+  cover: string;
+  Followers: Array;
+  Followings: Array;
+  Likes: Array;
+}
+
 export interface reply {
   id: number;
   UserId: number;
@@ -43,4 +50,6 @@ export interface request {
   description?: string;
   TweetId?: number;
   comment?: string;
+  account?: string;
+  password?: string;
 }
