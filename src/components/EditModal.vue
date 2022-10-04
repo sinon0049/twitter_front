@@ -205,29 +205,27 @@ export default defineComponent({
       reply.value = "";
     }
 
-    function handleAvatarChange(e: any) {
-      const { files } = e.target;
-      if (files.length === 0) {
-        return;
-      } else {
+    function handleAvatarChange(e: Event) {
+      const { files } = e.target as HTMLInputElement;
+      if (!files) return;
+      else {
         const imageURL = window.URL.createObjectURL(files[0]);
         avatarURL.value = imageURL;
       }
     }
 
-    function handleCoverChange(e: any) {
-      const { files } = e.target;
-      if (files.length === 0) {
-        return;
-      } else {
+    function handleCoverChange(e: Event) {
+      const { files } = e.target as HTMLInputElement;
+      if (!files) return;
+      else {
         const imageURL = window.URL.createObjectURL(files[0]);
         coverURL.value = imageURL;
       }
     }
 
-    async function handleSubmit(e: any) {
+    async function handleSubmit(e: Event) {
       try {
-        const form = e.target;
+        const form = e.target as HTMLFormElement;
         console.log(form);
         const formData = new FormData(form);
         for (const [name, value] of formData.entries()) {
