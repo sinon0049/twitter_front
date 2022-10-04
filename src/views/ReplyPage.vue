@@ -164,6 +164,7 @@ export default defineComponent({
         name: "",
         account: "",
         avatar: "",
+        cover: "",
       },
       Replies: [],
       Likes: [],

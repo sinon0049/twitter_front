@@ -17,6 +17,7 @@ import {
   faArrowLeft,
   faX,
   faPeopleArrows,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faUser,
@@ -33,7 +34,8 @@ library.add(
   faComment,
   faArrowLeft,
   faX,
-  faPeopleArrows
+  faPeopleArrows,
+  faCamera
 );
 
 //day.js import

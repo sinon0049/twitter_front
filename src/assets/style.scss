@@ -27,6 +27,12 @@ html {
                     border-radius: 3px;
                 }
             }
+            img {
+                object-fit: cover;
+            }
+            .avatar { 
+                border-radius: 50%;
+            }
             .bold {
                 font-weight: bold;
             }
@@ -38,6 +44,9 @@ html {
             }
             span, a, button {
                 font-family: 'Noto Sans TC';
+            }
+            .router-link-exact-active {
+                color: $orange;
             }
             .light {
                 color: #657786

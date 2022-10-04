@@ -6,7 +6,7 @@
         <span>首頁</span>
       </div>
       <div id="tweet-input">
-        <img :src="currentUser.info.avatar" alt="..." />
+        <img :src="currentUser.info.avatar" alt="..." class="avatar" />
         <textarea
           name="newTweet"
           cols="30"
@@ -42,7 +42,6 @@
     img {
       width: 50px;
       height: 50px;
-      border-radius: 50%;
       margin: {
         top: 10px;
         left: 15px;
@@ -100,6 +99,7 @@ export default defineComponent({
         name: "",
         account: "",
         avatar: "",
+        cover: "",
       },
       Replies: [],
       Likes: [],

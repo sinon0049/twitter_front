@@ -1,7 +1,7 @@
 <template>
   <div class="tweet-container">
     <div class="tweet-card" v-for="item in tweetList" :key="item.id">
-      <img :src="item.User.avatar" alt="" class="cursor-pointer" />
+      <img :src="item.User.avatar" alt="" class="cursor-pointer avatar" />
       <div class="tweet-content">
         <div class="name cursor-pointer">
           <span class="bold">{{ item.User.name }}</span>

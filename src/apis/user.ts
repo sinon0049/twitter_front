@@ -11,4 +11,11 @@ export const usersAPI = {
   getDetail: function (payLoad: request) {
     return api.get(`/user/${payLoad.id}`);
   },
+  modifyInfo: function (payLoad: FormData) {
+    return api.put("/user/info", payLoad, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };

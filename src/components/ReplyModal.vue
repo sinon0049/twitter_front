@@ -13,7 +13,11 @@
         </div>
         <div class="container">
           <div class="modal-tweet modal-body">
-            <img :src="currentReplyingTweet.User.avatar" alt="..." />
+            <img
+              :src="currentReplyingTweet.User.avatar"
+              alt="..."
+              class="avatar"
+            />
             <div class="user-info">
               <div>
                 <span class="bold">{{ currentReplyingTweet.User.name }}</span>

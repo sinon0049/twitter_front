@@ -12,17 +12,16 @@
         <span>&nbsp;&nbsp;{{ detailOfUser.name }}</span>
       </div>
       <div class="cover-container">
-        <img
-          src="https://img.freepik.com/free-photo/view-landmark-asian-sky-reflection_1417-266.jpg?w=1380&t=st=1663766445~exp=1663767045~hmac=4e4b68d88985c031c59a4cd892f07faaa531ca9b091d90cadcfa0a05eb827c6a"
-          alt="..."
-          class="img-cover"
-        />
-        <img
-          src="https://images.unsplash.com/photo-1663691219171-93494f63b5c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=397&q=80"
-          alt="..."
-          class="img-avatar"
-        />
-        <button class="btn-white">編輯個人資料</button>
+        <img :src="currentUser.info.cover" alt="..." class="img-cover" />
+        <img :src="currentUser.info.avatar" alt="..." class="img-avatar" />
+        <button
+          class="btn-white"
+          data-bs-toggle="modal"
+          data-bs-target="#editModal"
+        >
+          編輯個人資料
+        </button>
+        <EditModal :currentReplyingTweet="currentReplyingTweet" />
       </div>
       <div class="self-info">
         <span class="info-name">{{ detailOfUser.name }}</span>
@@ -93,7 +92,7 @@
       z-index: 999;
       left: 3%;
       bottom: 0;
-      background: black;
+      background: white;
       border-radius: 50%;
       border: 2px solid white;
       object-fit: cover;
@@ -148,6 +147,7 @@ import PopularList from "../components/PopularList.vue";
 import TweetList from "../components/TweetList.vue";
 import ReplyList from "../components/ReplyList.vue";
 import ReplyModal from "../components/ReplyModal.vue";
+import EditModal from "../components/EditModal.vue";
 import { usersAPI } from "@/apis/user";
 import { tweetsAPI } from "@/apis/tweet";
 import { repliesAPI } from "@/apis/reply";
@@ -178,6 +178,7 @@ export default defineComponent({
         name: "",
         account: "",
         avatar: "",
+        cover: "",
       },
       Replies: [],
       Likes: [],
@@ -217,7 +218,6 @@ export default defineComponent({
         replyOfUser.forEach(function (item: reply) {
           replyList.push(item);
         });
-        console.log(replyList);
       } catch (error) {
         console.log(error);
       }
@@ -267,6 +267,7 @@ export default defineComponent({
     PopularList,
     TweetList,
     ReplyModal,
+    EditModal,
     ReplyList,
   },
 });

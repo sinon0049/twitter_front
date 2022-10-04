@@ -8,6 +8,7 @@ export const useCurrentUser = defineStore("currentUser", () => {
     name: "",
     account: "",
     avatar: "",
+    cover: "",
     email: "",
     introduction: "",
     password: "",
