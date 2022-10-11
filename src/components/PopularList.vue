@@ -3,7 +3,11 @@
     <div class="popular-head">
       <span>Popular</span>
     </div>
-    <div class="popular-card" v-for="item in followingList" :key="item.id">
+    <div
+      class="popular-card"
+      v-for="item in followingList.Followings"
+      :key="item.id"
+    >
       <img
         src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
         alt=""
@@ -12,13 +16,29 @@
         <span class="name bold">{{ item.name }}</span>
         <span class="account">@{{ item.account }}</span>
       </div>
-      <button class="btn-orange cursor-pointer" v-if="item.isFollower">
-        正在跟隨
-      </button>
-      <button class="btn-white cursor-pointer" v-else>跟隨</button>
+      <button class="btn-orange cursor-pointer">正在跟隨</button>
+    </div>
+    <div
+      class="popular-card"
+      v-for="item in followingList.unfollowings"
+      :key="item.id"
+    >
+      <img
+        src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
+        alt=""
+      />
+      <div class="user-name">
+        <span class="name bold">{{ item.name }}</span>
+        <span class="account">@{{ item.account }}</span>
+      </div>
+      <button class="btn-white cursor-pointer">跟隨</button>
     </div>
     <div class="popular-tail cursor-pointer">
-      <span>顯示更多</span>
+      <router-link
+        :to="{ name: 'follow-page', params: { id: currentUser.info.id } }"
+      >
+        顯示更多
+      </router-link>
     </div>
   </div>
 </template>
@@ -53,10 +73,11 @@
   .popular-tail {
     height: 45px;
     border-top: 1px solid #e6ecf0;
-    span {
+    a {
       line-height: 45px;
       margin-left: 15px;
       color: #ff6600;
+      text-decoration: none;
       font: {
         size: 15px;
         weight: bold;
@@ -106,32 +127,43 @@
 </style>
 
 <script lang="ts">
-import { followingsAPI } from "@/apis/following";
+import { followshipAPI } from "@/apis/followship";
 import { defineComponent, onMounted, reactive } from "vue";
-
-interface followingData {
-  id: number;
-  name: string;
-  account: string;
-  avatar: string;
-  isFollower: boolean;
-}
+import { useCurrentUser } from "../stores/currentUser";
+import type { followData, followshipList } from "env";
 
 export default defineComponent({
   setup() {
-    const followingList: followingData[] = reactive([]);
+    const followingList: followshipList = reactive({
+      id: -1,
+      name: "",
+      account: "",
+      avatar: "",
+      cover: "",
+      Followings: [],
+      unfollowings: [],
+    });
+    const currentUser = useCurrentUser();
+
     onMounted(async () => {
       try {
-        const { data } = await followingsAPI.getFollowingList();
-        data.forEach(function (item: followingData) {
-          followingList.push(item);
+        const { data } = await followshipAPI.getFollowingList({
+          id: currentUser.info.id,
         });
+        data.Followings.sort(function (a: followData, b: followData) {
+          return (
+            new Date(b.Followship.createdAt).getTime() -
+            new Date(a.Followship.createdAt).getTime()
+          );
+        });
+        Object.assign(followingList, data);
       } catch (error) {
         console.log(error);
       }
     });
     return {
       followingList,
+      currentUser,
     };
   },
 });

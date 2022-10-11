@@ -1,9 +1,11 @@
 <template>
   <div class="sidebar-container">
-    <img
-      src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-      alt="..."
-    />
+    <router-link to="/main">
+      <img
+        src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
+        alt="..."
+      />
+    </router-link>
     <div class="btn-container">
       <router-link :to="{ name: 'main' }" class="btn-group cursor-pointer">
         <font-awesome-icon icon="home" size="lg" class="home" />

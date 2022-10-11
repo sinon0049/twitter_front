@@ -6,6 +6,7 @@ import SettingPage from "../views/SettingPage.vue";
 import MainPage from "../views/MainPage.vue";
 import ReplyPage from "../views/ReplyPage.vue";
 import SelfPage from "../views/SelfPage.vue";
+import FollowPage from "../views/FollowPage.vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
 
@@ -41,6 +42,11 @@ const router = createRouter({
       path: "/self/:id",
       name: "self-page",
       component: SelfPage,
+    },
+    {
+      path: "/follow/:id",
+      name: "follow-page",
+      component: FollowPage,
     },
     {
       path: "/",

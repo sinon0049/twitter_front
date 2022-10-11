@@ -54,3 +54,21 @@ export interface request {
   account?: string;
   password?: string;
 }
+
+export interface followship {
+  followerId: number;
+  followingId: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface followData extends userInfo {
+  Followship: followship;
+  isFollowing?: boolean;
+}
+
+export interface followshipList extends userInfo {
+  Followings?: followData[];
+  Followers?: followData[];
+  unfollowings?: followData[];
+}

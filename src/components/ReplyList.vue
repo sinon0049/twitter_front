@@ -13,8 +13,14 @@
           <span class="orange"> @{{ item.Tweet.User.account }}</span>
         </div>
         <div class="content">
-          <router-link :to="{ name: 'reply-page', params: { id: item.id } }">
-            {{ item.comment }}
+          <router-link
+            :to="{
+              name: 'reply-page',
+              params: { id: item.Tweet.id },
+              hash: `#${item.id}`,
+            }"
+          >
+            {{ item.Tweet.description }}
           </router-link>
         </div>
       </div>

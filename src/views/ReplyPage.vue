@@ -36,17 +36,25 @@
         <div class="icon-container">
           <font-awesome-icon
             :icon="['far', 'comment']"
-            class="light icon"
+            class="light icon cursor-pointer"
             style="margin-right: 25%"
             data-bs-toggle="modal"
             data-bs-target="#replyModal"
           />
-          <font-awesome-icon :icon="['far', 'heart']" class="light icon" />
+          <font-awesome-icon
+            :icon="['far', 'heart']"
+            class="light icon cursor-pointer"
+          />
         </div>
       </div>
       <hr />
       <div class="tweet-container">
-        <div class="tweet-card" v-for="item in tweet.Replies" :key="item.id">
+        <div
+          class="tweet-card"
+          v-for="item in tweet.Replies"
+          :key="item.id"
+          :id="String(item.id)"
+        >
           <img :src="item.User.avatar" alt="" />
           <div class="tweet-content">
             <div>
