@@ -33,7 +33,7 @@
           </button>
           <button
             class="btn-orange follow"
-            v-if="storeFollowings.isSelfPageUserYourFollowing[1]"
+            v-if="storeFollowings.isSelfPageUserYourFollowing.isFollowing"
             @click.stop.prevent="
               storeFollowings.deleteFollowing(detailOfUser.id)
             "
@@ -214,6 +214,7 @@ export default defineComponent({
       reply = "reply",
       like = "like",
     }
+    //check if user is watching his/her own information
     const isExactUser = ref(false);
     const currentUser = useCurrentUser();
     const storeFollowings = useStoreFollowings();
@@ -302,16 +303,6 @@ export default defineComponent({
     function changeList(status: selfMenu) {
       listStatus.value = status;
     }
-
-    // function addFollowing(id: number) {
-    //   storeFollowings.addFromFollowing(id)
-    //   storeFollowings.addFromUnfollowing(id)
-    // }
-
-    // function deleteFollowing(id: number) {
-    //   storeFollowings.addFromFollowing(id)
-    //   storeFollowings.addFromUnfollowing(id)
-    // }
 
     return {
       selfMenu,

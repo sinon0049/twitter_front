@@ -9,7 +9,7 @@
               class="orange"
               data-bs-dismiss="modal"
               size="lg"
-              @click.stop.prevent="clearReply"
+              @click.stop.prevent="clearForm"
             />
             <span class="bold" style="display: block; margin: 0 5%"
               >編輯個人資料</span
@@ -47,12 +47,17 @@
           <div class="info-container modal-body">
             <div class="input">
               <label for="name">名稱</label>
-              <input type="text" name="name" />
+              <input type="text" name="name" v-model="name" />
               <span class="counter">0/50</span>
             </div>
             <div class="input" style="margin-bottom: 10%">
               <label for="introduction">自我介紹</label>
-              <textarea name="introduction" rows="6" columns="300"></textarea>
+              <textarea
+                name="introduction"
+                rows="6"
+                columns="300"
+                v-model="introduction"
+              ></textarea>
               <span class="counter">0/160</span>
             </div>
           </div>
@@ -190,21 +195,22 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useCurrentUser } from "@/stores/currentUser";
-import { tweetsAPI } from "@/apis/tweet";
 import { usersAPI } from "@/apis/user";
 
 export default defineComponent({
   props: ["currentReplyingTweet"],
   setup() {
     const currentUser = useCurrentUser();
-    const reply = ref("");
+    const name = ref("");
+    const introduction = ref("");
     const avatarURL = ref(currentUser.info.avatar);
     const coverURL = ref(currentUser.info.cover);
-
-    function clearReply() {
-      reply.value = "";
+    //clear form when modal is closed
+    function clearForm() {
+      name.value = "";
+      introduction.value = "";
     }
-
+    //get avatar preview when avatar input is changed
     function handleAvatarChange(e: Event) {
       const { files } = e.target as HTMLInputElement;
       if (!files) return;
@@ -213,7 +219,7 @@ export default defineComponent({
         avatarURL.value = imageURL;
       }
     }
-
+    //get cover preview when avatar input is changed
     function handleCoverChange(e: Event) {
       const { files } = e.target as HTMLInputElement;
       if (!files) return;
@@ -222,43 +228,24 @@ export default defineComponent({
         coverURL.value = imageURL;
       }
     }
-
+    //modify backend db when form is submitted
     async function handleSubmit(e: Event) {
       try {
         const form = e.target as HTMLFormElement;
-        console.log(form);
         const formData = new FormData(form);
-        for (const [name, value] of formData.entries()) {
-          console.log(name + ": " + value);
-        }
         await usersAPI.modifyInfo(formData);
       } catch (error) {
         console.log(error);
       }
     }
 
-    async function createReply(id: number) {
-      try {
-        const TweetId = id;
-        const comment = reply.value;
-        const payLoad = {
-          TweetId,
-          comment,
-        };
-        const { data } = await tweetsAPI.createReply(payLoad);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
     return {
-      reply,
+      name,
+      introduction,
       currentUser,
       avatarURL,
       coverURL,
-      clearReply,
-      createReply,
+      clearForm,
       handleAvatarChange,
       handleCoverChange,
       handleSubmit,

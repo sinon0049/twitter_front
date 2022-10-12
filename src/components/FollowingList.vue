@@ -84,6 +84,7 @@ export default defineComponent({
   setup() {
     const currentUser = useCurrentUser();
     const storeFollowings = useStoreFollowings();
+    //check if user is watch his/her own following list
     const isExactUser = ref(false);
     const route = useRoute();
     onMounted(() => {

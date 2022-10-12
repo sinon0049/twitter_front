@@ -182,9 +182,13 @@ export default defineComponent({
 
     //get corresponding tweet of this page & assign to tweet
     onMounted(async () => {
-      const { id } = useRoute().params;
-      const { data } = await tweetsAPI.getTweet({ id: Number(id) });
-      Object.assign(tweet, data);
+      try {
+        const { id } = useRoute().params;
+        const { data } = await tweetsAPI.getTweet({ id: Number(id) });
+        Object.assign(tweet, data);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     //get time from now

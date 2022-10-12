@@ -103,12 +103,13 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const currentUser = useCurrentUser();
-    const logout = function () {
+    //delete token in local storage when logged out
+    function logout() {
       localStorage.removeItem("token");
       router.push({
         name: "login",
       });
-    };
+    }
 
     return {
       logout,

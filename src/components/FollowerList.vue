@@ -20,28 +20,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { useCurrentUser } from "../stores/currentUser";
+import { defineComponent } from "vue";
 import dayjs from "dayjs";
 
 export default defineComponent({
   props: ["followshipList"],
   setup() {
-    const currentUser = useCurrentUser();
-    const isExactUser = ref(false);
-    const route = useRoute();
-    onMounted(() => {
-      if (Number(route.params.id) === currentUser.info.id)
-        isExactUser.value = true;
-    });
     //get time from now
     function dateFromNow(date: Date) {
       return dayjs().to(date);
     }
     return {
       dateFromNow,
-      isExactUser,
     };
   },
 });

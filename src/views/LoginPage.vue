@@ -112,7 +112,7 @@ export default defineComponent({
     const router = useRouter();
     const currentUser = useCurrentUser();
 
-    const signIn = async function () {
+    async function signIn() {
       try {
         const { data } = await usersAPI.signIn(signInData);
         const token: string = data.token;
@@ -126,7 +126,7 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
-    };
+    }
 
     return {
       signInData,

@@ -4,6 +4,7 @@ import { reactive } from "vue";
 import { followshipAPI } from "@/apis/followship";
 
 export const useStoreFollowings = defineStore("storeFollowings", () => {
+  //follow list used in PopularList.vue, SelfPage.vue & FollowingList.vue
   const lists: followshipList = reactive({
     id: -1,
     name: "",
@@ -13,13 +14,22 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
     Followings: [],
     unfollowings: [],
   });
-  const isSelfPageUserYourFollowing = reactive([-1, false]);
+  //isFollowing control in SelfPage.vue
+  const isSelfPageUserYourFollowing = reactive({
+    id: -1,
+    isFollowing: false,
+  });
+
+  //get id of currently visited user in SelfPage.vue & check if is following
   function visitSelfPage(selfPageUserId: number) {
-    isSelfPageUserYourFollowing[0] = selfPageUserId;
+    isSelfPageUserYourFollowing.id = selfPageUserId;
     lists.Followings.forEach((item) => {
-      if (item.id === selfPageUserId) isSelfPageUserYourFollowing[1] = true;
+      if (item.id === selfPageUserId)
+        isSelfPageUserYourFollowing.isFollowing = true;
     });
   }
+
+  //assign followings from api to reactive object
   function pushFollowings(payLoad: followshipList) {
     if (payLoad.Followings) {
       lists.Followings = payLoad.Followings;
@@ -28,9 +38,13 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
       lists.unfollowings = payLoad.unfollowings;
     }
   }
+
+  //delete following function
   async function deleteFollowing(id: number) {
     try {
+      //delete following in backend db
       const { data } = await followshipAPI.deleteFollowing({ id });
+      //modify reactive objects
       lists.Followings.forEach((item) => {
         if (item.id === id && data.status === "success") {
           const popped = lists.Followings.splice(
@@ -40,28 +54,32 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
           lists.unfollowings.push(popped[0]);
         }
       });
-      if (id === isSelfPageUserYourFollowing[0])
-        isSelfPageUserYourFollowing[1] = false;
+      //modify isSelfPageUserYourFollowing
+      if (id === isSelfPageUserYourFollowing.id)
+        isSelfPageUserYourFollowing.isFollowing = false;
     } catch (error) {
       console.log(error);
     }
   }
+
+  //add following function
   async function addFollowing(id: number) {
     try {
-      if (lists.Followings) {
-        const { data } = await followshipAPI.addFollowing({ id });
-        lists.unfollowings.forEach((item) => {
-          if (item.id === id && data.status === "success") {
-            const popped = lists.unfollowings.splice(
-              lists.unfollowings.indexOf(item),
-              1
-            );
-            lists.Followings.push(popped[0]);
-          }
-        });
-      }
-      if (id === isSelfPageUserYourFollowing[0])
-        isSelfPageUserYourFollowing[1] = true;
+      //add following to backend db
+      const { data } = await followshipAPI.addFollowing({ id });
+      //modify reactive object
+      lists.unfollowings.forEach((item) => {
+        if (item.id === id && data.status === "success") {
+          const popped = lists.unfollowings.splice(
+            lists.unfollowings.indexOf(item),
+            1
+          );
+          lists.Followings.push(popped[0]);
+        }
+      });
+      //modify isSelfPageUserYourFollowing
+      if (id === isSelfPageUserYourFollowing.id)
+        isSelfPageUserYourFollowing.isFollowing = true;
     } catch (error) {
       console.log(error);
     }

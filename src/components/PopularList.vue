@@ -137,44 +137,16 @@
 </style>
 
 <script lang="ts">
-import { followshipAPI } from "@/apis/followship";
-import { defineComponent, onMounted, reactive } from "vue";
+import { defineComponent } from "vue";
 import { useCurrentUser } from "../stores/currentUser";
 import { useStoreFollowings } from "../stores/followship";
-import type { followData, followshipList } from "env";
 
 export default defineComponent({
   setup() {
-    const followingList: followshipList = reactive({
-      id: -1,
-      name: "",
-      account: "",
-      avatar: "",
-      cover: "",
-      Followings: [],
-      unfollowings: [],
-    });
     const currentUser = useCurrentUser();
     const storeFollowings = useStoreFollowings();
 
-    onMounted(async () => {
-      try {
-        const { data } = await followshipAPI.getFollowingList({
-          id: currentUser.info.id,
-        });
-        data.Followings.sort(function (a: followData, b: followData) {
-          return (
-            new Date(b.Followship.createdAt).getTime() -
-            new Date(a.Followship.createdAt).getTime()
-          );
-        });
-        Object.assign(followingList, data);
-      } catch (error) {
-        console.log(error);
-      }
-    });
     return {
-      followingList,
       currentUser,
       storeFollowings,
     };

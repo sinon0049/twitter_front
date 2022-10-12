@@ -128,11 +128,11 @@ export default defineComponent({
   setup() {
     const currentUser = useCurrentUser();
     const reply = ref("");
-
+    //clear reply when modal is closed
     function clearReply() {
       reply.value = "";
     }
-
+    //create reply in backend db when reply is sent
     async function createReply(id: number) {
       try {
         const TweetId = id;
