@@ -9,6 +9,9 @@ import SelfPage from "../views/SelfPage.vue";
 import FollowPage from "../views/FollowPage.vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
+import { followshipAPI } from "@/apis/followship";
+import type { followData } from "env";
+import { useStoreFollowings } from "@/stores/followship";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,12 +63,26 @@ router.beforeEach(async (to, from, next) => {
   const pathsWithoutAuth = ["/login", "/regist"];
   const localToken = localStorage.getItem("token");
   const currentUser = useCurrentUser();
+  const storeFollowings = useStoreFollowings();
   if (!localToken && !pathsWithoutAuth.includes(to.fullPath)) {
     router.push("/login");
   } else if (!localToken) next();
   else {
     const { data } = await usersAPI.getCurrentUser();
     currentUser.storeCurrentUser(data);
+    const followshipList = await followshipAPI.getFollowingList({
+      id: currentUser.info.id,
+    });
+    followshipList.data.Followings.sort(function (
+      a: followData,
+      b: followData
+    ) {
+      return (
+        new Date(b.Followship.createdAt).getTime() -
+        new Date(a.Followship.createdAt).getTime()
+      );
+    });
+    storeFollowings.pushFollowings(followshipList.data);
     next();
   }
 });

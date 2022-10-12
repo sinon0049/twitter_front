@@ -19,7 +19,7 @@
         <span>個人資料</span>
       </router-link>
       <router-link
-        :to="{ name: 'main' }"
+        :to="{ name: 'follow-page', params: { id: currentUser.info.id } }"
         class="btn-group cursor-pointer"
         id="btn-popular"
       >

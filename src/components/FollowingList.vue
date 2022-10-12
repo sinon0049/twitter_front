@@ -1,34 +1,10 @@
 <template>
   <div class="tweet-container">
-    <div
-      class="tweet-card"
-      v-for="item in followshipList.Followings"
-      :key="item.id"
-    >
-      <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
-      <div class="tweet-content">
-        <div class="name cursor-pointer">
-          <span class="bold">{{ item.name }}</span>
-          <span class="light">@{{ item.account }}</span>
-          <button class="btn-orange" v-if="item.isFollowing && isExactUser">
-            正在跟隨
-          </button>
-          <button
-            class="btn-white"
-            v-else-if="!item.isFollowing && isExactUser"
-          >
-            跟隨
-          </button>
-        </div>
-        <div class="content">
-          <span>{{ item.introduction }}</span>
-        </div>
-      </div>
-    </div>
+    <!-- if you are watching your own followings -->
     <div v-if="isExactUser">
       <div
         class="tweet-card"
-        v-for="item in followshipList.unfollowings"
+        v-for="item in storeFollowings.lists.Followings"
         :key="item.id"
       >
         <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
@@ -36,8 +12,56 @@
           <div class="name cursor-pointer">
             <span class="bold">{{ item.name }}</span>
             <span class="light">@{{ item.account }}</span>
-            <button class="btn-orange" v-if="item.isFollowing">正在跟隨</button>
-            <button class="btn-white" v-else>跟隨</button>
+            <button
+              class="btn-orange"
+              @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
+            >
+              正在跟隨
+            </button>
+          </div>
+          <div class="content">
+            <span>{{ item.introduction }}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="tweet-card"
+          v-for="item in storeFollowings.lists.unfollowings"
+          :key="item.id"
+        >
+          <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+          <div class="tweet-content">
+            <div class="name cursor-pointer">
+              <span class="bold">{{ item.name }}</span>
+              <span class="light">@{{ item.account }}</span>
+
+              <button
+                class="btn-white"
+                @click.stop.prevent="storeFollowings.addFollowing(item.id)"
+              >
+                跟隨
+              </button>
+            </div>
+            <div class="content">
+              <span>{{ item.introduction }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- if you are NOT watching your own followings -->
+    <div v-else>
+      <div
+        class="tweet-card"
+        v-for="item in followshipList.Followings"
+        :key="item.id"
+      >
+        <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+        <div class="tweet-content">
+          <div class="name cursor-pointer">
+            <span class="bold">{{ item.name }}</span>
+            <span class="light">@{{ item.account }}</span>
           </div>
           <div class="content">
             <span>{{ item.introduction }}</span>
@@ -52,12 +76,14 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useCurrentUser } from "../stores/currentUser";
+import { useStoreFollowings } from "../stores/followship";
 import dayjs from "dayjs";
 
 export default defineComponent({
   props: ["followshipList"],
   setup() {
     const currentUser = useCurrentUser();
+    const storeFollowings = useStoreFollowings();
     const isExactUser = ref(false);
     const route = useRoute();
     onMounted(() => {
@@ -71,6 +97,7 @@ export default defineComponent({
     return {
       dateFromNow,
       isExactUser,
+      storeFollowings,
     };
   },
 });

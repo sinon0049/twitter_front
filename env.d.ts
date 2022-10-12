@@ -68,7 +68,7 @@ export interface followData extends userInfo {
 }
 
 export interface followshipList extends userInfo {
-  Followings?: followData[];
+  Followings: followData[];
   Followers?: followData[];
-  unfollowings?: followData[];
+  unfollowings: followData[];
 }

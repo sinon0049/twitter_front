@@ -5,7 +5,7 @@
     </div>
     <div
       class="popular-card"
-      v-for="item in followingList.Followings"
+      v-for="item in storeFollowings.lists.Followings"
       :key="item.id"
     >
       <img
@@ -16,11 +16,16 @@
         <span class="name bold">{{ item.name }}</span>
         <span class="account">@{{ item.account }}</span>
       </div>
-      <button class="btn-orange cursor-pointer">正在跟隨</button>
+      <button
+        class="btn-orange cursor-pointer"
+        @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
+      >
+        正在跟隨
+      </button>
     </div>
     <div
       class="popular-card"
-      v-for="item in followingList.unfollowings"
+      v-for="item in storeFollowings.lists.unfollowings"
       :key="item.id"
     >
       <img
@@ -31,7 +36,12 @@
         <span class="name bold">{{ item.name }}</span>
         <span class="account">@{{ item.account }}</span>
       </div>
-      <button class="btn-white cursor-pointer">跟隨</button>
+      <button
+        class="btn-white cursor-pointer"
+        @click.stop.prevent="storeFollowings.addFollowing(item.id)"
+      >
+        跟隨
+      </button>
     </div>
     <div class="popular-tail cursor-pointer">
       <router-link
@@ -130,6 +140,7 @@
 import { followshipAPI } from "@/apis/followship";
 import { defineComponent, onMounted, reactive } from "vue";
 import { useCurrentUser } from "../stores/currentUser";
+import { useStoreFollowings } from "../stores/followship";
 import type { followData, followshipList } from "env";
 
 export default defineComponent({
@@ -144,6 +155,7 @@ export default defineComponent({
       unfollowings: [],
     });
     const currentUser = useCurrentUser();
+    const storeFollowings = useStoreFollowings();
 
     onMounted(async () => {
       try {
@@ -164,6 +176,7 @@ export default defineComponent({
     return {
       followingList,
       currentUser,
+      storeFollowings,
     };
   },
 });

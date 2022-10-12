@@ -69,6 +69,8 @@ export default defineComponent({
       avatar: "",
       cover: "",
       Followers: [],
+      Followings: [],
+      unfollowings: [],
     });
     const followingList: followshipList = reactive({
       id: -1,
@@ -83,52 +85,50 @@ export default defineComponent({
     const userName = ref("");
 
     onMounted(async () => {
-      const userId = Number(route.params.id);
-      const tweetRes = await tweetsAPI.getTweetOfSelectedUser({ id: userId });
-      //get followship list
-      const followingRes = await followshipAPI.getFollowingList({
-        id: userId,
-      });
-      const followingData = followingRes.data;
-      const followerRes = await followshipAPI.getFollowerList({
-        id: userId,
-      });
-      const followerData = followerRes.data;
-      //sort followship list by date
-      followingData.Followings.sort(function (a: followData, b: followData) {
-        return (
-          new Date(b.Followship.createdAt).getTime() -
-          new Date(a.Followship.createdAt).getTime()
-        );
-      });
-      followerData.Followers.sort(function (a: followData, b: followData) {
-        return (
-          new Date(b.Followship.createdAt).getTime() -
-          new Date(a.Followship.createdAt).getTime()
-        );
-      });
-      //assign isFollowing attribute to followingData
-      followingData.Followings = followingData.Followings.map(function (
-        item: followData
-      ): followData {
-        return {
-          ...item,
-          isFollowing: true,
-        };
-      });
-      followingData.unfollowings = followingData.unfollowings.map(function (
-        item: followData
-      ): followData {
-        return {
-          ...item,
-          isFollowing: false,
-        };
-      });
-      //assign list to reactive arrays
-      Object.assign(followerList, followerData);
-      Object.assign(followingList, followingData);
-      tweetCount.value = tweetRes.data.length;
-      userName.value = followingRes.data.name;
+      try {
+        const userId = Number(route.params.id);
+        const tweetData = (
+          await tweetsAPI.getTweetOfSelectedUser({ id: userId })
+        ).data;
+        //get followship list
+        const followingData = (
+          await followshipAPI.getFollowingList({
+            id: userId,
+          })
+        ).data;
+        const followerData = (
+          await followshipAPI.getFollowerList({
+            id: userId,
+          })
+        ).data;
+        //sort followship list by date
+        followingData.Followings.sort(function (a: followData, b: followData) {
+          return (
+            new Date(b.Followship.createdAt).getTime() -
+            new Date(a.Followship.createdAt).getTime()
+          );
+        });
+        followerData.Followers.sort(function (a: followData, b: followData) {
+          return (
+            new Date(b.Followship.createdAt).getTime() -
+            new Date(a.Followship.createdAt).getTime()
+          );
+        });
+        //assign isFollowing attribute to followingData
+        followingData.Followings.forEach(function (item: followData) {
+          item.isFollowing = true;
+        });
+        followingData.unfollowings.map(function (item: followData) {
+          item.isFollowing = false;
+        });
+        //assign list to reactive arrays
+        Object.assign(followerList, followerData);
+        Object.assign(followingList, followingData);
+        tweetCount.value = tweetData.length;
+        userName.value = followingData.name;
+      } catch (error) {
+        console.log(error);
+      }
     });
     function goBackToPrevPage() {
       router.go(-1);

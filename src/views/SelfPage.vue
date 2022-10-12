@@ -12,15 +12,42 @@
         <span>&nbsp;&nbsp;{{ detailOfUser.name }}</span>
       </div>
       <div class="cover-container">
-        <img :src="currentUser.info.cover" alt="..." class="img-cover" />
-        <img :src="currentUser.info.avatar" alt="..." class="img-avatar" />
+        <div class="cover">
+          <img :src="detailOfUser.cover" alt="..." class="img-cover" />
+        </div>
+        <img :src="detailOfUser.avatar" alt="..." class="img-avatar" />
         <button
-          class="btn-white"
+          class="btn-white btn-modal"
           data-bs-toggle="modal"
           data-bs-target="#editModal"
+          v-if="isExactUser"
         >
           編輯個人資料
         </button>
+        <div class="btn-group" v-else>
+          <button class="btn-white icon">
+            <font-awesome-icon :icon="['far', 'envelope']" size="lg" />
+          </button>
+          <button class="btn-white icon">
+            <font-awesome-icon :icon="['far', 'bell']" size="lg" />
+          </button>
+          <button
+            class="btn-orange follow"
+            v-if="storeFollowings.isSelfPageUserYourFollowing[1]"
+            @click.stop.prevent="
+              storeFollowings.deleteFollowing(detailOfUser.id)
+            "
+          >
+            正在跟隨
+          </button>
+          <button
+            class="btn-white follow"
+            v-else
+            @click.stop.prevent="storeFollowings.addFollowing(detailOfUser.id)"
+          >
+            跟隨
+          </button>
+        </div>
         <EditModal :currentReplyingTweet="currentReplyingTweet" />
       </div>
       <div class="self-info">
@@ -80,10 +107,13 @@
     position: relative;
     height: 30vh;
     text-align: right;
-    .img-cover {
+    .cover {
       width: 100%;
       height: 80%;
-      object-fit: cover;
+    }
+    .img-cover {
+      width: 100%;
+      height: 100%;
     }
     .img-avatar {
       position: absolute;
@@ -98,12 +128,32 @@
       object-fit: cover;
     }
     button {
+      height: 35px;
+    }
+    .btn-modal {
       position: relative;
       top: 3%;
       right: 1%;
-      height: 35px;
       width: 120px;
       border-radius: 17.5px;
+    }
+    .btn-group {
+      position: relative;
+      top: 3%;
+      right: 1%;
+      display: flex;
+      justify-content: space-between;
+      width: 160px;
+      float: right;
+      button {
+        border-radius: 17.5px;
+      }
+      .icon {
+        width: 35px;
+      }
+      .follow {
+        width: 80px;
+      }
     }
   }
   .self-info {
@@ -152,6 +202,7 @@ import { usersAPI } from "@/apis/user";
 import { tweetsAPI } from "@/apis/tweet";
 import { repliesAPI } from "@/apis/reply";
 import { useCurrentUser } from "@/stores/currentUser";
+import { useStoreFollowings } from "@/stores/followship";
 import { useRoute, useRouter } from "vue-router";
 import type { reply, tweet, userDetail } from "env";
 import dayjs from "dayjs";
@@ -163,8 +214,11 @@ export default defineComponent({
       reply = "reply",
       like = "like",
     }
+    const isExactUser = ref(false);
     const currentUser = useCurrentUser();
+    const storeFollowings = useStoreFollowings();
     const router = useRouter();
+    const route = useRoute();
     const listStatus = ref(selfMenu.tweet);
     const tweetList: tweet[] = reactive([]);
     const likeList: tweet[] = reactive([]);
@@ -200,9 +254,11 @@ export default defineComponent({
     //get all lists and user info when mounted and assign them to refs and reactives
     onMounted(async () => {
       try {
-        const userId = Number(useRoute().params.id);
+        const userId = Number(route.params.id);
         const payLoad = { id: userId };
         const userDetail = (await usersAPI.getDetail(payLoad)).data;
+        isExactUser.value = userId === currentUser.info.id;
+        storeFollowings.visitSelfPage(userId);
         Object.assign(detailOfUser, userDetail);
         const tweetsOfUser = (await tweetsAPI.getTweetOfSelectedUser(payLoad))
           .data;
@@ -247,6 +303,16 @@ export default defineComponent({
       listStatus.value = status;
     }
 
+    // function addFollowing(id: number) {
+    //   storeFollowings.addFromFollowing(id)
+    //   storeFollowings.addFromUnfollowing(id)
+    // }
+
+    // function deleteFollowing(id: number) {
+    //   storeFollowings.addFromFollowing(id)
+    //   storeFollowings.addFromUnfollowing(id)
+    // }
+
     return {
       selfMenu,
       listStatus,
@@ -255,7 +321,9 @@ export default defineComponent({
       likeList,
       replyList,
       currentUser,
+      storeFollowings,
       currentReplyingTweet,
+      isExactUser,
       dateFromNow,
       goBackToPrevPage,
       changeList,

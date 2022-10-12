@@ -23,6 +23,8 @@ import {
   faUser,
   faHeart,
   faComment,
+  faBell,
+  faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(
@@ -35,7 +37,9 @@ library.add(
   faArrowLeft,
   faX,
   faPeopleArrows,
-  faCamera
+  faCamera,
+  faBell,
+  faEnvelope
 );
 
 //day.js import
