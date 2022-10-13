@@ -7,25 +7,31 @@
     <h4>建立你的帳號</h4>
     <div class="input">
       <label for="account">帳號</label>
-      <input type="text" id="account" />
+      <input type="text" id="account" v-model="user.account" />
     </div>
     <div class="input">
       <label for="name">名稱</label>
-      <input type="text" id="name" />
+      <input type="text" id="name" v-model="user.name" />
     </div>
     <div class="input">
       <label for="email">Email</label>
-      <input type="email" id="email" />
+      <input type="email" id="email" v-model="user.email" />
     </div>
     <div class="input">
       <label for="password">密碼</label>
-      <input type="password" id="password" />
+      <input type="password" id="password" v-model="user.password" />
     </div>
     <div class="input">
       <label for="confirmPasswprd">密碼確認</label>
-      <input type="password" id="confirmPassword" />
+      <input type="password" id="confirmPassword" v-model="confirmPassword" />
     </div>
-    <button id="register" class="btn-orange cursor-pointer">註冊</button>
+    <button
+      id="register"
+      class="btn-orange cursor-pointer"
+      @click.stop.prevent="createNewUser"
+    >
+      註冊
+    </button>
     <router-link to="/login" class="link cursor-pointer">取消</router-link>
   </div>
 </template>
@@ -77,3 +83,60 @@
   }
 }
 </style>
+
+<script lang="ts">
+import { usersAPI } from "@/apis/user";
+import { defineComponent, reactive, ref } from "vue";
+import { swalAlert } from "@/utils/helper";
+import { useRouter } from "vue-router"
+
+export default defineComponent({
+  setup() {
+    const user = reactive({
+      account: "",
+      name: "",
+      email: "",
+      password: "",
+    });
+    const confirmPassword = ref("");
+    const router = useRouter()
+
+    async function createNewUser() {
+      try {
+        if(!user.account.trim()) {
+          swalAlert.errorMsg("Please enter your account.")
+          return
+        }
+        if(!user.name.trim()) {
+          swalAlert.errorMsg("Please enter your name.")
+          return
+        }
+        if(!user.email.trim()) {
+          swalAlert.errorMsg("Please enter your email.")
+          return
+        }
+        if(!user.password.trim()) {
+          swalAlert.errorMsg("Please enter your password.")
+          return
+        }
+        if(user.password !== confirmPassword.value) {
+          swalAlert.errorMsg("Password and comfirmation don't match")
+          return
+        }
+        const { data } = await usersAPI.signUp({ ...user });
+        if (data.status === "error") swalAlert.errorMsg(data.message);
+        router.push("/login")
+        swalAlert.successMsg(data.message)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    return {
+      user,
+      confirmPassword,
+      createNewUser,
+    };
+  },
+});
+</script>

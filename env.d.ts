@@ -53,6 +53,8 @@ export interface request {
   comment?: string;
   account?: string;
   password?: string;
+  name?: string;
+  email?: string;
 }
 
 export interface followship {

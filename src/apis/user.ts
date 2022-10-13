@@ -5,6 +5,9 @@ export const usersAPI = {
   signIn: function (payLoad: request) {
     return api.post("/user/signin", payLoad);
   },
+  signUp: function (payLoad: request) {
+    return api.post("/user/signup", payLoad);
+  },
   getCurrentUser: function () {
     return api.get("/user/current_user");
   },
