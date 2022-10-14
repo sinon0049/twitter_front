@@ -98,6 +98,7 @@
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useCurrentUser } from "@/stores/currentUser";
+import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   setup() {
@@ -109,6 +110,7 @@ export default defineComponent({
       router.push({
         name: "login",
       });
+      swalAlert.successMsg("Sign out successfully.");
     }
 
     return {

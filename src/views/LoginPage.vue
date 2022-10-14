@@ -102,6 +102,7 @@ import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { usersAPI } from "../apis/user";
 import { useCurrentUser } from "@/stores/currentUser";
+import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   setup() {
@@ -114,6 +115,10 @@ export default defineComponent({
 
     async function signIn() {
       try {
+        if (!signInData.account.trim() || !signInData.password.trim()) {
+          swalAlert.errorMsg("Please enter your account and password.");
+          return;
+        }
         const { data } = await usersAPI.signIn(signInData);
         const token: string = data.token;
         if (token) {
@@ -122,9 +127,10 @@ export default defineComponent({
           router.push({
             name: "main",
           });
+          swalAlert.successMsg("Sign in successfully.");
         }
       } catch (error) {
-        console.log(error);
+        swalAlert.errorMsg("Incorrect account or password.");
       }
     }
 

@@ -8,41 +8,95 @@
       <div class="input-container">
         <div class="input">
           <label for="account">帳號</label>
-          <input type="text" id="account" v-model="currentUser.info.account" />
+          <input type="text" id="account" v-model="tempRender.account" />
         </div>
         <div class="input">
           <label for="name">名稱</label>
-          <input type="text" id="name" v-model="currentUser.info.name" />
+          <input type="text" id="name" v-model="tempRender.name" />
         </div>
         <div class="input">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="currentUser.info.email" />
+          <input type="email" id="email" v-model="tempRender.email" />
         </div>
         <div class="input">
           <label for="password">密碼</label>
-          <input type="password" id="password" />
+          <input type="password" id="password" v-model="tempRender.password" />
         </div>
         <div class="input">
           <label for="confirmPasswprd">密碼確認</label>
-          <input type="password" id="confirmPassword" />
+          <input
+            type="password"
+            id="confirmPassword"
+            v-model="confirmPassword"
+          />
         </div>
-        <button id="confirm" class="btn-orange">儲存</button>
+        <button
+          id="confirm"
+          class="btn-orange"
+          @click.stop.prevent="updateUser"
+        >
+          儲存
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import SideBar from "../components/SideBar.vue";
+import { swalAlert } from "@/utils/helper";
+import { usersAPI } from "@/apis/user";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     const currentUser = useCurrentUser();
+    const tempRender = reactive({
+      name: currentUser.info.name,
+      account: currentUser.info.account,
+      email: currentUser.info.email || "",
+      password: "",
+    });
+    const confirmPassword = ref("");
+    const router = useRouter();
+
+    async function updateUser() {
+      try {
+        if (!tempRender.account.trim()) {
+          swalAlert.errorMsg("Please enter your account.");
+          return;
+        }
+        if (!tempRender.name.trim()) {
+          swalAlert.errorMsg("Please enter your name.");
+          return;
+        }
+        if (!tempRender.email.trim()) {
+          swalAlert.errorMsg("Please enter your email.");
+          return;
+        }
+        if (!tempRender.password.trim()) {
+          swalAlert.errorMsg("Please enter your password.");
+          return;
+        }
+        if (tempRender.password !== confirmPassword.value) {
+          swalAlert.errorMsg("Password and comfirmation don't match");
+          return;
+        }
+        const { data } = await usersAPI.modifySetting(tempRender);
+        router.push("/main");
+        swalAlert.successMsg(data.message);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     return {
       currentUser,
+      tempRender,
+      confirmPassword,
+      updateUser,
     };
   },
   components: {

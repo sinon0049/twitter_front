@@ -21,4 +21,7 @@ export const usersAPI = {
       },
     });
   },
+  modifySetting: function (payLoad: request) {
+    return api.put("/user/setting", payLoad);
+  },
 };

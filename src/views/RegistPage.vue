@@ -88,7 +88,7 @@
 import { usersAPI } from "@/apis/user";
 import { defineComponent, reactive, ref } from "vue";
 import { swalAlert } from "@/utils/helper";
-import { useRouter } from "vue-router"
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
@@ -99,36 +99,36 @@ export default defineComponent({
       password: "",
     });
     const confirmPassword = ref("");
-    const router = useRouter()
+    const router = useRouter();
 
     async function createNewUser() {
       try {
-        if(!user.account.trim()) {
-          swalAlert.errorMsg("Please enter your account.")
-          return
+        if (!user.account.trim()) {
+          swalAlert.errorMsg("Please enter your account.");
+          return;
         }
-        if(!user.name.trim()) {
-          swalAlert.errorMsg("Please enter your name.")
-          return
+        if (!user.name.trim()) {
+          swalAlert.errorMsg("Please enter your name.");
+          return;
         }
-        if(!user.email.trim()) {
-          swalAlert.errorMsg("Please enter your email.")
-          return
+        if (!user.email.trim()) {
+          swalAlert.errorMsg("Please enter your email.");
+          return;
         }
-        if(!user.password.trim()) {
-          swalAlert.errorMsg("Please enter your password.")
-          return
+        if (!user.password.trim()) {
+          swalAlert.errorMsg("Please enter your password.");
+          return;
         }
-        if(user.password !== confirmPassword.value) {
-          swalAlert.errorMsg("Password and comfirmation don't match")
-          return
+        if (user.password !== confirmPassword.value) {
+          swalAlert.errorMsg("Password and comfirmation don't match");
+          return;
         }
         const { data } = await usersAPI.signUp({ ...user });
         if (data.status === "error") swalAlert.errorMsg(data.message);
-        router.push("/login")
-        swalAlert.successMsg(data.message)
+        router.push("/login");
+        swalAlert.successMsg(data.message);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
