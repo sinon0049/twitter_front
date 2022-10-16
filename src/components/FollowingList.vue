@@ -20,7 +20,8 @@
             </button>
           </div>
           <div class="content">
-            <span>{{ item.introduction }}</span>
+            <span v-if="item.introduction">{{ item.introduction }}</span>
+            <span v-else class="light">no introduction</span>
           </div>
         </div>
       </div>

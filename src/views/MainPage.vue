@@ -83,6 +83,7 @@ import TweetList from "../components/TweetList.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
 import type { tweet } from "env";
+import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   setup() {
@@ -119,8 +120,26 @@ export default defineComponent({
     //create new tweet
     async function createTweet() {
       try {
+        if (!tweetContent.value.trim()) {
+          swalAlert.errorMsg("Please enter your tweet.");
+          return;
+        }
         const payLoad = { description: tweetContent.value };
-        await tweetsAPI.createTweet(payLoad);
+        const { data } = await tweetsAPI.createTweet(payLoad);
+        console.log(data);
+        tweetList.unshift({
+          ...data.tweet,
+          User: {
+            id: currentUser.info.id,
+            name: currentUser.info.name,
+            account: currentUser.info.account,
+            avatar: currentUser.info.avatar,
+            cover: currentUser.info.cover,
+          },
+          Replies: [],
+          Likes: [],
+        });
+        swalAlert.successMsg(data.message);
       } catch (error) {
         console.log(error);
       }

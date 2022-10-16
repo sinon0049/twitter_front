@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type { followshipList } from "env";
 import { reactive } from "vue";
 import { followshipAPI } from "@/apis/followship";
+import { swalAlert } from "@/utils/helper";
 
 export const useStoreFollowings = defineStore("storeFollowings", () => {
   //follow list used in PopularList.vue, SelfPage.vue & FollowingList.vue
@@ -54,9 +55,11 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
           lists.unfollowings.push(popped[0]);
         }
       });
-      //modify isSelfPageUserYourFollowing
-      if (id === isSelfPageUserYourFollowing.id)
+      //modify following status when in SelfPage.vue
+      if (id === isSelfPageUserYourFollowing.id) {
         isSelfPageUserYourFollowing.isFollowing = false;
+      }
+      swalAlert.successMsg(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -77,9 +80,11 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
           lists.Followings.push(popped[0]);
         }
       });
-      //modify isSelfPageUserYourFollowing
-      if (id === isSelfPageUserYourFollowing.id)
+      //modify following status when in SelfPage.vue
+      if (id === isSelfPageUserYourFollowing.id) {
         isSelfPageUserYourFollowing.isFollowing = true;
+      }
+      swalAlert.successMsg(data.message);
     } catch (error) {
       console.log(error);
     }
