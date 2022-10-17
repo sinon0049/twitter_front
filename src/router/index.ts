@@ -12,6 +12,7 @@ import { usersAPI } from "@/apis/user";
 import { followshipAPI } from "@/apis/followship";
 import type { followData } from "env";
 import { useStoreFollowings } from "@/stores/followship";
+import { swalAlert } from "@/utils/helper";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +67,7 @@ router.beforeEach(async (to, from, next) => {
   const storeFollowings = useStoreFollowings();
   if (!localToken && !pathsWithoutAuth.includes(to.fullPath)) {
     router.push("/login");
+    swalAlert.errorMsg("Please sign in.");
   } else if (!localToken) next();
   else {
     const { data } = await usersAPI.getCurrentUser();
