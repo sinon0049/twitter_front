@@ -26,11 +26,11 @@
       登入
     </button>
     <div id="options-container">
-      <router-link to="/regist" class="link cursor-pointer"
+      <router-link to="/signup" class="link cursor-pointer"
         >註冊Alphitter</router-link
       >
       <span>‧</span>
-      <router-link to="/regist" class="link cursor-pointer"
+      <router-link to="/signup" class="link cursor-pointer"
         >後台登入</router-link
       >
     </div>

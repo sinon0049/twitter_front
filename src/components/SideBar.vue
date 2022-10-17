@@ -33,8 +33,8 @@
       <button class="btn-orange cursor-pointer" id="tweet">推文</button>
       <div
         class="btn-group cursor-pointer"
-        id="logout"
-        @click.stop.prevent="logout"
+        id="sign-out"
+        @click.stop.prevent="signOut"
       >
         <font-awesome-icon icon="arrow-right-from-bracket" size="lg" />
         <span>登出</span>
@@ -74,7 +74,7 @@
       text-decoration: none;
       color: black;
     }
-    #logout {
+    #sign-out {
       position: absolute;
       bottom: 10px;
     }
@@ -105,16 +105,16 @@ export default defineComponent({
     const router = useRouter();
     const currentUser = useCurrentUser();
     //delete token in local storage when logged out
-    function logout() {
+    function signOut() {
       localStorage.removeItem("token");
       router.push({
-        name: "login",
+        name: "sign-in",
       });
       swalAlert.successMsg("Sign out successfully.");
     }
 
     return {
-      logout,
+      signOut,
       currentUser,
     };
   },

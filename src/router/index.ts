@@ -18,13 +18,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/regist",
-      name: "regist",
+      path: "/signup",
+      name: "sign-up",
       component: SignUpPage,
     },
     {
-      path: "/login",
-      name: "login",
+      path: "/signin",
+      name: "sign-in",
       component: SignInPage,
     },
     {
@@ -61,12 +61,12 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const pathsWithoutAuth = ["/login", "/regist"];
+  const pathsWithoutAuth = ["/signin", "/signup"];
   const localToken = localStorage.getItem("token");
   const currentUser = useCurrentUser();
   const storeFollowings = useStoreFollowings();
   if (!localToken && !pathsWithoutAuth.includes(to.fullPath)) {
-    router.push("/login");
+    router.push("/signin");
     swalAlert.errorMsg("Please sign in.");
   } else if (!localToken) next();
   else {

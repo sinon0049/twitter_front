@@ -32,7 +32,7 @@
     >
       註冊
     </button>
-    <router-link to="/login" class="link cursor-pointer">取消</router-link>
+    <router-link to="/signin" class="link cursor-pointer">取消</router-link>
   </div>
 </template>
 
@@ -125,7 +125,7 @@ export default defineComponent({
         }
         const { data } = await usersAPI.signUp({ ...user });
         if (data.status === "error") swalAlert.errorMsg(data.message);
-        router.push("/login");
+        router.push("/signin");
         swalAlert.successMsg(data.message);
       } catch (error) {
         console.log(error);
