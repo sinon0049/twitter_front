@@ -74,7 +74,7 @@
       </div>
     </div>
     <PopularList />
-    <ReplyModal :currentReplyingTweet="tweet" />
+    <ReplyModal :currentReplyingTweet="tweet" @createReply="createReply" />
   </div>
 </template>
 
@@ -159,6 +159,13 @@ import type { tweet } from "env";
 import { useCurrentUser } from "@/stores/currentUser";
 import dayjs from "dayjs";
 import router from "@/router";
+import * as bootstrap from "bootstrap";
+import { swalAlert } from "@/utils/helper";
+
+interface newTweet {
+  TweetId: number;
+  content: string;
+}
 
 export default defineComponent({
   setup() {
@@ -206,12 +213,37 @@ export default defineComponent({
       router.go(-1);
     }
 
+    //create reply
+    async function createReply(payLoad: newTweet) {
+      try {
+        const replyModal = document.getElementById("replyModal") as Element;
+        const modal = bootstrap.Modal.getInstance(replyModal);
+        const { data } = await tweetsAPI.createReply(payLoad);
+        //render new reply on page and close modal if success
+        if (data.status === "success" && modal) {
+          tweet.Replies.unshift({
+            ...data.reply,
+            User: {
+              account: currentUser.info.account,
+              name: currentUser.info.name,
+              avatar: currentUser.info.avatar,
+            },
+          });
+          modal.hide();
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     return {
       tweet,
       currentUser,
       dateFromNow,
       formattedDate,
       goBackToPrevPage,
+      createReply,
     };
   },
   components: {

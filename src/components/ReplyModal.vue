@@ -51,7 +51,7 @@
         <button
           type="button"
           class="btn-orange"
-          @click.stop.prevent="createReply(currentReplyingTweet.id)"
+          @click.stop.prevent="onCreatingReply(currentReplyingTweet.id)"
         >
           回覆
         </button>
@@ -121,28 +121,31 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useCurrentUser } from "@/stores/currentUser";
-import { tweetsAPI } from "@/apis/tweet";
+import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   props: ["currentReplyingTweet"],
-  setup() {
+  setup(props, { emit }) {
     const currentUser = useCurrentUser();
     const reply = ref("");
     //clear reply when modal is closed
     function clearReply() {
       reply.value = "";
     }
-    //create reply in backend db when reply is sent
-    async function createReply(id: number) {
+    //send payload to parent component when reply is sent
+    async function onCreatingReply(id: number) {
       try {
         const TweetId = id;
         const comment = reply.value;
+        if (!comment.trim()) {
+          swalAlert.errorMsg("Please enter your reply.");
+          return;
+        }
         const payLoad = {
           TweetId,
           comment,
         };
-        const { data } = await tweetsAPI.createReply(payLoad);
-        console.log(data);
+        emit("createReply", payLoad);
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +155,7 @@ export default defineComponent({
       reply,
       currentUser,
       clearReply,
-      createReply,
+      onCreatingReply,
     };
   },
 });

@@ -25,7 +25,10 @@
       <TweetList :tweetList="tweetList" @onReply="onReply" />
     </div>
     <PopularList />
-    <ReplyModal :currentReplyingTweet="currentReplyingTweet" />
+    <ReplyModal
+      :currentReplyingTweet="currentReplyingTweet"
+      @createReply="createReply"
+    />
   </div>
 </template>
 
@@ -84,6 +87,12 @@ import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
 import type { tweet } from "env";
 import { swalAlert } from "@/utils/helper";
+import * as bootstrap from "bootstrap";
+
+interface newTweet {
+  TweetId: number;
+  content: string;
+}
 
 export default defineComponent({
   setup() {
@@ -145,6 +154,30 @@ export default defineComponent({
       }
     }
 
+    //create reply
+    async function createReply(payLoad: newTweet) {
+      try {
+        const replyModal = document.getElementById("replyModal") as Element;
+        const modal = bootstrap.Modal.getInstance(replyModal);
+        const { data } = await tweetsAPI.createReply(payLoad);
+        //render new reply on page and close modal if success
+        if (data.status === "success" && modal) {
+          currentReplyingTweet.Replies.unshift({
+            ...data.reply,
+            User: {
+              account: currentUser.info.account,
+              name: currentUser.info.name,
+              avatar: currentUser.info.avatar,
+            },
+          });
+          modal.hide();
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     //get tweet list when mounted
     onMounted(async () => {
       try {
@@ -165,6 +198,7 @@ export default defineComponent({
       tweetComment,
       onReply,
       createTweet,
+      createReply,
     };
   },
   components: {
