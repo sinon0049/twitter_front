@@ -203,7 +203,7 @@ import { tweetsAPI } from "@/apis/tweet";
 import { repliesAPI } from "@/apis/reply";
 import { useCurrentUser } from "@/stores/currentUser";
 import { useStoreFollowings } from "@/stores/followship";
-import { useRoute, useRouter } from "vue-router";
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import type { reply, tweet, userDetail } from "env";
 import dayjs from "dayjs";
 
@@ -253,9 +253,11 @@ export default defineComponent({
     });
 
     //get all lists and user info when mounted and assign them to refs and reactives
-    onMounted(async () => {
+    async function loadUser(userId: number) {
       try {
-        const userId = Number(route.params.id);
+        tweetList.splice(0, tweetList.length);
+        likeList.splice(0, likeList.length);
+        replyList.splice(0, replyList.length);
         const payLoad = { id: userId };
         const userDetail = (await usersAPI.getDetail(payLoad)).data;
         isExactUser.value = userId === currentUser.info.id;
@@ -278,6 +280,15 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
+    }
+
+    //onMounted action
+    onMounted(() => {
+      loadUser(Number(route.params.id));
+    });
+    //onBeforeRouteUpdate action
+    onBeforeRouteUpdate((to) => {
+      loadUser(Number(to.params.id));
     });
 
     //get time from now

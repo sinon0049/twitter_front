@@ -8,14 +8,17 @@
       v-for="item in storeFollowings.lists.Followings"
       :key="item.id"
     >
-      <img
-        src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-        alt=""
-      />
-      <div class="user-name">
-        <span class="name bold">{{ item.name }}</span>
-        <span class="account">@{{ item.account }}</span>
-      </div>
+      <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+        <img
+          src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
+          alt=""
+        />
+        <div class="user-name">
+          <span class="name bold">{{ item.name }}</span>
+          <span class="account">@{{ item.account }}</span>
+        </div>
+      </router-link>
+
       <button
         class="btn-orange cursor-pointer"
         @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
@@ -28,14 +31,16 @@
       v-for="item in storeFollowings.lists.unfollowings"
       :key="item.id"
     >
-      <img
-        src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-        alt=""
-      />
-      <div class="user-name">
-        <span class="name bold">{{ item.name }}</span>
-        <span class="account">@{{ item.account }}</span>
-      </div>
+      <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+        <img
+          src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
+          alt=""
+        />
+        <div class="user-name">
+          <span class="name bold">{{ item.name }}</span>
+          <span class="account">@{{ item.account }}</span>
+        </div>
+      </router-link>
       <button
         class="btn-white cursor-pointer"
         @click.stop.prevent="storeFollowings.addFollowing(item.id)"
@@ -100,6 +105,12 @@
     display: flex;
     align-items: center;
     position: relative;
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+    }
     img {
       width: 50px;
       height: 50px;
@@ -116,10 +127,6 @@
     button {
       height: 35px;
       position: absolute;
-      margin: {
-        top: auto;
-        bottom: auto;
-      }
       right: 15px;
     }
     .btn-orange {

@@ -7,11 +7,15 @@
         v-for="item in storeFollowings.lists.Followings"
         :key="item.id"
       >
-        <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+        <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+          <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+        </router-link>
         <div class="tweet-content">
           <div class="name cursor-pointer">
-            <span class="bold">{{ item.name }}</span>
-            <span class="light">@{{ item.account }}</span>
+            <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+              <span class="bold">{{ item.name }}</span>
+              <span class="light">@{{ item.account }}</span>
+            </router-link>
             <button
               class="btn-orange"
               @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
@@ -31,11 +35,15 @@
           v-for="item in storeFollowings.lists.unfollowings"
           :key="item.id"
         >
-          <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+          <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+            <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+          </router-link>
           <div class="tweet-content">
             <div class="name cursor-pointer">
-              <span class="bold">{{ item.name }}</span>
-              <span class="light">@{{ item.account }}</span>
+              <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+                <span class="bold">{{ item.name }}</span>
+                <span class="light">@{{ item.account }}</span>
+              </router-link>
 
               <button
                 class="btn-white"

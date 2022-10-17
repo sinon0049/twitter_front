@@ -11,12 +11,21 @@
         />
         <span>&nbsp;&nbsp;推文</span>
       </div>
-      <div class="tweet-container">
+      <div class="tweet">
         <div class="tweet-header">
-          <img :src="tweet.User.avatar" alt="" />
+          <router-link
+            :to="{ name: 'self-page', params: { id: tweet.User.id } }"
+          >
+            <img :src="tweet.User.avatar" alt="" />
+          </router-link>
+
           <div id="user">
-            <span>{{ tweet.User.name }}</span>
-            <span class="light">@{{ tweet.User.account }}</span>
+            <router-link
+              :to="{ name: 'self-page', params: { id: tweet.User.id } }"
+            >
+              <span>{{ tweet.User.name }}</span>
+              <span class="light">@{{ tweet.User.account }}</span>
+            </router-link>
           </div>
         </div>
         <div class="tweet-content">
@@ -58,13 +67,22 @@
           <img :src="item.User.avatar" alt="" />
           <div class="tweet-content">
             <div>
-              <span>{{ item.User.name }}</span>
-              <span class="light"> @{{ item.User.account }}</span>
+              <router-link
+                :to="{ name: 'self-page', params: { id: item.User.id } }"
+              >
+                <span>{{ item.User.name }}</span>
+                <span class="light"> @{{ item.User.account }}</span>
+              </router-link>
+
               <span class="light">．{{ dateFromNow(item.createdAt) }}</span>
             </div>
             <div>
               <span class="light">回覆</span>
-              <span class="orange"> @{{ tweet.User.account }}</span>
+              <router-link
+                :to="{ name: 'self-page', params: { id: tweet.User.id } }"
+              >
+                <span class="orange"> @{{ tweet.User.account }}</span>
+              </router-link>
             </div>
             <div class="content">
               {{ item.comment }}
@@ -81,13 +99,20 @@
 <style lang="scss" scoped>
 .main-container {
   width: 40%;
+  display: flex;
+  flex-direction: column;
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
   .break-line {
     width: 100%;
     border: 0;
     height: 1px;
     background-color: #e6ecf0;
   }
-  .tweet-container {
+  .tweet {
     padding: {
       left: 15px;
       right: 15px;
@@ -99,18 +124,17 @@
     .tweet-header {
       display: flex;
       margin: 20px 0;
-      img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-      }
       #user {
-        display: flex;
-        flex-direction: column;
         margin: {
           left: 10px;
           top: auto;
           bottom: auto;
+        }
+        a {
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          color: black;
         }
       }
     }

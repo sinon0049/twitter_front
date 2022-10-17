@@ -10,7 +10,11 @@
         </div>
         <div class="reply-target">
           <span class="light">回覆給</span>
-          <span class="orange"> @{{ item.Tweet.User.account }}</span>
+          <router-link
+            :to="{ name: 'self-page', params: { id: item.Tweet.User.id } }"
+          >
+            <span class="orange"> @{{ item.Tweet.User.account }}</span>
+          </router-link>
         </div>
         <div class="content">
           <router-link

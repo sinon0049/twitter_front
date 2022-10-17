@@ -1,11 +1,17 @@
 <template>
   <div class="tweet-container">
     <div class="tweet-card" v-for="item in tweetList" :key="item.id">
-      <img :src="item.User.avatar" alt="" class="cursor-pointer avatar" />
+      <router-link :to="{ name: 'self-page', params: { id: item.User.id } }">
+        <img :src="item.User.avatar" alt="" class="cursor-pointer avatar" />
+      </router-link>
       <div class="tweet-content">
-        <div class="name cursor-pointer">
-          <span class="bold">{{ item.User.name }}</span>
-          <span class="light">@{{ item.User.account }}</span>
+        <div class="name">
+          <router-link
+            :to="{ name: 'self-page', params: { id: item.User.id } }"
+          >
+            <span class="bold cursor-pointer">{{ item.User.name }}</span>
+            <span class="light cursor-pointer">@{{ item.User.account }}</span>
+          </router-link>
           <span class="light">．{{ dateFromNow(item.createdAt) }}</span>
         </div>
         <div class="content">
