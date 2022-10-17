@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "../views/NotFound.vue";
-import RegistPage from "../views/RegistPage.vue";
-import LoginPage from "../views/LoginPage.vue";
+import SignUpPage from "../views/SignUpPage.vue";
+import SignInPage from "../views/SignInPage.vue";
 import SettingPage from "../views/SettingPage.vue";
 import MainPage from "../views/MainPage.vue";
 import ReplyPage from "../views/ReplyPage.vue";
@@ -20,12 +20,12 @@ const router = createRouter({
     {
       path: "/regist",
       name: "regist",
-      component: RegistPage,
+      component: SignUpPage,
     },
     {
       path: "/login",
       name: "login",
-      component: LoginPage,
+      component: SignInPage,
     },
     {
       path: "/setting",
