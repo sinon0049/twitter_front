@@ -204,8 +204,9 @@ import { repliesAPI } from "@/apis/reply";
 import { useCurrentUser } from "@/stores/currentUser";
 import { useStoreFollowings } from "@/stores/followship";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
-import type { reply, tweet, userDetail } from "env";
+import type { reply, tweet, userDetail, like } from "env";
 import dayjs from "dayjs";
+import { likesAPI } from "@/apis/like";
 
 export default defineComponent({
   setup() {
@@ -255,9 +256,11 @@ export default defineComponent({
     //get all lists and user info when mounted and assign them to refs and reactives
     async function loadUser(userId: number) {
       try {
+        //clear list
         tweetList.splice(0, tweetList.length);
         likeList.splice(0, likeList.length);
         replyList.splice(0, replyList.length);
+        //get data via api
         const payLoad = { id: userId };
         const userDetail = (await usersAPI.getDetail(payLoad)).data;
         isExactUser.value = userId === currentUser.info.id;
@@ -267,12 +270,26 @@ export default defineComponent({
           .data;
         const replyOfUser = (await repliesAPI.getReplyOfSelectedUser(payLoad))
           .data;
-        const likeOfUser = userDetail.Likes;
+        const likeOfUser = (await likesAPI.getLike(payLoad)).data.Likes;
+        //sort data by date if necessary and push data into list
         tweetsOfUser.forEach(function (item: tweet) {
+          item.Likes.forEach(function (like: like) {
+            if (like.userId === currentUser.info.id) item.isLike = true;
+          });
+          if (!item.isLike) item.isLike = false;
           tweetList.push(item);
         });
+        likeOfUser.sort(function (a: tweet, b: tweet) {
+          if (a.Like && b.Like)
+            return (
+              new Date(b.Like.createdAt).getTime() - a.Like.createdAt.getTime()
+            );
+        });
         likeOfUser.forEach(function (item: tweet) {
-          likeList.push(item);
+          likeList.push({
+            ...item,
+            isLike: true,
+          });
         });
         replyOfUser.forEach(function (item: reply) {
           replyList.push(item);

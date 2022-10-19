@@ -52,7 +52,17 @@
           />
           <font-awesome-icon
             :icon="['far', 'heart']"
-            class="light icon cursor-pointer"
+            class="fa-icon cursor-pointer"
+            style="color: #657786"
+            @click.stop.prevent="addLike(tweet.id)"
+            v-if="!tweet.isLike"
+          />
+          <font-awesome-icon
+            :icon="['far', 'heart']"
+            class="fa-icon cursor-pointer"
+            style="color: #e0245e"
+            @click.stop.prevent="deleteLike(tweet.id)"
+            v-else
           />
         </div>
       </div>
@@ -179,7 +189,8 @@ import PopularList from "../components/PopularList.vue";
 import ReplyModal from "../components/ReplyModal.vue";
 import { useRoute } from "vue-router";
 import { tweetsAPI } from "@/apis/tweet";
-import type { tweet } from "env";
+import { likesAPI } from "@/apis/like";
+import type { like, tweet } from "env";
 import { useCurrentUser } from "@/stores/currentUser";
 import dayjs from "dayjs";
 import router from "@/router";
@@ -207,6 +218,7 @@ export default defineComponent({
       },
       Replies: [],
       Likes: [],
+      isLike: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -216,11 +228,46 @@ export default defineComponent({
       try {
         const { id } = useRoute().params;
         const { data } = await tweetsAPI.getTweet({ id: Number(id) });
+        data.Likes.forEach(function (item: like) {
+          if (item.userId === currentUser.info.id) data.isLike = true;
+        });
         Object.assign(tweet, data);
       } catch (error) {
         console.log(error);
       }
     });
+
+    async function addLike(tweetId: number) {
+      try {
+        const payLoad = { id: tweetId };
+        const { data } = await likesAPI.addLike(payLoad);
+        if (data.status === "success") {
+          tweet.isLike = true;
+          tweet.Likes.push(data.like);
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function deleteLike(tweetId: number) {
+      try {
+        const payLoad = { id: tweetId };
+        const { data } = await likesAPI.deleteLike(payLoad);
+        if (data.status === "success") {
+          tweet.isLike = false;
+          tweet.Likes.forEach(function (item: like) {
+            if (item.userId === currentUser.info.id) {
+              tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
+            }
+          });
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     //get time from now
     function dateFromNow(date: Date) {
@@ -268,6 +315,8 @@ export default defineComponent({
       formattedDate,
       goBackToPrevPage,
       createReply,
+      addLike,
+      deleteLike,
     };
   },
   components: {

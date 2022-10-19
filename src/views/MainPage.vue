@@ -85,7 +85,7 @@ import ReplyModal from "../components/ReplyModal.vue";
 import TweetList from "../components/TweetList.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
-import type { tweet } from "env";
+import type { tweet, like } from "env";
 import { swalAlert } from "@/utils/helper";
 import * as bootstrap from "bootstrap";
 
@@ -113,6 +113,7 @@ export default defineComponent({
       },
       Replies: [],
       Likes: [],
+      isLike: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -183,6 +184,10 @@ export default defineComponent({
       try {
         const { data } = await tweetsAPI.getAllTweets();
         data.forEach(function (item: tweet) {
+          item.Likes.forEach(function (like: like) {
+            if (like.userId === currentUser.info.id) item.isLike = true;
+          });
+          if (!item.isLike) item.isLike = false;
           tweetList.push(item);
         });
       } catch (error) {

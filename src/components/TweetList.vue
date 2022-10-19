@@ -38,6 +38,15 @@
               :icon="['far', 'heart']"
               class="fa-icon cursor-pointer"
               style="color: #657786"
+              @click.stop.prevent="addLike(item.id, item)"
+              v-if="!item.isLike"
+            />
+            <font-awesome-icon
+              :icon="['far', 'heart']"
+              class="fa-icon cursor-pointer"
+              style="color: #e0245e"
+              @click.stop.prevent="deleteLike(item.id, item)"
+              v-else
             />
             <span>{{ item.Likes.length }}</span>
           </div>
@@ -50,16 +59,53 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import dayjs from "dayjs";
+import { likesAPI } from "@/apis/like";
+import type { like, tweet } from "env";
+import { swalAlert } from "@/utils/helper";
+import { useCurrentUser } from "@/stores/currentUser";
 
 export default defineComponent({
   props: ["tweetList"],
   setup() {
+    const currentUser = useCurrentUser();
     //get time from now
     function dateFromNow(date: Date) {
       return dayjs().to(date);
     }
+    async function addLike(tweetId: number, tweet: tweet) {
+      try {
+        const payLoad = { id: tweetId };
+        const { data } = await likesAPI.addLike(payLoad);
+        if (data.status === "success") {
+          tweet.isLike = true;
+          tweet.Likes.push(data.like);
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    async function deleteLike(tweetId: number, tweet: tweet) {
+      try {
+        const payLoad = { id: tweetId };
+        const { data } = await likesAPI.deleteLike(payLoad);
+        if (data.status === "success") {
+          tweet.isLike = false;
+          tweet.Likes.forEach(function (item: like) {
+            if (item.userId === currentUser.info.id) {
+              tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
+            }
+          });
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
     return {
       dateFromNow,
+      addLike,
+      deleteLike,
     };
   },
 });

@@ -35,13 +35,23 @@ export interface reply {
   User: userInfo;
 }
 
+export interface like {
+  id: number;
+  userId: number;
+  TweetId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface tweet {
   id: number;
   UserId: number;
   description: string;
   User: userInfo;
   Replies: reply[];
-  Likes: [];
+  Likes: like[];
+  Like?: like;
+  isLike?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
