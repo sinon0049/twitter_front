@@ -124,7 +124,9 @@ export default defineComponent({
           return;
         }
         const { data } = await usersAPI.signUp({ ...user });
-        if (data.status === "error") swalAlert.errorMsg(data.message);
+        if (data.status === "error") {
+          return swalAlert.errorMsg(data.message);
+        }
         router.push("/signin");
         swalAlert.successMsg(data.message);
       } catch (error) {

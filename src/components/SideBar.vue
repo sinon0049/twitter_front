@@ -112,7 +112,6 @@ export default defineComponent({
       });
       swalAlert.successMsg("Sign out successfully.");
     }
-
     return {
       signOut,
       currentUser,

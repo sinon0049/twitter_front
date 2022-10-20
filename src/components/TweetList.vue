@@ -72,6 +72,7 @@ export default defineComponent({
     function dateFromNow(date: Date) {
       return dayjs().to(date);
     }
+    //add like and render if success
     async function addLike(tweetId: number, tweet: tweet) {
       try {
         const payLoad = { id: tweetId };
@@ -85,6 +86,7 @@ export default defineComponent({
         console.log(error);
       }
     }
+    //delete like and render if success
     async function deleteLike(tweetId: number, tweet: tweet) {
       try {
         const payLoad = { id: tweetId };

@@ -94,7 +94,10 @@
       <TweetList :tweetList="likeList" @onReply="onReply" v-else />
     </div>
     <PopularList />
-    <ReplyModal :currentReplyingTweet="currentReplyingTweet" />
+    <ReplyModal
+      :currentReplyingTweet="currentReplyingTweet"
+      @createReply="createReply"
+    />
   </div>
 </template>
 
@@ -207,6 +210,13 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import type { reply, tweet, userDetail, like } from "env";
 import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
+import * as bootstrap from "bootstrap";
+import { swalAlert } from "@/utils/helper";
+
+interface newTweet {
+  TweetId: number;
+  content: string;
+}
 
 export default defineComponent({
   setup() {
@@ -299,15 +309,6 @@ export default defineComponent({
       }
     }
 
-    //onMounted action
-    onMounted(() => {
-      loadUser(Number(route.params.id));
-    });
-    //onBeforeRouteUpdate action
-    onBeforeRouteUpdate((to) => {
-      loadUser(Number(to.params.id));
-    });
-
     //get time from now
     function dateFromNow(date: Date) {
       return dayjs().to(date);
@@ -327,10 +328,55 @@ export default defineComponent({
       });
     }
 
+    //create reply
+    async function createReply(payLoad: newTweet) {
+      try {
+        const replyModal = document.getElementById("replyModal") as Element;
+        const modal = bootstrap.Modal.getInstance(replyModal);
+        const { data } = await tweetsAPI.createReply(payLoad);
+        //render new reply on page and close modal if success
+        if (data.status === "success" && modal) {
+          currentReplyingTweet.Replies.unshift({
+            ...data.reply,
+            User: {
+              account: currentUser.info.account,
+              name: currentUser.info.name,
+              avatar: currentUser.info.avatar,
+            },
+          });
+          likeList.forEach(function (item: tweet) {
+            if (item.id === payLoad.TweetId) {
+              item.Replies.unshift({
+                ...data.reply,
+                User: {
+                  account: currentUser.info.account,
+                  name: currentUser.info.name,
+                  avatar: currentUser.info.avatar,
+                },
+              });
+            }
+          });
+          modal.hide();
+          swalAlert.successMsg(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     //change status of list
     function changeList(status: selfMenu) {
       listStatus.value = status;
     }
+
+    //onMounted action
+    onMounted(() => {
+      loadUser(Number(route.params.id));
+    });
+    //onBeforeRouteUpdate action
+    onBeforeRouteUpdate((to) => {
+      loadUser(Number(to.params.id));
+    });
 
     return {
       selfMenu,
@@ -347,6 +393,7 @@ export default defineComponent({
       goBackToPrevPage,
       changeList,
       onReply,
+      createReply,
     };
   },
   components: {

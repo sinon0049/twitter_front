@@ -53,6 +53,7 @@ import { useRouter } from "vue-router";
 export default defineComponent({
   setup() {
     const currentUser = useCurrentUser();
+    //temporary data in case setting is not stored
     const tempRender = reactive({
       name: currentUser.info.name,
       account: currentUser.info.account,
@@ -61,9 +62,10 @@ export default defineComponent({
     });
     const confirmPassword = ref("");
     const router = useRouter();
-
+    //update user
     async function updateUser() {
       try {
+        //check if any input is empty
         if (!tempRender.account.trim()) {
           swalAlert.errorMsg("Please enter your account.");
           return;
@@ -85,8 +87,10 @@ export default defineComponent({
           return;
         }
         const { data } = await usersAPI.modifySetting(tempRender);
-        router.push("/main");
-        swalAlert.successMsg(data.message);
+        if(data.status === 'success') {
+          router.push("/main");
+          swalAlert.successMsg(data.message);
+        }
       } catch (error) {
         console.log(error);
       }

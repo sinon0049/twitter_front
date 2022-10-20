@@ -117,7 +117,6 @@ export default defineComponent({
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-
     //assign clicked tweet to currentReplyingTweet for modal usage
     function onReply(id: number) {
       tweetList.forEach((item) => {
@@ -126,7 +125,6 @@ export default defineComponent({
         }
       });
     }
-
     //create new tweet
     async function createTweet() {
       try {
@@ -136,25 +134,26 @@ export default defineComponent({
         }
         const payLoad = { description: tweetContent.value };
         const { data } = await tweetsAPI.createTweet(payLoad);
-        console.log(data);
-        tweetList.unshift({
-          ...data.tweet,
-          User: {
-            id: currentUser.info.id,
-            name: currentUser.info.name,
-            account: currentUser.info.account,
-            avatar: currentUser.info.avatar,
-            cover: currentUser.info.cover,
-          },
-          Replies: [],
-          Likes: [],
-        });
-        swalAlert.successMsg(data.message);
+        //render new tweet if success
+        if(data.status === 'success') {
+          tweetList.unshift({
+            ...data.tweet,
+            User: {
+              id: currentUser.info.id,
+              name: currentUser.info.name,
+              account: currentUser.info.account,
+              avatar: currentUser.info.avatar,
+              cover: currentUser.info.cover,
+            },
+            Replies: [],
+            Likes: [],
+          });
+          swalAlert.successMsg(data.message);
+        }
       } catch (error) {
         console.log(error);
       }
     }
-
     //create reply
     async function createReply(payLoad: newTweet) {
       try {

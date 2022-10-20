@@ -133,7 +133,7 @@ export default defineComponent({
       reply.value = "";
     }
     //send payload to parent component when reply is sent
-    async function onCreatingReply(id: number) {
+    function onCreatingReply(id: number) {
       try {
         const TweetId = id;
         const comment = reply.value;
@@ -146,6 +146,7 @@ export default defineComponent({
           comment,
         };
         emit("createReply", payLoad);
+        clearReply();
       } catch (error) {
         console.log(error);
       }

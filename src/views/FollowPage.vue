@@ -130,13 +130,14 @@ export default defineComponent({
         console.log(error);
       }
     });
+    //go back to previous page
     function goBackToPrevPage() {
       router.go(-1);
     }
+    //control which list user is watching
     function changeList(status: followMenu) {
       listStatus.value = status;
     }
-
     return {
       goBackToPrevPage,
       changeList,

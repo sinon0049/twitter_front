@@ -112,7 +112,7 @@ export default defineComponent({
     });
     const router = useRouter();
     const currentUser = useCurrentUser();
-
+    //sign in
     async function signIn() {
       try {
         if (!signInData.account.trim() || !signInData.password.trim()) {

@@ -222,7 +222,6 @@ export default defineComponent({
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-
     //get corresponding tweet of this page & assign to tweet
     onMounted(async () => {
       try {
@@ -236,7 +235,7 @@ export default defineComponent({
         console.log(error);
       }
     });
-
+    //add like and render if success
     async function addLike(tweetId: number) {
       try {
         const payLoad = { id: tweetId };
@@ -250,7 +249,7 @@ export default defineComponent({
         console.log(error);
       }
     }
-
+    //delete like and render if success
     async function deleteLike(tweetId: number) {
       try {
         const payLoad = { id: tweetId };
@@ -268,22 +267,18 @@ export default defineComponent({
         console.log(error);
       }
     }
-
     //get time from now
     function dateFromNow(date: Date) {
       return dayjs().to(date);
     }
-
     //get formatted date
     function formattedDate() {
       return dayjs(tweet.createdAt).format("HH:MM．YYYY年MM月DD日");
     }
-
     //back to previous page feature of arrow on main-header
     function goBackToPrevPage() {
       router.go(-1);
     }
-
     //create reply
     async function createReply(payLoad: newTweet) {
       try {
