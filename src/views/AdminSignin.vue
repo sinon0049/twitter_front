@@ -4,7 +4,7 @@
       src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
       alt="..."
     />
-    <h4>登入Alphitter</h4>
+    <h4>後台登入</h4>
     <div class="input">
       <label for="account">帳號</label>
       <input type="text" id="account" v-model="signInData.account" />
@@ -30,8 +30,8 @@
         >註冊Alphitter</router-link
       >
       <span>‧</span>
-      <router-link to="/admin/signin" class="link cursor-pointer"
-        >後台登入</router-link
+      <router-link to="/signin" class="link cursor-pointer"
+        >使用者登入</router-link
       >
     </div>
   </div>
@@ -100,7 +100,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { usersAPI } from "../apis/user";
+import { adminAPI } from "../apis/admin/user";
 import { useCurrentUser } from "@/stores/currentUser";
 import { swalAlert } from "@/utils/helper";
 
@@ -119,13 +119,13 @@ export default defineComponent({
           swalAlert.errorMsg("Please enter your account and password.");
           return;
         }
-        const { data } = await usersAPI.signIn(signInData);
+        const { data } = await adminAPI.signIn(signInData);
         const token: string = data.token;
         if (token) {
           localStorage.setItem("token", token);
           currentUser.storeCurrentUser(data);
           router.push({
-            name: "main",
+            name: "admin-main",
           });
           swalAlert.successMsg("Sign in successfully.");
         }

@@ -87,7 +87,7 @@ export default defineComponent({
           return;
         }
         const { data } = await usersAPI.modifySetting(tempRender);
-        if(data.status === 'success') {
+        if (data.status === "success") {
           router.push("/main");
           swalAlert.successMsg(data.message);
         }

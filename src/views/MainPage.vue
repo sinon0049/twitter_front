@@ -135,7 +135,7 @@ export default defineComponent({
         const payLoad = { description: tweetContent.value };
         const { data } = await tweetsAPI.createTweet(payLoad);
         //render new tweet if success
-        if(data.status === 'success') {
+        if (data.status === "success") {
           tweetList.unshift({
             ...data.tweet,
             User: {
