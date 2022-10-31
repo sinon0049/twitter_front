@@ -1,5 +1,5 @@
 <template>
-  <div class="popular-container">
+  <div class="popular-container" @click="handleToggleFollowing">
     <div class="popular-head">
       <span>Popular</span>
     </div>
@@ -20,8 +20,8 @@
       </router-link>
 
       <button
-        class="btn-orange cursor-pointer"
-        @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
+        class="btn-orange cursor-pointer delete-following"
+        :data-id="item.id"
       >
         正在跟隨
       </button>
@@ -41,10 +41,7 @@
           <span class="account">@{{ item.account }}</span>
         </div>
       </router-link>
-      <button
-        class="btn-white cursor-pointer"
-        @click.stop.prevent="storeFollowings.addFollowing(item.id)"
-      >
+      <button class="btn-white cursor-pointer add-following" :data-id="item.id">
         跟隨
       </button>
     </div>
@@ -153,9 +150,22 @@ export default defineComponent({
     const currentUser = useCurrentUser();
     const storeFollowings = useStoreFollowings();
 
+    //event handler for adding/deleting following
+    function handleToggleFollowing(e: Event) {
+      const target = e.target as Element;
+      const followingId = Number(target.getAttribute("data-id"));
+      if (target.classList.contains("add-following")) {
+        return storeFollowings.addFollowing(followingId);
+      }
+      if (target.classList.contains("delete-following")) {
+        return storeFollowings.deleteFollowing(followingId);
+      }
+    }
+
     return {
       currentUser,
       storeFollowings,
+      handleToggleFollowing,
     };
   },
 });

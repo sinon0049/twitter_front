@@ -1,7 +1,7 @@
 <template>
   <div class="tweet-container">
     <!-- if you are watching your own followings -->
-    <div v-if="isExactUser">
+    <div v-if="isExactUser" @click="handleToggleFollowing">
       <div
         class="tweet-card"
         v-for="item in storeFollowings.lists.Followings"
@@ -16,10 +16,7 @@
               <span class="bold">{{ item.name }}</span>
               <span class="light">@{{ item.account }}</span>
             </router-link>
-            <button
-              class="btn-orange"
-              @click.stop.prevent="storeFollowings.deleteFollowing(item.id)"
-            >
+            <button class="btn-orange delete-following" :data-id="item.id">
               正在跟隨
             </button>
           </div>
@@ -45,10 +42,7 @@
                 <span class="light">@{{ item.account }}</span>
               </router-link>
 
-              <button
-                class="btn-white"
-                @click.stop.prevent="storeFollowings.addFollowing(item.id)"
-              >
+              <button class="btn-white add-following" :data-id="item.id">
                 跟隨
               </button>
             </div>
@@ -98,6 +92,18 @@ export default defineComponent({
     //check if user is watch his/her own following list
     const isExactUser = ref(false);
     const route = useRoute();
+    //event handler for adding/deleting following
+    function handleToggleFollowing(e: Event) {
+      const target = e.target as Element;
+      const followingId = Number(target.getAttribute("data-id"));
+      if (target.classList.contains("add-following")) {
+        return storeFollowings.addFollowing(followingId);
+      }
+      if (target.classList.contains("delete-following")) {
+        return storeFollowings.deleteFollowing(followingId);
+      }
+    }
+    //check if current user is watching his/her own self page
     onMounted(() => {
       if (Number(route.params.id) === currentUser.info.id)
         isExactUser.value = true;
@@ -108,6 +114,7 @@ export default defineComponent({
     }
     return {
       dateFromNow,
+      handleToggleFollowing,
       isExactUser,
       storeFollowings,
     };
