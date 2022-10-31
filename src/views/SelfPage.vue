@@ -84,6 +84,7 @@
       <TweetList
         :tweetList="tweetList"
         @onReply="onReply"
+        @handleToggleLike="handleToggleLike"
         v-if="listStatus === selfMenu.tweet"
       />
       <ReplyList
@@ -91,7 +92,12 @@
         @onReply="onReply"
         v-else-if="listStatus === selfMenu.reply"
       />
-      <TweetList :tweetList="likeList" @onReply="onReply" v-else />
+      <TweetList
+        :tweetList="likeList"
+        @onReply="onReply"
+        @handleToggleLike="handleToggleLike"
+        v-else
+      />
     </div>
     <PopularList />
     <ReplyModal
@@ -207,7 +213,7 @@ import { repliesAPI } from "@/apis/reply";
 import { useCurrentUser } from "@/stores/currentUser";
 import { useStoreFollowings } from "@/stores/followship";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
-import type { reply, tweet, userDetail, like } from "env";
+import type { reply, tweet, userDetail, like, likeResponse } from "env";
 import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
 import * as bootstrap from "bootstrap";
@@ -294,7 +300,8 @@ export default defineComponent({
         likeOfUser.sort(function (a: tweet, b: tweet) {
           if (a.Like && b.Like)
             return (
-              new Date(b.Like.createdAt).getTime() - a.Like.createdAt.getTime()
+              new Date(b.Like.createdAt).getTime() -
+              new Date(a.Like.createdAt).getTime()
             );
         });
         likeOfUser.forEach(function (item: tweet) {
@@ -328,6 +335,36 @@ export default defineComponent({
           Object.assign(currentReplyingTweet, item);
         }
       });
+    }
+
+    //modify tweetList when successfully add/delete like for rendering
+    function handleToggleLike(
+      action: string,
+      tweetId: number,
+      resData: likeResponse
+    ) {
+      if (action === "add") {
+        return tweetList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = true;
+            tweet.Likes.push(resData.like);
+            swalAlert.successMsg(resData.message);
+          }
+        });
+      }
+      if (action === "delete") {
+        return tweetList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = false;
+            tweet.Likes.forEach(function (item: like) {
+              if (item.userId === currentUser.info.id) {
+                tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
+              }
+            });
+            swalAlert.successMsg(resData.message);
+          }
+        });
+      }
     }
 
     //create reply
@@ -396,6 +433,7 @@ export default defineComponent({
       changeList,
       onReply,
       createReply,
+      handleToggleLike,
     };
   },
   components: {

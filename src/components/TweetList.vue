@@ -1,5 +1,5 @@
 <template>
-  <div class="tweet-container">
+  <div class="tweet-container" @click="handleClickEvent">
     <div class="tweet-card" v-for="item in tweetList" :key="item.id">
       <router-link :to="{ name: 'self-page', params: { id: item.User.id } }">
         <img :src="item.User.avatar" alt="" class="cursor-pointer avatar" />
@@ -24,28 +24,28 @@
             class="cursor-pointer"
             data-bs-toggle="modal"
             data-bs-target="#replyModal"
-            @click.stop.prevent="$emit('onReply', item.id)"
           >
             <font-awesome-icon
               :icon="['far', 'comment']"
-              class="fa-icon"
+              class="cursor-pointer comment on-reply"
               style="color: #657786"
+              :data-id="item.id"
             />
             <span>{{ item.Replies.length }}</span>
           </div>
           <div>
             <font-awesome-icon
               :icon="['far', 'heart']"
-              class="fa-icon cursor-pointer"
+              class="cursor-pointer add-like"
               style="color: #657786"
-              @click.stop.prevent="addLike(item.id, item)"
+              :data-id="item.id"
               v-if="!item.isLike"
             />
             <font-awesome-icon
               :icon="['far', 'heart']"
-              class="fa-icon cursor-pointer"
+              class="cursor-pointer delete-like"
               style="color: #e0245e"
-              @click.stop.prevent="deleteLike(item.id, item)"
+              :data-id="item.id"
               v-else
             />
             <span>{{ item.Likes.length }}</span>
@@ -60,54 +60,54 @@
 import { defineComponent } from "vue";
 import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
-import type { like, tweet } from "env";
-import { swalAlert } from "@/utils/helper";
-import { useCurrentUser } from "@/stores/currentUser";
 
 export default defineComponent({
   props: ["tweetList"],
-  setup() {
-    const currentUser = useCurrentUser();
-    //get time from now
+  setup(props, { emit }) {
     function dateFromNow(date: Date) {
       return dayjs().to(date);
     }
-    //add like and render if success
-    async function addLike(tweetId: number, tweet: tweet) {
+    //add like and call parent component for rendering if success
+    async function addLike(tweetId: number) {
       try {
         const payLoad = { id: tweetId };
         const { data } = await likesAPI.addLike(payLoad);
-        if (data.status === "success") {
-          tweet.isLike = true;
-          tweet.Likes.push(data.like);
-          swalAlert.successMsg(data.message);
-        }
+        if (data.status === "success")
+          emit("handleToggleLike", "add", tweetId, data);
       } catch (error) {
         console.log(error);
       }
     }
-    //delete like and render if success
-    async function deleteLike(tweetId: number, tweet: tweet) {
+    //delete like and call parent component for rendering if success
+    async function deleteLike(tweetId: number) {
       try {
         const payLoad = { id: tweetId };
         const { data } = await likesAPI.deleteLike(payLoad);
-        if (data.status === "success") {
-          tweet.isLike = false;
-          tweet.Likes.forEach(function (item: like) {
-            if (item.userId === currentUser.info.id) {
-              tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
-            }
-          });
-          swalAlert.successMsg(data.message);
-        }
+        if (data.status === "success")
+          emit("handleToggleLike", "delete", tweetId, data);
       } catch (error) {
         console.log(error);
+      }
+    }
+    //event listener for adding like, deleting like and opening reply modal
+    function handleClickEvent(e: Event) {
+      const target = e.target as Element;
+      if (target.classList.contains("add-like")) {
+        const tweetId = Number(target.getAttribute("data-id"));
+        return addLike(tweetId);
+      }
+      if (target.classList.contains("delete-like")) {
+        const tweetId = Number(target.getAttribute("data-id"));
+        return deleteLike(tweetId);
+      }
+      if (target.classList.contains("on-reply")) {
+        const tweetId = Number(target.getAttribute("data-id"));
+        return emit("onReply", tweetId);
       }
     }
     return {
       dateFromNow,
-      addLike,
-      deleteLike,
+      handleClickEvent,
     };
   },
 });

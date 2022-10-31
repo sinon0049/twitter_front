@@ -22,7 +22,11 @@
           推文
         </button>
       </div>
-      <TweetList :tweetList="tweetList" @onReply="onReply" />
+      <TweetList
+        :tweetList="tweetList"
+        @onReply="onReply"
+        @handleToggleLike="handleToggleLike"
+      />
     </div>
     <PopularList />
     <ReplyModal
@@ -85,7 +89,7 @@ import ReplyModal from "../components/ReplyModal.vue";
 import TweetList from "../components/TweetList.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
-import type { tweet, like } from "env";
+import type { tweet, like, likeResponse } from "env";
 import { swalAlert } from "@/utils/helper";
 import * as bootstrap from "bootstrap";
 
@@ -124,6 +128,35 @@ export default defineComponent({
           Object.assign(currentReplyingTweet, item);
         }
       });
+    }
+    //modify tweetList when successfully add/delete like for rendering
+    function handleToggleLike(
+      action: string,
+      tweetId: number,
+      resData: likeResponse
+    ) {
+      if (action === "add") {
+        return tweetList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = true;
+            tweet.Likes.push(resData.like);
+            swalAlert.successMsg(resData.message);
+          }
+        });
+      }
+      if (action === "delete") {
+        return tweetList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = false;
+            tweet.Likes.forEach(function (item: like) {
+              if (item.userId === currentUser.info.id) {
+                tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
+              }
+            });
+            swalAlert.successMsg(resData.message);
+          }
+        });
+      }
     }
     //create new tweet
     async function createTweet() {
@@ -203,6 +236,7 @@ export default defineComponent({
       onReply,
       createTweet,
       createReply,
+      handleToggleLike,
     };
   },
   components: {

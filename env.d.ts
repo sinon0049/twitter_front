@@ -87,3 +87,9 @@ export interface followshipList extends userInfo {
   Followers?: followData[];
   unfollowings: followData[];
 }
+
+export interface likeResponse {
+  status: string;
+  message: string;
+  like: like;
+}
