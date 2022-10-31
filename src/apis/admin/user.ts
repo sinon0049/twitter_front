@@ -8,4 +8,7 @@ export const adminAPI = {
   signUp: function (payLoad: request) {
     return api.post("/admin/signup", payLoad);
   },
+  getAllUsers: function () {
+    return api.get("/admin/user");
+  },
 };

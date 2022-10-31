@@ -23,6 +23,9 @@ export interface userDetail extends userInfo {
   Followers: Array;
   Followings: Array;
   Likes: Array;
+  Replies: Array;
+  Tweets: tweet[];
+  LikeCount?: number;
 }
 
 export interface reply {

@@ -6,7 +6,7 @@
         <div class="user-info">
           <span>{{ item.User.name }}</span>
           <span class="light">&nbsp;@{{ item.User.name }}</span>
-          <span class="light">&nbsp;{{ dateFromNow(item.createdAt) }}</span>
+          <span class="light">&nbsp;．{{ dateFromNow(item.createdAt) }}</span>
         </div>
         <span>{{ item.description }}</span>
       </div>

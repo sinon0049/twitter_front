@@ -261,6 +261,8 @@ export default defineComponent({
       Followings: [],
       Followers: [],
       Likes: [],
+      Replies: [],
+      Tweets: [],
     });
 
     //get all lists and user info when mounted and assign them to refs and reactives
