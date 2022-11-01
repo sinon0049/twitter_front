@@ -73,7 +73,7 @@ const router = createRouter({
       component: AdminMain,
     },
     {
-      path: "/",
+      path: "/:catchAll(.*)",
       name: "not-found",
       component: NotFound,
     },
