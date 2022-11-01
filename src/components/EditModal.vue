@@ -9,7 +9,7 @@
               class="orange"
               data-bs-dismiss="modal"
               size="lg"
-              @click.stop.prevent="clearForm"
+              @click="clearForm"
             />
             <span class="bold" style="display: block; margin: 0 5%"
               >編輯個人資料</span
@@ -196,10 +196,11 @@
 import { defineComponent, ref } from "vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
+import * as bootstrap from "bootstrap";
 
 export default defineComponent({
   props: ["currentReplyingTweet"],
-  setup() {
+  setup(props, { emit }) {
     const currentUser = useCurrentUser();
     const name = ref("");
     const introduction = ref("");
@@ -233,7 +234,14 @@ export default defineComponent({
       try {
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
-        await usersAPI.modifyInfo(formData);
+        const { data } = await usersAPI.modifyInfo(formData);
+        const replyModal = document.getElementById("editModal") as Element;
+        const modal = bootstrap.Modal.getInstance(replyModal);
+        //close modal and call parent component if success
+        if (data.status === "success" && modal) {
+          modal.hide();
+          emit("handleUpdateUser", data);
+        }
       } catch (error) {
         console.log(error);
       }

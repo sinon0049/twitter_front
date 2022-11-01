@@ -93,3 +93,12 @@ export interface likeResponse {
   message: string;
   like: like;
 }
+
+export interface userUpdateResponse {
+  status: string;
+  message: string;
+  avatar: string;
+  cover: string;
+  name: string;
+  introduction: string;
+}

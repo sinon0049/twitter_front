@@ -48,7 +48,10 @@
             跟隨
           </button>
         </div>
-        <EditModal :currentReplyingTweet="currentReplyingTweet" />
+        <EditModal
+          :currentReplyingTweet="currentReplyingTweet"
+          @handleUpdateUser="handleUpdateUser"
+        />
       </div>
       <div class="self-info">
         <span class="info-name">{{ detailOfUser.name }}</span>
@@ -213,7 +216,14 @@ import { repliesAPI } from "@/apis/reply";
 import { useCurrentUser } from "@/stores/currentUser";
 import { useStoreFollowings } from "@/stores/followship";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
-import type { reply, tweet, userDetail, like, likeResponse } from "env";
+import type {
+  reply,
+  tweet,
+  userDetail,
+  like,
+  likeResponse,
+  userUpdateResponse,
+} from "env";
 import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
 import * as bootstrap from "bootstrap";
@@ -367,6 +377,15 @@ export default defineComponent({
       }
     }
 
+    //update detailOfUser when successfully updated
+    function handleUpdateUser(data: userUpdateResponse) {
+      detailOfUser.avatar = data.avatar;
+      detailOfUser.cover = data.cover;
+      detailOfUser.name = data.name;
+      detailOfUser.introduction = data.introduction;
+      return swalAlert.successMsg(data.message);
+    }
+
     //create reply
     async function createReply(payLoad: newTweet) {
       try {
@@ -434,6 +453,7 @@ export default defineComponent({
       onReply,
       createReply,
       handleToggleLike,
+      handleUpdateUser,
     };
   },
   components: {
