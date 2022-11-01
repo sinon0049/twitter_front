@@ -33,10 +33,10 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
   //assign followings from api to reactive object
   function pushFollowings(payLoad: followshipList) {
     if (payLoad.Followings) {
-      lists.Followings = payLoad.Followings;
+      lists.Followings = [...payLoad.Followings];
     }
     if (payLoad.unfollowings) {
-      lists.unfollowings = payLoad.unfollowings;
+      lists.unfollowings = [...payLoad.unfollowings];
     }
   }
 

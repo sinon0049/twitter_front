@@ -8,7 +8,7 @@
             class="orange"
             data-bs-dismiss="modal"
             size="lg"
-            @click.stop.prevent="clearReply"
+            @click="clearReply"
           />
         </div>
         <div class="container">
@@ -51,7 +51,7 @@
         <button
           type="button"
           class="btn-orange"
-          @click.stop.prevent="onCreatingReply(currentReplyingTweet.id)"
+          @click="onCreatingReply(currentReplyingTweet.id)"
         >
           回覆
         </button>

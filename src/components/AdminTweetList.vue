@@ -1,5 +1,5 @@
 <template>
-  <div class="tweet-container">
+  <div class="tweet-container" @click="deleteTweet">
     <div class="tweet-card" v-for="item in tweetList" :key="item.id">
       <img :src="item.User.avatar" alt="" />
       <div class="tweet-content">
@@ -14,7 +14,7 @@
         icon="x"
         class="delete light cursor-pointer"
         size="sm"
-        @click.stop.prevent="deleteTweet(item.id)"
+        :data-id="item.id"
       />
     </div>
   </div>
@@ -35,14 +35,18 @@ export default defineComponent({
       return dayjs().to(date);
     }
 
-    async function deleteTweet(tweetId: number) {
+    async function deleteTweet(e: Event) {
       try {
-        const { data } = await adminTweetsAPI.deleteTweet({ id: tweetId });
-        if (data.status === "success") {
-          tweetList.forEach(function (item, index, tweetList) {
-            if (item.id === tweetId) tweetList.splice(index, 1);
-          });
-          swalAlert.successMsg(data.message);
+        const target = e.target as Element;
+        if (target.classList.contains("delete")) {
+          const tweetId = Number(target.getAttribute("data-id"));
+          const { data } = await adminTweetsAPI.deleteTweet({ id: tweetId });
+          if (data.status === "success") {
+            tweetList.forEach(function (item, index, tweetList) {
+              if (item.id === tweetId) tweetList.splice(index, 1);
+            });
+            swalAlert.successMsg(data.message);
+          }
         }
       } catch (error) {
         console.log(error);
