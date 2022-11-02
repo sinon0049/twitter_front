@@ -38,7 +38,7 @@
         />
         <div class="user-name">
           <span class="name bold">{{ item.name }}</span>
-          <span class="account">@{{ item.account }}</span>
+          <span class="light">@{{ item.account }}</span>
         </div>
       </router-link>
       <button class="btn-white cursor-pointer add-following" :data-id="item.id">
