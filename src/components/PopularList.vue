@@ -15,7 +15,7 @@
         />
         <div class="user-name">
           <span class="name bold">{{ item.name }}</span>
-          <span class="account">@{{ item.account }}</span>
+          <span class="light">@{{ item.account }}</span>
         </div>
       </router-link>
 
@@ -84,11 +84,11 @@
   }
   .popular-tail {
     height: 45px;
-    border-top: 1px solid #e6ecf0;
+    border-top: 1px solid $border;
     a {
       line-height: 45px;
       margin-left: 15px;
-      color: #ff6600;
+      color: $orange;
       text-decoration: none;
       font: {
         size: 15px;
@@ -97,7 +97,7 @@
     }
   }
   .popular-card {
-    border-top: 1px solid #dddddd;
+    border-top: 1px solid $border;
     height: 70px;
     display: flex;
     align-items: center;
@@ -117,9 +117,6 @@
       display: flex;
       flex-direction: column;
       margin-left: 10px;
-      .account {
-        color: #657786;
-      }
     }
     button {
       height: 35px;

@@ -120,7 +120,7 @@
     width: 100%;
     border: 0;
     height: 1px;
-    background-color: #e6ecf0;
+    background-color: $border;
   }
   .tweet {
     padding: {
@@ -128,7 +128,7 @@
       right: 15px;
     }
     hr {
-      background-color: #e6ecf0;
+      background-color: $border;
       opacity: 1;
     }
     .tweet-header {
@@ -161,7 +161,7 @@
     hr {
       border: 0;
       height: 1px;
-      background-color: #e6ecf0;
+      background-color: $border;
     }
     #count-list {
       margin: {

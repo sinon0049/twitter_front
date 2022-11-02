@@ -190,13 +190,13 @@
     display: grid;
     grid-template-columns: 33% 33% 34%;
     text-align: center;
-    border-bottom: 1px solid #e6ecf0;
+    border-bottom: 1px solid $border;
     span {
       line-height: 30px;
     }
     .selected {
-      color: #ff6600;
-      border-bottom: 1px solid #ff6600;
+      color: $orange;
+      border-bottom: 1px solid $orange;
     }
   }
 }

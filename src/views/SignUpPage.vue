@@ -50,7 +50,7 @@
     display: flex;
     width: 80%;
     flex-direction: column;
-    background-color: #ebebeb;
+    background-color: $input-background;
     margin-top: 20px;
     label {
       position: relative;
@@ -59,7 +59,7 @@
     }
     input {
       line-height: 20px;
-      background-color: #ebebeb;
+      background-color: $input-background;
       border: {
         top: 0;
         left: 0;

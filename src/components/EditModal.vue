@@ -76,13 +76,13 @@
       width: 100%;
       height: 15%;
       border: {
-        bottom: 1px solid #e6ecf0;
+        bottom: 1px solid $border;
       }
       display: flex;
       justify-content: flex-start;
       align-items: center;
       .icon {
-        color: #ff6600;
+        color: $orange;
         margin: {
           left: 3%;
         }
@@ -160,7 +160,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        background-color: #ebebeb;
+        background-color: $input-background;
         margin: 20px auto 0 auto;
         width: 90%;
         label {
@@ -172,7 +172,7 @@
         textarea {
           line-height: 20px;
           width: 100%;
-          background-color: #ebebeb;
+          background-color: $input-background;
           border: {
             top: 0;
             left: 0;

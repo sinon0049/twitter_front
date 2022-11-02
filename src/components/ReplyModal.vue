@@ -66,12 +66,12 @@
     width: 100%;
     height: 15%;
     border: {
-      bottom: 1px solid #e6ecf0;
+      bottom: 1px solid $border;
     }
     display: flex;
     align-items: center;
     .icon {
-      color: #ff6600;
+      color: $orange;
       margin: {
         left: 3%;
       }

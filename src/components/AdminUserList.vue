@@ -48,12 +48,12 @@
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #dcdcdc;
+    background: $scrollbar-thumb;
     border-radius: 3px;
   }
   .user-card {
     border-radius: 10px;
-    background-color: #e6ecf0;
+    background-color: $border;
     .image-container {
       height: 50%;
       position: relative;

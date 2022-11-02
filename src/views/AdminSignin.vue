@@ -50,7 +50,7 @@
   .input {
     display: flex;
     flex-direction: column;
-    background-color: #ebebeb;
+    background-color: $input-background;
     margin-top: 20px;
     width: 80%;
     label {
@@ -60,7 +60,7 @@
     }
     input {
       line-height: 20px;
-      background-color: #ebebeb;
+      background-color: $input-background;
       border: {
         top: 0;
         left: 0;
@@ -90,7 +90,7 @@
       display: inline-block;
       width: 15px;
       text-align: center;
-      color: #1589c9;
+      color: $link;
       background-color: white;
     }
   }

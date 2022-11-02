@@ -43,7 +43,7 @@
   flex-direction: column;
   #tweet-input {
     position: relative;
-    border-bottom: 10px solid #e6ecf0;
+    border-bottom: 10px solid $border;
     display: flex;
     height: 200px;
     img {

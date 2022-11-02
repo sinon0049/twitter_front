@@ -1,9 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
-
-$orange: #ff6600;
-$link: #1589c9;
-$border: #e6ecf0;
+@import "./variables.scss";
 
 html {
     height: 100%;
@@ -23,7 +20,7 @@ html {
                     width: 6px;
                 }
                 &::-webkit-scrollbar-thumb {
-                    background: #dcdcdc;
+                    background: $scrollbar-thumb;
                     border-radius: 3px;
                 }
             }
@@ -103,7 +100,7 @@ html {
                     width: 6px;
                 }
                 &::-webkit-scrollbar-thumb {
-                    background: #dcdcdc;
+                    background: $scrollbar-thumb;
                     border-radius: 3px;
                 }
                 &::-webkit-scrollbar-track {

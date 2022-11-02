@@ -180,10 +180,10 @@ export default defineComponent({
       display: grid;
       grid-template-columns: 25% 25%;
       text-align: center;
-      border-bottom: 1px solid #e6ecf0;
+      border-bottom: 1px solid $border;
       .selected {
-        color: #ff6600;
-        border-bottom: 1px solid #ff6600;
+        color: $orange;
+        border-bottom: 1px solid $orange;
       }
     }
   }

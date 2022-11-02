@@ -84,7 +84,7 @@ export default defineComponent({
     align-items: center;
     position: relative;
     padding-left: 10px;
-    border: 1px solid #e6ecf0;
+    border: 1px solid $border;
     img {
       height: 50px;
       width: 50px;
