@@ -1,7 +1,7 @@
 <template>
   <div class="page-container" style="justify-content: end">
     <SideBar />
-    <div class="main-container" style="width: 74%">
+    <div class="main-container">
       <div class="main-header">
         <span>帳戶設定</span>
       </div>
@@ -112,10 +112,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .page-container {
   .main-container {
+    width: 100%;
     .input-container {
-      width: 50%;
-      margin-left: 20px;
-      margin-top: 40px;
+      width: 80%;
+      margin: 0 auto;
       position: relative;
       .input {
         display: flex;
@@ -146,6 +146,50 @@ export default defineComponent({
         height: 40px;
         position: absolute;
         right: 0;
+      }
+    }
+  }
+}
+
+@media screen and(min-width: 768px) {
+  .page-container {
+    .main-container {
+      width: 74%;
+      .input-container {
+        width: 50%;
+        margin-left: 20px;
+        margin-top: 40px;
+        position: relative;
+        .input {
+          display: flex;
+          flex-direction: column;
+          background-color: $input-background;
+          margin-top: 20px;
+          label {
+            position: relative;
+            left: 5px;
+            top: 2px;
+          }
+          input {
+            width: 100%;
+            padding: 0;
+            line-height: 20px;
+            background-color: $input-background;
+            border: {
+              top: 0;
+              left: 0;
+              right: 0;
+            }
+          }
+        }
+        #confirm {
+          margin: 30px 0 15px 0;
+          width: 120px;
+          border-radius: 20px;
+          height: 40px;
+          position: absolute;
+          right: 0;
+        }
       }
     }
   }

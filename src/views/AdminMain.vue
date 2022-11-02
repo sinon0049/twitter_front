@@ -1,7 +1,7 @@
 <template>
   <div class="page-container" style="justify-content: end">
     <SideBar @changeList="changeList" />
-    <div class="main-container" style="width: 74%">
+    <div class="main-container">
       <div class="main-header">
         <span v-if="listStatus === 'tweet'">推文清單</span>
         <span v-else>使用者清單</span>
@@ -40,10 +40,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .page-container {
+    .main-container {
+      width: 100%;
+    }
+  }
+}
 .page-container {
   .main-container {
     display: flex;
     flex-direction: column;
+    width: 74%;
   }
 }
 </style>

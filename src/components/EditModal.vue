@@ -70,8 +70,6 @@
 <style lang="scss" scoped>
 .reply-modal {
   .modal-dialog {
-    max-width: unset;
-    width: 40%;
     .modal-header {
       width: 100%;
       height: 15%;

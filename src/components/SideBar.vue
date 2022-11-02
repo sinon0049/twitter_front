@@ -2,7 +2,7 @@
   <div class="sidebar-container">
     <!-- side bar for user -->
     <div v-if="currentUser.info.role === 'user'">
-      <router-link to="/main">
+      <router-link to="/main" class="main">
         <img
           src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
           alt="..."
@@ -45,7 +45,7 @@
     </div>
     <!-- side bar for admin -->
     <div v-else>
-      <router-link to="/admin/main">
+      <router-link to="/admin/main" class="main">
         <img
           src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
           alt="..."
@@ -82,52 +82,89 @@
 </template>
 
 <style lang="scss">
+@media screen and (max-width: 768px) {
+  .sidebar-container {
+    background-color: $input-background;
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    height: 5%;
+    div {
+      width: 100%;
+      .btn-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .btn-group {
+          color: black;
+          margin: 0;
+          display: block;
+          width: fit-content;
+        }
+      }
+      .main,
+      span,
+      #tweet {
+        display: none;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 960px) {
   #btn-popular {
     display: none;
   }
 }
-.sidebar-container {
-  width: 25%;
-  max-width: 200px;
-  position: relative;
-  height: 100%;
-  margin: {
-    right: 3%;
-  }
-  span {
-    font-weight: bold;
-  }
-  .btn-container {
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .btn-group {
-      display: grid;
-      grid-template-columns: 45px 1fr;
-      height: 25px;
-      line-height: 25px;
-      margin-bottom: 15px;
-      text-decoration: none;
-      color: black;
+
+@media screen and (min-width: 768px) {
+  .sidebar-container {
+    width: 25%;
+    max-width: 200px;
+    position: relative;
+    height: 100%;
+    margin: {
+      right: 3%;
     }
-    #sign-out {
-      position: absolute;
-      bottom: 10px;
+    span {
+      font-weight: bold;
     }
-    #tweet {
-      border: 0;
-      height: 35px;
-      width: 100%;
-      border-radius: 17.5px;
+    .btn-container {
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .btn-group {
+        display: grid;
+        grid-template-columns: 45px 1fr;
+        height: 25px;
+        line-height: 25px;
+        margin-bottom: 15px;
+        text-decoration: none;
+        color: black;
+      }
+      #sign-out {
+        position: absolute;
+        bottom: 10px;
+      }
+      #tweet {
+        border: 0;
+        height: 35px;
+        width: 100%;
+        border-radius: 17.5px;
+      }
     }
-  }
-  img {
-    margin-top: 10px;
-    width: 30px;
-    height: 30px;
-    margin-bottom: 5vh;
+    img {
+      margin-top: 10px;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 5vh;
+    }
   }
 }
 </style>
