@@ -9,94 +9,24 @@ html {
         margin: 0;
         font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
         #app {
-            height: 100%;
-            textarea {
-                overflow: visible;
-                resize: none;
-                &::-webkit-scrollbar {
-                    width: 6px;
-                }
-                &::-webkit-scrollbar-thumb {
-                    background: $scrollbar-thumb;
-                    border-radius: 3px;
-                }
-            }
-            img {
-                object-fit: cover;
-            }
-            .avatar { 
-                border-radius: 50%;
-            }
-            .bold {
-                font-weight: bold;
-            }
-            h4 {
-                margin-top: 5%;
-            }
-            .cursor-pointer {
-                cursor: pointer;
-            }
-            span, a, button {
-                font-family: 'Noto Sans TC';
-            }
-            .router-link-exact-active {
-                color: $orange;
-            }
-            .light {
-                color: $light
-            }
-            .orange {
-                color: $orange;
-            }
-            .btn-orange {
-                background-color: $orange;
-                color: white;
-                border: 0;
-            }
-            .btn-white {
-                background-color: white;
-                color: $orange;
-                border: 1px solid $orange;
-            }
-            .link {
-                border: 0;
-                background-color: white;
-                color: $link;
-                text-decoration: none;
-                font-weight: bold;
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-            
-        }
-    }  
-}
-
-@media screen and (max-width: 768px) {
-    html {
-        body {
-            #app {
-                .page-container {
-                    height: 100%;
-                    width: 100%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    position: relative;
-                    .main-container {
-                        border: 1px solid $border;
-                        width: 100%;
-                        .main-header {
-                            border-bottom: 1px solid $border;
-                            height: 40px;
-                            line-height: 40px;
-                            padding-left: 20px;
-                            display: flex;
-                            align-items: center;
-                            span {
-                                font-weight: bold;
-                            }
+            .page-container {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                position: relative;
+                .main-container {
+                    border: 1px solid $border;
+                    .main-header {
+                        border-bottom: 1px solid $border;
+                        height: 40px;
+                        line-height: 40px;
+                        padding-left: 20px;
+                        display: flex;
+                        align-items: center;
+                        span {
+                            font-weight: bold;
                         }
                     }
                 }
@@ -162,91 +92,95 @@ html {
                     }
                 }
             }
+            height: 100%;
+            textarea {
+                overflow: visible;
+                resize: none;
+                &::-webkit-scrollbar {
+                    width: 6px;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: $scrollbar-thumb;
+                    border-radius: 3px;
+                }
+            }
+            img {
+                object-fit: cover;
+            }
+            .avatar { 
+                border-radius: 50%;
+            }
+            .bold {
+                font-weight: bold;
+                color: black;
+            }
+            h4 {
+                margin-top: 5%;
+            }
+            .cursor-pointer {
+                cursor: pointer;
+            }
+            span, a, button {
+                font-family: 'Noto Sans TC';
+            }
+            .router-link-exact-active {
+                color: $orange;
+            }
+            .light {
+                color: $light
+            }
+            .orange {
+                color: $orange;
+            }
+            .btn-orange {
+                background-color: $orange;
+                color: white;
+                border: 0;
+            }
+            .btn-white {
+                background-color: white;
+                color: $orange;
+                border: 1px solid $orange;
+            }
+            .link {
+                border: 0;
+                background-color: white;
+                color: $link;
+                text-decoration: none;
+                font-weight: bold;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            
+        }
+    }  
+}
+
+// for screen width below 768px only
+@media screen and (max-width: 768px) {
+    html {
+        body {
+            #app {
+                .page-container {
+                    .main-container {
+                        width: 100%;
+                        height: 95%;
+                    }
+                }
+                
+            }
         }
     }
 }
 
-@media screen and (min-width: 768px) {
-    .page-container {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        position: relative;
-        .main-container {
-            border: 1px solid $border;
-            width: 40%;
-            .main-header {
-                border-bottom: 1px solid $border;
-                height: 40px;
-                line-height: 40px;
-                padding-left: 20px;
-                display: flex;
-                align-items: center;
-                span {
-                    font-weight: bold;
-                }
-            }
-        }
-    }
-    .tweet-container {
-        overflow-y: auto;
-        flex: 1;
-        &::-webkit-scrollbar {
-            width: 6px;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: $scrollbar-thumb;
-            border-radius: 3px;
-        }
-        &::-webkit-scrollbar-track {
-            border-left: 1px solid $border;
-        }
-        .tweet-card {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            height: fit-content;
-            border-bottom: 1px solid #dddddd;
-            img {
-                width: 50px;
-                height: 50px;
-                margin: {
-                    left: 15px;
-                    top: 10px;
-                }
-            }
-            .tweet-content {
-                margin: {
-                    top: 10px;
-                    bottom: 10px;
-                }
-                .name {
-                    margin-bottom: 5px;
-                    span {
-                        display: inline-block;
-                        margin-right: 5px;
-                    }
-                }
-                .content {
-                    margin-bottom: 10px;
-                }
-                a {
-                    text-decoration: none;
-                    color: black;
-                }
-                .icon {
-                    display: flex;
-                    div {
-                        width: 40px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-right: 50px;
-                        span {
-                            color: #657786;
-                        }
-                    }
+// for screen width over 768px only
+html {
+    body {
+        #app {
+            .page-container {
+                .main-container {
+                    width: 40%;
                 }
             }
         }
