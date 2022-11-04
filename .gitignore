@@ -30,3 +30,8 @@ coverage
 # Environments
 .env
 .env.local
+
+#firebase config
+.firebaserc
+firebase.json
+.firebase
