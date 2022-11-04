@@ -161,6 +161,7 @@ export default defineComponent({
 <style lang="scss">
 .page-container {
   .main-container {
+    width: 40%;
     .main-header {
       .name {
         .light {
