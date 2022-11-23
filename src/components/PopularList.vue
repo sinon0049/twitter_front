@@ -9,33 +9,27 @@
       :key="item.id"
     >
       <router-link :to="{ name: 'self-page', params: { id: item.id } }">
-        <img
-          src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-          alt=""
-        />
+        <img :src="item.Following.avatar" alt="" />
         <div class="user-name">
-          <span class="name bold">{{ item.name }}</span>
-          <span class="light">@{{ item.account }}</span>
+          <span class="name bold">{{ item.Following.name }}</span>
+          <span class="light">@{{ item.Following.account }}</span>
         </div>
       </router-link>
 
       <button
         class="btn-orange cursor-pointer delete-following"
-        :data-id="item.id"
+        :data-id="item.Following.id"
       >
         正在跟隨
       </button>
     </div>
     <div
       class="popular-card"
-      v-for="item in storeFollowings.lists.unfollowings"
+      v-for="item in storeFollowings.lists.Unfollowings"
       :key="item.id"
     >
       <router-link :to="{ name: 'self-page', params: { id: item.id } }">
-        <img
-          src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-          alt=""
-        />
+        <img :src="item.avatar" alt="..." />
         <div class="user-name">
           <span class="name bold">{{ item.name }}</span>
           <span class="light">@{{ item.account }}</span>
@@ -149,8 +143,8 @@ export default defineComponent({
 
     //event handler for adding/deleting following
     function handleToggleFollowing(e: Event) {
-      const target = e.target as Element;
-      const followingId = Number(target.getAttribute("data-id"));
+      const target = e.target as HTMLButtonElement;
+      const followingId = Number(target.dataset.id);
       if (target.classList.contains("add-following")) {
         return storeFollowings.addFollowing(followingId);
       }

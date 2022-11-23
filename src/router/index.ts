@@ -12,7 +12,6 @@ import AdminMain from "../views/AdminMain.vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
 import { followshipAPI } from "@/apis/followship";
-import type { followData } from "env";
 import { useStoreFollowings } from "@/stores/followship";
 import { swalAlert } from "@/utils/helper";
 import type { RouteLocationNormalized, NavigationGuardNext } from "vue-router";
@@ -121,15 +120,6 @@ router.beforeEach(async (to, from, next) => {
     if (currentUser.info.role === "user") {
       const followshipList = await followshipAPI.getFollowingList({
         id: currentUser.info.id,
-      });
-      followshipList.data.Followings.sort(function (
-        a: followData,
-        b: followData
-      ) {
-        return (
-          new Date(b.Followship.createdAt).getTime() -
-          new Date(a.Followship.createdAt).getTime()
-        );
       });
       storeFollowings.pushFollowings(followshipList.data);
       next();

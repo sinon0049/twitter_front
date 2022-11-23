@@ -1,19 +1,14 @@
 import { defineStore } from "pinia";
-import type { followshipList } from "env";
+import type { followingList } from "env";
 import { reactive } from "vue";
 import { followshipAPI } from "@/apis/followship";
 import { swalAlert } from "@/utils/helper";
 
 export const useStoreFollowings = defineStore("storeFollowings", () => {
   //follow list used in PopularList.vue, SelfPage.vue & FollowingList.vue
-  const lists: followshipList = reactive({
-    id: -1,
-    name: "",
-    account: "",
-    avatar: "",
-    cover: "",
+  const lists: followingList = reactive({
     Followings: [],
-    unfollowings: [],
+    Unfollowings: [],
   });
   //isFollowing control in SelfPage.vue
   const isSelfPageUserYourFollowing = reactive({
@@ -31,13 +26,9 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
   }
 
   //assign followings from api to reactive object
-  function pushFollowings(payLoad: followshipList) {
-    if (payLoad.Followings) {
-      lists.Followings = [...payLoad.Followings];
-    }
-    if (payLoad.unfollowings) {
-      lists.unfollowings = [...payLoad.unfollowings];
-    }
+  function pushFollowings(payLoad: followingList) {
+    lists.Followings = [...payLoad.Followings];
+    lists.Unfollowings = [...payLoad.Unfollowings];
   }
 
   //delete following function
@@ -47,15 +38,15 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
       const { data } = await followshipAPI.deleteFollowing({ id });
       //modify reactive objects
       lists.Followings.forEach((item) => {
-        if (item.id === id && data.status === "success") {
+        if (item.Following.id === id && data.status === "success") {
           const popped = lists.Followings.splice(
             lists.Followings.indexOf(item),
             1
           );
-          lists.unfollowings.push(popped[0]);
+          lists.Unfollowings.push(popped[0].Following);
         }
       });
-      //modify following status when in SelfPage.vue
+      //modify following status when in others' self page
       if (id === isSelfPageUserYourFollowing.id) {
         isSelfPageUserYourFollowing.isFollowing = false;
       }
@@ -71,13 +62,13 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
       //add following to backend db
       const { data } = await followshipAPI.addFollowing({ id });
       //modify reactive object
-      lists.unfollowings.forEach((item) => {
+      lists.Unfollowings.forEach((item) => {
         if (item.id === id && data.status === "success") {
-          const popped = lists.unfollowings.splice(
-            lists.unfollowings.indexOf(item),
+          const popped = lists.Unfollowings.splice(
+            lists.Unfollowings.indexOf(item),
             1
           );
-          lists.Followings.push(popped[0]);
+          lists.Followings.push({ ...data.newData, Following: popped[0] });
         }
       });
       //modify following status when in SelfPage.vue

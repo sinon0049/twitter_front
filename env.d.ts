@@ -71,21 +71,17 @@ export interface request {
 }
 
 export interface followship {
+  id: number;
   followerId: number;
   followingId: number;
   createdAt: Date | string;
   updatedAt: Date | string;
+  Following: userInfo;
 }
 
-export interface followData extends userInfo {
-  Followship: followship;
-  isFollowing?: boolean;
-}
-
-export interface followshipList extends userInfo {
-  Followings: followData[];
-  Followers?: followData[];
-  unfollowings: followData[];
+export interface followingList {
+  Followings: followship[];
+  Unfollowings: userInfo[];
 }
 
 export interface likeResponse {

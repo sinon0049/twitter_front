@@ -8,20 +8,29 @@
         :key="item.id"
       >
         <router-link :to="{ name: 'self-page', params: { id: item.id } }">
-          <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+          <img
+            :src="item.Following.avatar"
+            alt=""
+            class="cursor-pointer avatar"
+          />
         </router-link>
         <div class="tweet-content">
           <div class="name cursor-pointer">
             <router-link :to="{ name: 'self-page', params: { id: item.id } }">
-              <span class="bold">{{ item.name }}</span>
-              <span class="light">@{{ item.account }}</span>
+              <span class="bold">{{ item.Following.name }}</span>
+              <span class="light">@{{ item.Following.account }}</span>
             </router-link>
-            <button class="btn-orange delete-following" :data-id="item.id">
+            <button
+              class="btn-orange delete-following"
+              :data-id="item.Following.id"
+            >
               正在跟隨
             </button>
           </div>
           <div class="content">
-            <span v-if="item.introduction">{{ item.introduction }}</span>
+            <span v-if="item.Following.introduction">{{
+              item.Following.introduction
+            }}</span>
             <span v-else class="light">no introduction</span>
           </div>
         </div>
@@ -29,7 +38,7 @@
       <div>
         <div
           class="tweet-card"
-          v-for="item in storeFollowings.lists.unfollowings"
+          v-for="item in storeFollowings.lists.Unfollowings"
           :key="item.id"
         >
           <router-link :to="{ name: 'self-page', params: { id: item.id } }">
@@ -61,14 +70,20 @@
         v-for="item in followshipList.Followings"
         :key="item.id"
       >
-        <img :src="item.avatar" alt="" class="cursor-pointer avatar" />
+        <img
+          :src="item.Following.avatar"
+          alt=""
+          class="cursor-pointer avatar"
+        />
         <div class="tweet-content">
           <div class="name cursor-pointer">
-            <span class="bold">{{ item.name }}</span>
-            <span class="light">@{{ item.account }}</span>
+            <span class="bold">{{ item.Following.name }}</span>
+            <span class="light">@{{ item.Following.account }}</span>
           </div>
           <div class="content">
-            <span v-if="item.introduction">{{ item.introduction }}</span>
+            <span v-if="item.Following.introduction">{{
+              item.Following.introduction
+            }}</span>
             <span v-else class="light">no introduction</span>
           </div>
         </div>
@@ -94,8 +109,8 @@ export default defineComponent({
     const route = useRoute();
     //event handler for adding/deleting following
     function handleToggleFollowing(e: Event) {
-      const target = e.target as Element;
-      const followingId = Number(target.getAttribute("data-id"));
+      const target = e.target as HTMLButtonElement;
+      const followingId = Number(target.dataset.id);
       if (target.classList.contains("add-following")) {
         return storeFollowings.addFollowing(followingId);
       }

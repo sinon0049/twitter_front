@@ -47,11 +47,12 @@ import SideBar from "@/components/SideBar.vue";
 import PopularList from "@/components/PopularList.vue";
 import FollowerList from "@/components/FollowerList.vue";
 import FollowingList from "@/components/FollowingList.vue";
-import { defineComponent, onMounted, reactive, ref } from "vue";
+import { defineComponent, onBeforeMount, reactive, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { followshipAPI } from "@/apis/followship";
-import type { followData, followshipList } from "env";
+import type { followship, followingList } from "env";
 import { tweetsAPI } from "@/apis/tweet";
+import { usersAPI } from "@/apis/user";
 
 export default defineComponent({
   setup() {
@@ -62,70 +63,33 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const listStatus = ref(followMenu.follower);
-    const followerList: followshipList = reactive({
-      id: -1,
-      name: "",
-      account: "",
-      avatar: "",
-      cover: "",
-      Followers: [],
+    const followerList: followship[] = reactive([]);
+    const followingList: followingList = reactive({
       Followings: [],
-      unfollowings: [],
-    });
-    const followingList: followshipList = reactive({
-      id: -1,
-      name: "",
-      account: "",
-      avatar: "",
-      cover: "",
-      Followings: [],
-      unfollowings: [],
+      Unfollowings: [],
     });
     const tweetCount = ref(-1);
     const userName = ref("");
 
-    onMounted(async () => {
+    onBeforeMount(async () => {
       try {
         const userId = Number(route.params.id);
-        const tweetData = (
-          await tweetsAPI.getTweetOfSelectedUser({ id: userId })
-        ).data;
-        //get followship list
-        const followingData = (
-          await followshipAPI.getFollowingList({
-            id: userId,
-          })
-        ).data;
-        const followerData = (
-          await followshipAPI.getFollowerList({
-            id: userId,
-          })
-        ).data;
-        //sort followship list by date
-        followingData.Followings.sort(function (a: followData, b: followData) {
-          return (
-            new Date(b.Followship.createdAt).getTime() -
-            new Date(a.Followship.createdAt).getTime()
-          );
-        });
-        followerData.Followers.sort(function (a: followData, b: followData) {
-          return (
-            new Date(b.Followship.createdAt).getTime() -
-            new Date(a.Followship.createdAt).getTime()
-          );
-        });
-        //assign isFollowing attribute to followingData
-        followingData.Followings.forEach(function (item: followData) {
-          item.isFollowing = true;
-        });
-        followingData.unfollowings.map(function (item: followData) {
-          item.isFollowing = false;
-        });
+        //get required data through axios
+        const [followingData, followerData, tweetData, userData] =
+          await Promise.all([
+            followshipAPI.getFollowingList({ id: userId }),
+            followshipAPI.getFollowerList({ id: userId }),
+            tweetsAPI.getTweetOfSelectedUser({ id: userId }),
+            usersAPI.getDetail({ id: userId }),
+          ]);
         //assign list to reactive arrays
-        Object.assign(followerList, followerData);
-        Object.assign(followingList, followingData);
-        tweetCount.value = tweetData.length;
-        userName.value = followingData.name;
+        followingList.Followings = [...followingData.data.Followings];
+        followingList.Unfollowings = [...followingData.data.Unfollowings];
+        followerData.data.forEach((item: followship) =>
+          followerList.push(item)
+        );
+        tweetCount.value = tweetData.data.length;
+        userName.value = userData.data.name;
       } catch (error) {
         console.log(error);
       }
