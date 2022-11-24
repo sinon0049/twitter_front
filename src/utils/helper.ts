@@ -1,5 +1,4 @@
-import axios, { AxiosError } from "axios";
-import type { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import Swal from "sweetalert2";
 
 const alert = {
@@ -40,7 +39,7 @@ const apiHelper = axios.create({
 });
 
 apiHelper.interceptors.request.use(
-  (config: AxiosRequestConfig): AxiosRequestConfig => {
+  (config) => {
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -51,7 +50,7 @@ apiHelper.interceptors.request.use(
     }
     return config;
   },
-  (err: AxiosError): Promise<AxiosError> => Promise.reject(err)
+  (err) => Promise.reject(err)
 );
 
 export const api = apiHelper;

@@ -22,7 +22,6 @@ const router = createRouter({
     {
       path: "/signup",
       name: "sign-up",
-      //beforeEnter: checkSigninStatus,
       component: SignUpPage,
     },
     {

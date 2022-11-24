@@ -47,7 +47,7 @@ import SideBar from "@/components/SideBar.vue";
 import PopularList from "@/components/PopularList.vue";
 import FollowerList from "@/components/FollowerList.vue";
 import FollowingList from "@/components/FollowingList.vue";
-import { defineComponent, onBeforeMount, reactive, ref } from "vue";
+import { defineComponent, onMounted, reactive, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { followshipAPI } from "@/apis/followship";
 import type { followship, followingList } from "env";
@@ -71,7 +71,7 @@ export default defineComponent({
     const tweetCount = ref(-1);
     const userName = ref("");
 
-    onBeforeMount(async () => {
+    onMounted(async () => {
       try {
         const userId = Number(route.params.id);
         //get required data through axios

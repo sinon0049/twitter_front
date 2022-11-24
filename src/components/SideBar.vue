@@ -188,6 +188,7 @@ export default defineComponent({
       });
       swalAlert.successMsg("Sign out successfully.");
     }
+    //change list of main page (admin main page only)
     function changeList(status: string) {
       listStatus.value = status;
       emit("changeList", status);
