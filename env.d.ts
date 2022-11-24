@@ -44,6 +44,7 @@ export interface like {
   TweetId: number;
   createdAt: Date;
   updatedAt: Date;
+  Tweet: tweet;
 }
 
 export interface tweet {

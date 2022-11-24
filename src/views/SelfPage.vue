@@ -224,7 +224,6 @@ import type {
   likeResponse,
   userUpdateResponse,
 } from "env";
-import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
 import * as bootstrap from "bootstrap";
 import { swalAlert } from "@/utils/helper";
@@ -280,7 +279,6 @@ export default defineComponent({
       Replies: [],
       Tweets: [],
     });
-
     //get all lists and user info when mounted and assign them to refs and reactives
     async function loadUser(userId: number) {
       try {
@@ -290,54 +288,41 @@ export default defineComponent({
         replyList.splice(0, replyList.length);
         //get data via api
         const payLoad = { id: userId };
-        const userDetail = (await usersAPI.getDetail(payLoad)).data;
+        const [userDetail, tweetsOfUser, replyOfUser, likeOfUser] =
+          await Promise.all([
+            usersAPI.getDetail(payLoad),
+            tweetsAPI.getTweetOfSelectedUser(payLoad),
+            repliesAPI.getReplyOfSelectedUser(payLoad),
+            likesAPI.getLike(payLoad),
+          ]);
         isExactUser.value = userId === currentUser.info.id;
         storeFollowings.visitSelfPage(userId);
-        Object.assign(detailOfUser, userDetail);
-        const tweetsOfUser = (await tweetsAPI.getTweetOfSelectedUser(payLoad))
-          .data;
-        const replyOfUser = (await repliesAPI.getReplyOfSelectedUser(payLoad))
-          .data;
-        const likeOfUser = (await likesAPI.getLike(payLoad)).data.Likes;
-        //sort data by date if necessary and push data into list
-        tweetsOfUser.forEach(function (item: tweet) {
+        Object.assign(detailOfUser, userDetail.data);
+        //push data into list
+        tweetsOfUser.data.forEach(function (item: tweet) {
           item.Likes.forEach(function (like: like) {
             if (like.userId === currentUser.info.id) item.isLike = true;
           });
           if (!item.isLike) item.isLike = false;
           tweetList.push(item);
         });
-        likeOfUser.sort(function (a: tweet, b: tweet) {
-          if (a.Like && b.Like)
-            return (
-              new Date(b.Like.createdAt).getTime() -
-              new Date(a.Like.createdAt).getTime()
-            );
-        });
-        likeOfUser.forEach(function (item: tweet) {
+        likeOfUser.data.forEach(function (item: like) {
           likeList.push({
-            ...item,
+            ...item.Tweet,
             isLike: true,
           });
         });
-        replyOfUser.forEach(function (item: reply) {
+        replyOfUser.data.forEach(function (item: reply) {
           replyList.push(item);
         });
       } catch (error) {
         console.log(error);
       }
     }
-
-    //get time from now
-    function dateFromNow(date: Date) {
-      return dayjs().to(date);
-    }
-
     //back to previous page feature of arrow on main-header
     function goBackToPrevPage() {
       router.go(-1);
     }
-
     //get current replying tweet when clicking comment icon in TweetList.vue
     function onReply(id: number) {
       tweetList.forEach((item) => {
@@ -346,7 +331,6 @@ export default defineComponent({
         }
       });
     }
-
     //modify tweetList when successfully add/delete like for rendering
     function handleToggleLike(
       action: string,
@@ -354,7 +338,14 @@ export default defineComponent({
       resData: likeResponse
     ) {
       if (action === "add") {
-        return tweetList.forEach((tweet) => {
+        tweetList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = true;
+            tweet.Likes.push(resData.like);
+            swalAlert.successMsg(resData.message);
+          }
+        });
+        likeList.forEach((tweet) => {
           if (tweet.id === tweetId) {
             tweet.isLike = true;
             tweet.Likes.push(resData.like);
@@ -363,7 +354,7 @@ export default defineComponent({
         });
       }
       if (action === "delete") {
-        return tweetList.forEach((tweet) => {
+        tweetList.forEach((tweet) => {
           if (tweet.id === tweetId) {
             tweet.isLike = false;
             tweet.Likes.forEach(function (item: like) {
@@ -371,12 +362,21 @@ export default defineComponent({
                 tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
               }
             });
-            swalAlert.successMsg(resData.message);
           }
         });
+        likeList.forEach((tweet) => {
+          if (tweet.id === tweetId) {
+            tweet.isLike = false;
+            tweet.Likes.forEach(function (item: like) {
+              if (item.userId === currentUser.info.id) {
+                tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
+              }
+            });
+          }
+        });
+        swalAlert.successMsg(resData.message);
       }
     }
-
     //update detailOfUser when successfully updated
     function handleUpdateUser(data: userUpdateResponse) {
       detailOfUser.avatar = data.avatar;
@@ -385,7 +385,6 @@ export default defineComponent({
       detailOfUser.introduction = data.introduction;
       return swalAlert.successMsg(data.message);
     }
-
     //create reply
     async function createReply(payLoad: newTweet) {
       try {
@@ -421,12 +420,10 @@ export default defineComponent({
         console.log(error);
       }
     }
-
     //change status of list
     function changeList(status: selfMenu) {
       listStatus.value = status;
     }
-
     //onMounted action
     onMounted(() => {
       loadUser(Number(route.params.id));
@@ -447,7 +444,6 @@ export default defineComponent({
       storeFollowings,
       currentReplyingTweet,
       isExactUser,
-      dateFromNow,
       goBackToPrevPage,
       changeList,
       onReply,
