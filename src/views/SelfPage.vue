@@ -223,15 +223,11 @@ import type {
   like,
   likeResponse,
   userUpdateResponse,
+  newReply,
 } from "env";
 import { likesAPI } from "@/apis/like";
 import * as bootstrap from "bootstrap";
 import { swalAlert } from "@/utils/helper";
-
-interface newTweet {
-  TweetId: number;
-  content: string;
-}
 
 export default defineComponent({
   setup() {
@@ -386,7 +382,7 @@ export default defineComponent({
       return swalAlert.successMsg(data.message);
     }
     //create reply
-    async function createReply(payLoad: newTweet) {
+    async function createReply(payLoad: newReply) {
       try {
         const replyModal = document.getElementById("replyModal") as Element;
         const modal = bootstrap.Modal.getInstance(replyModal);

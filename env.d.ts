@@ -38,6 +38,11 @@ export interface reply {
   User: userInfo;
 }
 
+interface newReply {
+  TweetId: number;
+  content: string;
+}
+
 export interface like {
   id: number;
   userId: number;

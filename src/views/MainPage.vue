@@ -89,14 +89,9 @@ import ReplyModal from "../components/ReplyModal.vue";
 import TweetList from "../components/TweetList.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
-import type { tweet, like, likeResponse } from "env";
+import type { tweet, like, likeResponse, newReply } from "env";
 import { swalAlert } from "@/utils/helper";
 import * as bootstrap from "bootstrap";
-
-interface newTweet {
-  TweetId: number;
-  content: string;
-}
 
 export default defineComponent({
   setup() {
@@ -188,7 +183,7 @@ export default defineComponent({
       }
     }
     //create reply
-    async function createReply(payLoad: newTweet) {
+    async function createReply(payLoad: newReply) {
       try {
         const replyModal = document.getElementById("replyModal") as Element;
         const modal = bootstrap.Modal.getInstance(replyModal);
