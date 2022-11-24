@@ -8,7 +8,9 @@
       v-for="item in storeFollowings.lists.Followings"
       :key="item.id"
     >
-      <router-link :to="{ name: 'self-page', params: { id: item.id } }">
+      <router-link
+        :to="{ name: 'self-page', params: { id: item.Following.id } }"
+      >
         <img :src="item.Following.avatar" alt="" />
         <div class="user-name">
           <span class="name bold">{{ item.Following.name }}</span>
