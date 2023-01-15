@@ -46,6 +46,7 @@
   margin: 0 auto;
   width: 100%;
   max-width: 500px;
+  height: unset;
   .input {
     display: flex;
     width: 80%;

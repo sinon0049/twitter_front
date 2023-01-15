@@ -47,6 +47,7 @@
   width: 100%;
   max-width: 400px;
   position: relative;
+  height: unset;
   .input {
     display: flex;
     flex-direction: column;

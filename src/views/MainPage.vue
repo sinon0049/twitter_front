@@ -1,5 +1,6 @@
 <template>
-  <div class="page-container">
+  <LoadingSpinner v-if="isProcessing" />
+  <div class="page-container" v-else>
     <SideBar />
     <div class="main-container">
       <div class="main-header">
@@ -87,6 +88,7 @@ import SideBar from "../components/SideBar.vue";
 import PopularList from "../components/PopularList.vue";
 import ReplyModal from "../components/ReplyModal.vue";
 import TweetList from "../components/TweetList.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
 import type { tweet, like, likeResponse, newReply } from "env";
@@ -116,6 +118,7 @@ export default defineComponent({
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+    const isProcessing = ref(true);
     //assign clicked tweet to currentReplyingTweet for modal usage
     function onReply(id: number) {
       tweetList.forEach((item) => {
@@ -217,6 +220,7 @@ export default defineComponent({
           if (!item.isLike) item.isLike = false;
           tweetList.push(item);
         });
+        isProcessing.value = false;
       } catch (error) {
         console.log(error);
       }
@@ -228,6 +232,7 @@ export default defineComponent({
       currentUser,
       currentReplyingTweet,
       tweetComment,
+      isProcessing,
       onReply,
       createTweet,
       createReply,
@@ -239,6 +244,7 @@ export default defineComponent({
     PopularList,
     ReplyModal,
     TweetList,
+    LoadingSpinner,
   },
 });
 </script>

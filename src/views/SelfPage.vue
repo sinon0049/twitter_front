@@ -1,5 +1,6 @@
 <template>
-  <div class="page-container">
+  <LoadingSpinner v-if="isProcessing" />
+  <div class="page-container" v-else>
     <SideBar />
     <div class="main-container">
       <div class="main-header">
@@ -210,6 +211,7 @@ import TweetList from "../components/TweetList.vue";
 import ReplyList from "../components/ReplyList.vue";
 import ReplyModal from "../components/ReplyModal.vue";
 import EditModal from "../components/EditModal.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { usersAPI } from "@/apis/user";
 import { tweetsAPI } from "@/apis/tweet";
 import { repliesAPI } from "@/apis/reply";
@@ -275,9 +277,11 @@ export default defineComponent({
       Replies: [],
       Tweets: [],
     });
+    const isProcessing = ref(true);
     //get all lists and user info when mounted and assign them to refs and reactives
     async function loadUser(userId: number) {
       try {
+        isProcessing.value = true;
         //clear list
         tweetList.splice(0, tweetList.length);
         likeList.splice(0, likeList.length);
@@ -311,6 +315,7 @@ export default defineComponent({
         replyOfUser.data.forEach(function (item: reply) {
           replyList.push(item);
         });
+        isProcessing.value = false;
       } catch (error) {
         console.log(error);
       }
@@ -440,6 +445,7 @@ export default defineComponent({
       storeFollowings,
       currentReplyingTweet,
       isExactUser,
+      isProcessing,
       goBackToPrevPage,
       changeList,
       onReply,
@@ -455,6 +461,7 @@ export default defineComponent({
     ReplyModal,
     EditModal,
     ReplyList,
+    LoadingSpinner,
   },
 });
 </script>
