@@ -1,107 +1,111 @@
 <template>
-  <LoadingSpinner v-if="isProcessing" />
-  <div class="page-container" v-else>
+  <div class="page-container">
     <SideBar />
     <div class="main-container">
-      <div class="main-header">
-        <font-awesome-icon
-          icon="arrow-left"
-          class="cursor-pointer"
-          size="lg"
-          @click="goBackToPrevPage"
-        />
-        <span>&nbsp;&nbsp;{{ detailOfUser.name }}</span>
-      </div>
-      <div class="cover-container">
-        <div class="cover">
-          <img :src="detailOfUser.cover" alt="..." class="img-cover" />
+      <LoadingSpinner v-if="isProcessing" />
+      <div v-else>
+        <div class="main-header">
+          <font-awesome-icon
+            icon="arrow-left"
+            class="cursor-pointer"
+            size="lg"
+            @click="goBackToPrevPage"
+          />
+          <span>&nbsp;&nbsp;{{ detailOfUser.name }}</span>
         </div>
-        <img :src="detailOfUser.avatar" alt="..." class="img-avatar" />
-        <button
-          class="btn-white btn-modal"
-          data-bs-toggle="modal"
-          data-bs-target="#editModal"
-          v-if="isExactUser"
-        >
-          編輯個人資料
-        </button>
-        <div class="btn-group" v-else>
-          <button class="btn-white icon">
-            <font-awesome-icon :icon="['far', 'envelope']" size="lg" />
-          </button>
-          <button class="btn-white icon">
-            <font-awesome-icon :icon="['far', 'bell']" size="lg" />
-          </button>
+        <div class="cover-container">
+          <div class="cover">
+            <img :src="detailOfUser.cover" alt="..." class="img-cover" />
+          </div>
+          <img :src="detailOfUser.avatar" alt="..." class="img-avatar" />
           <button
-            class="btn-orange follow"
-            v-if="storeFollowings.isSelfPageUserYourFollowing.isFollowing"
-            @click.stop.prevent="
-              storeFollowings.deleteFollowing(detailOfUser.id)
-            "
+            class="btn-white btn-modal"
+            data-bs-toggle="modal"
+            data-bs-target="#editModal"
+            v-if="isExactUser"
           >
-            正在跟隨
+            編輯個人資料
           </button>
-          <button
-            class="btn-white follow"
-            v-else
-            @click.stop.prevent="storeFollowings.addFollowing(detailOfUser.id)"
-          >
-            跟隨
-          </button>
+          <div class="btn-group" v-else>
+            <button class="btn-white icon">
+              <font-awesome-icon :icon="['far', 'envelope']" size="lg" />
+            </button>
+            <button class="btn-white icon">
+              <font-awesome-icon :icon="['far', 'bell']" size="lg" />
+            </button>
+            <button
+              class="btn-orange follow"
+              v-if="storeFollowings.isSelfPageUserYourFollowing.isFollowing"
+              @click.stop.prevent="
+                storeFollowings.deleteFollowing(detailOfUser.id)
+              "
+            >
+              正在跟隨
+            </button>
+            <button
+              class="btn-white follow"
+              v-else
+              @click.stop.prevent="
+                storeFollowings.addFollowing(detailOfUser.id)
+              "
+            >
+              跟隨
+            </button>
+          </div>
+          <EditModal
+            :currentReplyingTweet="currentReplyingTweet"
+            @handleUpdateUser="handleUpdateUser"
+          />
         </div>
-        <EditModal
-          :currentReplyingTweet="currentReplyingTweet"
-          @handleUpdateUser="handleUpdateUser"
+        <div class="self-info">
+          <span class="info-name">{{ detailOfUser.name }}</span>
+          <span class="light info-account">@{{ detailOfUser.account }}</span>
+          <span class="info-description">{{ detailOfUser.introduction }}</span>
+          <div>
+            <span>{{ detailOfUser.Followings.length }}個</span>
+            <span class="light">追隨中 </span>
+            <span> &nbsp;{{ detailOfUser.Followers.length }}個</span>
+            <span class="light">追隨者</span>
+          </div>
+        </div>
+        <div class="self-tweet-menu">
+          <span
+            class="cursor-pointer"
+            :class="{ selected: listStatus === selfMenu.tweet }"
+            @click.stop.prevent="changeList(selfMenu.tweet)"
+            >推文</span
+          >
+          <span
+            class="cursor-pointer"
+            :class="{ selected: listStatus === selfMenu.reply }"
+            @click.stop.prevent="changeList(selfMenu.reply)"
+            >推文及回覆</span
+          >
+          <span
+            class="cursor-pointer"
+            :class="{ selected: listStatus === selfMenu.like }"
+            @click.stop.prevent="changeList(selfMenu.like)"
+            >喜歡的內容</span
+          >
+        </div>
+        <TweetList
+          :tweetList="tweetList"
+          @onReply="onReply"
+          @handleToggleLike="handleToggleLike"
+          v-if="listStatus === selfMenu.tweet"
+        />
+        <ReplyList
+          :replyList="replyList"
+          @onReply="onReply"
+          v-else-if="listStatus === selfMenu.reply"
+        />
+        <TweetList
+          :tweetList="likeList"
+          @onReply="onReply"
+          @handleToggleLike="handleToggleLike"
+          v-else
         />
       </div>
-      <div class="self-info">
-        <span class="info-name">{{ detailOfUser.name }}</span>
-        <span class="light info-account">@{{ detailOfUser.account }}</span>
-        <span class="info-description">{{ detailOfUser.introduction }}</span>
-        <div>
-          <span>{{ detailOfUser.Followings.length }}個</span>
-          <span class="light">追隨中 </span>
-          <span> &nbsp;{{ detailOfUser.Followers.length }}個</span>
-          <span class="light">追隨者</span>
-        </div>
-      </div>
-      <div class="self-tweet-menu">
-        <span
-          class="cursor-pointer"
-          :class="{ selected: listStatus === selfMenu.tweet }"
-          @click.stop.prevent="changeList(selfMenu.tweet)"
-          >推文</span
-        >
-        <span
-          class="cursor-pointer"
-          :class="{ selected: listStatus === selfMenu.reply }"
-          @click.stop.prevent="changeList(selfMenu.reply)"
-          >推文及回覆</span
-        >
-        <span
-          class="cursor-pointer"
-          :class="{ selected: listStatus === selfMenu.like }"
-          @click.stop.prevent="changeList(selfMenu.like)"
-          >喜歡的內容</span
-        >
-      </div>
-      <TweetList
-        :tweetList="tweetList"
-        @onReply="onReply"
-        @handleToggleLike="handleToggleLike"
-        v-if="listStatus === selfMenu.tweet"
-      />
-      <ReplyList
-        :replyList="replyList"
-        @onReply="onReply"
-        v-else-if="listStatus === selfMenu.reply"
-      />
-      <TweetList
-        :tweetList="likeList"
-        @onReply="onReply"
-        @handleToggleLike="handleToggleLike"
-        v-else
-      />
     </div>
     <PopularList />
     <ReplyModal

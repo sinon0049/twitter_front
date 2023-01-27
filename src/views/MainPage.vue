@@ -1,33 +1,36 @@
 <template>
-  <LoadingSpinner v-if="isProcessing" />
-  <div class="page-container" v-else>
+  <div class="page-container">
     <SideBar />
+
     <div class="main-container">
-      <div class="main-header">
-        <span>首頁</span>
+      <LoadingSpinner v-if="isProcessing" />
+      <div v-else>
+        <div class="main-header">
+          <span>首頁</span>
+        </div>
+        <div id="tweet-input">
+          <img :src="currentUser.info.avatar" alt="..." class="avatar" />
+          <textarea
+            name="newTweet"
+            cols="30"
+            rows="5"
+            placeholder="有什麼新鮮事?"
+            maxlength="140"
+            v-model="tweetContent"
+          ></textarea>
+          <button
+            class="btn-orange cursor-pointer"
+            @click.stop.prevent="createTweet"
+          >
+            推文
+          </button>
+        </div>
+        <TweetList
+          :tweetList="tweetList"
+          @onReply="onReply"
+          @handleToggleLike="handleToggleLike"
+        />
       </div>
-      <div id="tweet-input">
-        <img :src="currentUser.info.avatar" alt="..." class="avatar" />
-        <textarea
-          name="newTweet"
-          cols="30"
-          rows="5"
-          placeholder="有什麼新鮮事?"
-          maxlength="140"
-          v-model="tweetContent"
-        ></textarea>
-        <button
-          class="btn-orange cursor-pointer"
-          @click.stop.prevent="createTweet"
-        >
-          推文
-        </button>
-      </div>
-      <TweetList
-        :tweetList="tweetList"
-        @onReply="onReply"
-        @handleToggleLike="handleToggleLike"
-      />
     </div>
     <PopularList />
     <ReplyModal
