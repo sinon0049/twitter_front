@@ -1,14 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import NotFound from "../views/NotFound.vue";
-import SignUpPage from "../views/SignUpPage.vue";
-import SignInPage from "../views/SignInPage.vue";
-import SettingPage from "../views/SettingPage.vue";
-import MainPage from "../views/MainPage.vue";
-import ReplyPage from "../views/ReplyPage.vue";
-import SelfPage from "../views/SelfPage.vue";
-import FollowPage from "../views/FollowPage.vue";
-import AdminSignin from "../views/AdminSignin.vue";
-import AdminMain from "../views/AdminMain.vue";
+import { defineAsyncComponent } from "vue";
 import { useCurrentUser } from "@/stores/currentUser";
 import { usersAPI } from "@/apis/user";
 import { followshipAPI } from "@/apis/followship";
@@ -22,58 +13,58 @@ const router = createRouter({
     {
       path: "/signup",
       name: "sign-up",
-      component: SignUpPage,
+      component: defineAsyncComponent(() => import("../views/SignUpPage.vue")),
     },
     {
       path: "/signin",
       name: "sign-in",
-      component: SignInPage,
+      component: defineAsyncComponent(() => import("../views/SignInPage.vue")),
     },
     {
       path: "/setting",
       name: "setting",
       beforeEnter: checkIfUser,
-      component: SettingPage,
+      component: defineAsyncComponent(() => import("../views/SettingPage.vue")),
     },
     {
       path: "/main",
       name: "main",
       beforeEnter: checkIfUser,
-      component: MainPage,
+      component: defineAsyncComponent(() => import("../views/MainPage.vue")),
     },
     {
       path: "/reply/:id",
       name: "reply-page",
       beforeEnter: checkIfUser,
-      component: ReplyPage,
+      component: defineAsyncComponent(() => import("../views/ReplyPage.vue")),
     },
     {
       path: "/self/:id",
       name: "self-page",
       beforeEnter: checkIfUser,
-      component: SelfPage,
+      component: defineAsyncComponent(() => import("../views/SelfPage.vue")),
     },
     {
       path: "/follow/:id",
       name: "follow-page",
       beforeEnter: checkIfUser,
-      component: FollowPage,
+      component: defineAsyncComponent(() => import("../views/FollowPage.vue")),
     },
     {
       path: "/admin/signin",
       name: "admin-signin",
-      component: AdminSignin,
+      component: defineAsyncComponent(() => import("../views/AdminSignin.vue")),
     },
     {
       path: "/admin/main",
       name: "admin-main",
       beforeEnter: checkIfAdmin,
-      component: AdminMain,
+      component: defineAsyncComponent(() => import("../views/AdminMain.vue")),
     },
     {
       path: "/:catchAll(.*)",
       name: "not-found",
-      component: NotFound,
+      component: defineAsyncComponent(() => import("../views/NotFound.vue")),
     },
   ],
 });
