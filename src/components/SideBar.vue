@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-container">
+  <aside>
     <!-- side bar for user -->
     <div v-if="currentUser.info.role === 'user'">
       <router-link to="/main" class="main">
@@ -78,12 +78,12 @@
         </div>
       </div>
     </div>
-  </div>
+  </aside>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @media screen and (max-width: 768px) {
-  .sidebar-container {
+  aside {
     background-color: $input-background;
     z-index: 999;
     position: fixed;
@@ -123,7 +123,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .sidebar-container {
+  aside {
     width: 25%;
     max-width: 200px;
     position: relative;

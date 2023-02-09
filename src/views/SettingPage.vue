@@ -1,10 +1,10 @@
 <template>
   <div class="page-container" style="justify-content: end">
     <SideBar />
-    <div class="main-container">
-      <div class="main-header">
+    <main>
+      <header>
         <span>帳戶設定</span>
-      </div>
+      </header>
       <div class="input-container">
         <div class="input">
           <label for="account">帳號</label>
@@ -38,7 +38,7 @@
           儲存
         </button>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -111,7 +111,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .page-container {
-  .main-container {
+  main {
     width: 100%;
     .input-container {
       width: 80%;
@@ -153,8 +153,8 @@ export default defineComponent({
 
 @media screen and(min-width: 768px) {
   .page-container {
-    .main-container {
-      width: 74%;
+    main {
+      width: 75%;
       .input-container {
         width: 50%;
         margin-left: 20px;

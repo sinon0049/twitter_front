@@ -1,5 +1,5 @@
 <template>
-  <div class="popular-container" @click="handleToggleFollowing">
+  <aside @click="handleToggleFollowing">
     <div class="popular-head">
       <span>Popular</span>
     </div>
@@ -48,16 +48,16 @@
         顯示更多
       </router-link>
     </div>
-  </div>
+  </aside>
 </template>
 
 <style lang="scss" scoped>
 @media screen and (max-width: 960px) {
-  .popular-container {
+  aside {
     display: none;
   }
 }
-.popular-container {
+aside {
   margin: {
     left: 30px;
     top: 15px;

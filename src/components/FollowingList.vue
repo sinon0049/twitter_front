@@ -137,7 +137,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .tweet-container {
   .tweet-card {
     .tweet-content {

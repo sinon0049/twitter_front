@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <SideBar />
-    <div class="main-container">
-      <div class="main-header" style="border-bottom: 0">
+    <main>
+      <header style="border-bottom: 0">
         <font-awesome-icon
           icon="arrow-left"
           class="cursor-pointer"
@@ -14,7 +14,7 @@
           <span>{{ userName }}</span>
           <span class="light">{{ tweetCount }}貼文</span>
         </div>
-      </div>
+      </header>
       <div class="follow-menu">
         <span
           class="cursor-pointer"
@@ -37,7 +37,7 @@
         :followshipList="followingList"
         v-if="listStatus === followMenu.following"
       />
-    </div>
+    </main>
     <PopularList />
   </div>
 </template>
@@ -122,11 +122,11 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .page-container {
-  .main-container {
+  main {
     width: 40%;
-    .main-header {
+    header {
       .name {
         .light {
           font-size: 5px;

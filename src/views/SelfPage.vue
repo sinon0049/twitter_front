@@ -1,10 +1,10 @@
 <template>
   <div class="page-container">
     <SideBar />
-    <div class="main-container">
+    <main>
       <LoadingSpinner v-if="isProcessing" />
-      <div v-else>
-        <div class="main-header">
+      <div class="loaded" v-else>
+        <header>
           <font-awesome-icon
             icon="arrow-left"
             class="cursor-pointer"
@@ -12,7 +12,7 @@
             @click="goBackToPrevPage"
           />
           <span>&nbsp;&nbsp;{{ detailOfUser.name }}</span>
-        </div>
+        </header>
         <div class="cover-container">
           <div class="cover">
             <img :src="detailOfUser.cover" alt="..." class="img-cover" />
@@ -106,7 +106,7 @@
           v-else
         />
       </div>
-    </div>
+    </main>
     <PopularList />
     <ReplyModal
       :currentReplyingTweet="currentReplyingTweet"
@@ -116,7 +116,7 @@
 </template>
 
 <style lang="scss" scoped>
-.main-container {
+main {
   width: 40%;
   display: flex;
   flex-direction: column;

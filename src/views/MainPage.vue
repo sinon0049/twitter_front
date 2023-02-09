@@ -1,13 +1,12 @@
 <template>
   <div class="page-container">
     <SideBar />
-
-    <div class="main-container">
+    <main>
       <LoadingSpinner v-if="isProcessing" />
-      <div v-else>
-        <div class="main-header">
+      <div class="loaded" v-else>
+        <header>
           <span>首頁</span>
-        </div>
+        </header>
         <div id="tweet-input">
           <img :src="currentUser.info.avatar" alt="..." class="avatar" />
           <textarea
@@ -31,7 +30,7 @@
           @handleToggleLike="handleToggleLike"
         />
       </div>
-    </div>
+    </main>
     <PopularList />
     <ReplyModal
       :currentReplyingTweet="currentReplyingTweet"
@@ -41,10 +40,8 @@
 </template>
 
 <style lang="scss" scoped>
-.main-container {
+main {
   width: 40%;
-  display: flex;
-  flex-direction: column;
   #tweet-input {
     position: relative;
     border-bottom: 10px solid $border;

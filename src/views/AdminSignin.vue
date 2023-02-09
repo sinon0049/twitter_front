@@ -45,6 +45,7 @@
   padding: 50px 0;
   margin: 0 auto;
   width: 100%;
+  height: unset;
   max-width: 400px;
   position: relative;
   .input {

@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <SideBar />
-    <div class="main-container">
-      <div class="main-header">
+    <main>
+      <header>
         <font-awesome-icon
           icon="arrow-left"
           class="cursor-pointer"
@@ -10,7 +10,7 @@
           @click="goBackToPrevPage"
         />
         <span>&nbsp;&nbsp;推文</span>
-      </div>
+      </header>
       <div class="tweet">
         <div class="tweet-header">
           <router-link
@@ -100,27 +100,19 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
     <PopularList />
     <ReplyModal :currentReplyingTweet="tweet" @createReply="createReply" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.main-container {
+main {
   width: 40%;
-  display: flex;
-  flex-direction: column;
   img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-  }
-  .break-line {
-    width: 100%;
-    border: 0;
-    height: 1px;
-    background-color: $border;
   }
   .tweet {
     padding: {
