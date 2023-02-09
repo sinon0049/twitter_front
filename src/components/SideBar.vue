@@ -32,7 +32,6 @@
           <font-awesome-icon icon="gear" size="lg" />
           <span>設定</span>
         </router-link>
-        <button class="btn-orange cursor-pointer" id="tweet">推文</button>
         <div
           class="btn-group cursor-pointer"
           id="sign-out"

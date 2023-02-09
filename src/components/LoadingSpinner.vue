@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div class="loader-container">
     <div class="loader"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.container {
-  height: 100vh;
-  width: 100vw;
+.loader-container {
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

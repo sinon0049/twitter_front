@@ -108,7 +108,6 @@
 
 <style lang="scss" scoped>
 main {
-  width: 40%;
   img {
     width: 50px;
     height: 50px;

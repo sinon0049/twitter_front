@@ -73,9 +73,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tweet-container {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
   .tweet-card {
     width: 100%;
     height: 70px;
@@ -86,10 +83,7 @@ export default defineComponent({
     padding-left: 10px;
     border: 1px solid $border;
     img {
-      height: 50px;
-      width: 50px;
-      object-fit: cover;
-      border-radius: 50%;
+      @include user-pic;
     }
     .tweet-content {
       display: flex;

@@ -117,13 +117,13 @@
 
 <style lang="scss" scoped>
 main {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
   .cover-container {
     position: relative;
     height: 30vh;
     text-align: right;
+    img {
+      object-fit: cover;
+    }
     .cover {
       width: 100%;
       height: 80%;

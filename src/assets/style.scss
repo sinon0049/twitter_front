@@ -9,6 +9,61 @@ html {
         margin: 0;
         font-family: 'Noto Sans TC', '微軟正黑體', sans-serif;
         #app {
+            height: 100%;
+            .sign-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 50px 0;
+                margin: 0 auto;
+                width: 100%;
+                max-width: 400px;
+                position: relative;
+                .input-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    background-color: $input-background;
+                    margin-top: 20px;
+                    width: 80%;
+                    label {
+                      position: relative;
+                      left: 5px;
+                      top: 2px;
+                    }
+                    input {
+                      line-height: 20px;
+                      background-color: $input-background;
+                      border: {
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                      }
+                    }
+                  }
+                  img {
+                    @include user-pic;
+                  }
+                  button {
+                    font-weight: bold;
+                    font-size: 16px;
+                    margin: 30px 0 15px 0;
+                    width: 80%;
+                    border-radius: 20px;
+                    height: 40px;
+                  }
+                  .options-container {
+                    position: absolute;
+                    right: 50px;
+                    bottom: 20px;
+                    span {
+                      display: inline-block;
+                      width: 15px;
+                      text-align: center;
+                      color: $link;
+                      background-color: white;
+                    }
+                }
+            }
             .page-container {
                 height: 100%;
                 width: 100%;
@@ -17,7 +72,10 @@ html {
                 justify-content: center;
                 position: relative;
                 main {
-                    border: 1px solid $border;
+                    border: {
+                        left: 1px solid $border;
+                        right: 1px solid $border;
+                    }
                     .loaded {
                         height: 100%;
                         display: flex;
@@ -54,8 +112,7 @@ html {
                         height: fit-content;
                         border-bottom: 1px solid #dddddd;
                         img {
-                            width: 50px;
-                            height: 50px;
+                            @include user-pic;
                             margin: {
                                 left: 15px;
                                 top: 10px;
@@ -97,7 +154,6 @@ html {
                     }
                 }
             }
-            height: 100%;
             textarea {
                 overflow: visible;
                 resize: none;
@@ -108,9 +164,6 @@ html {
                     background: $scrollbar-thumb;
                     border-radius: 3px;
                 }
-            }
-            img {
-                object-fit: cover;
             }
             .avatar { 
                 border-radius: 50%;
@@ -164,18 +217,9 @@ html {
 
 // for screen width below 768px only
 @media screen and (max-width: 768px) {
-    html {
-        body {
-            #app {
-                .page-container {
-                    main {
-                        width: 100%;
-                        height: 95%;
-                    }
-                }
-                
-            }
-        }
+    main {
+        width: 100%;
+        height: 95%;
     }
 }
 

@@ -41,7 +41,6 @@
 
 <style lang="scss" scoped>
 main {
-  width: 40%;
   #tweet-input {
     position: relative;
     border-bottom: 10px solid $border;

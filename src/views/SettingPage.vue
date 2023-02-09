@@ -6,23 +6,23 @@
         <span>帳戶設定</span>
       </header>
       <div class="input-container">
-        <div class="input">
+        <div class="input-wrapper">
           <label for="account">帳號</label>
           <input type="text" id="account" v-model="tempRender.account" />
         </div>
-        <div class="input">
+        <div class="input-wrapper">
           <label for="name">名稱</label>
           <input type="text" id="name" v-model="tempRender.name" />
         </div>
-        <div class="input">
+        <div class="input-wrapper">
           <label for="email">Email</label>
           <input type="email" id="email" v-model="tempRender.email" />
         </div>
-        <div class="input">
+        <div class="input-wrapper">
           <label for="password">密碼</label>
           <input type="password" id="password" v-model="tempRender.password" />
         </div>
-        <div class="input">
+        <div class="input-wrapper">
           <label for="confirmPasswprd">密碼確認</label>
           <input
             type="password"
@@ -112,12 +112,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 .page-container {
   main {
-    width: 100%;
     .input-container {
       width: 80%;
       margin: 0 auto;
       position: relative;
-      .input {
+      .input-wrapper {
         display: flex;
         flex-direction: column;
         background-color: $input-background;
@@ -158,38 +157,6 @@ export default defineComponent({
       .input-container {
         width: 50%;
         margin-left: 20px;
-        margin-top: 40px;
-        position: relative;
-        .input {
-          display: flex;
-          flex-direction: column;
-          background-color: $input-background;
-          margin-top: 20px;
-          label {
-            position: relative;
-            left: 5px;
-            top: 2px;
-          }
-          input {
-            width: 100%;
-            padding: 0;
-            line-height: 20px;
-            background-color: $input-background;
-            border: {
-              top: 0;
-              left: 0;
-              right: 0;
-            }
-          }
-        }
-        #confirm {
-          margin: 30px 0 15px 0;
-          width: 120px;
-          border-radius: 20px;
-          height: 40px;
-          position: absolute;
-          right: 0;
-        }
       }
     }
   }

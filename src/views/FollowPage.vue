@@ -125,7 +125,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .page-container {
   main {
-    width: 40%;
     header {
       .name {
         .light {

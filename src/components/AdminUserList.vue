@@ -72,6 +72,7 @@
         left: 50%;
         bottom: 5%;
         transform: translateX(-50%);
+        background-color: white;
       }
     }
     .user-info {

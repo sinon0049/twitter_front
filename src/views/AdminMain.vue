@@ -41,17 +41,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @media screen and (max-width: 768px) {
-  .page-container {
-    main {
-      width: 100%;
-    }
+  main {
+    width: 100%;
   }
 }
-.page-container {
+
+@media screen and (min-width: 768px) {
   main {
-    display: flex;
-    flex-direction: column;
-    width: 74%;
+    width: 75%;
   }
 }
 </style>
