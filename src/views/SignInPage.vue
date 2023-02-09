@@ -18,10 +18,7 @@
         @keyup.enter="signIn"
       />
     </div>
-    <button
-      class="btn-orange cursor-pointer"
-      @click.stop.prevent="signIn"
-    >
+    <button class="btn-orange cursor-pointer" @click.stop.prevent="signIn">
       登入
     </button>
     <div class="options-container">
