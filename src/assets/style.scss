@@ -96,6 +96,8 @@ html {
                 .tweet-container {
                     overflow-y: auto;
                     flex: 1;
+                    scrollbar-width: thin;
+                    scrollbar-color: dark light;
                     &::-webkit-scrollbar {
                         width: 6px;
                     }
