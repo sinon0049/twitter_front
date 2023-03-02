@@ -90,7 +90,7 @@
     bottom: 0;
     display: flex;
     width: 100%;
-    height: 5%;
+    height: 50px;
     div {
       width: 100%;
       .btn-container {
