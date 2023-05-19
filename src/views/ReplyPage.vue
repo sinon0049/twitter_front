@@ -181,7 +181,7 @@ import ReplyModal from "../components/ReplyModal.vue";
 import { useRoute } from "vue-router";
 import { tweetsAPI } from "@/apis/tweet";
 import { likesAPI } from "@/apis/like";
-import type { like, tweet } from "env";
+import type { Like, Tweet } from "env";
 import { useCurrentUser } from "@/stores/currentUser";
 import dayjs from "dayjs";
 import router from "@/router";
@@ -196,7 +196,7 @@ interface newTweet {
 export default defineComponent({
   setup() {
     const currentUser = useCurrentUser();
-    const tweet: tweet = reactive({
+    const tweet: Tweet = reactive({
       id: -1,
       UserId: -1,
       description: "",
@@ -218,7 +218,7 @@ export default defineComponent({
       try {
         const { id } = useRoute().params;
         const { data } = await tweetsAPI.getTweet({ id: Number(id) });
-        data.Likes.forEach(function (item: like) {
+        data.Likes.forEach(function (item: Like) {
           if (item.userId === currentUser.info.id) data.isLike = true;
         });
         Object.assign(tweet, data);
@@ -247,7 +247,7 @@ export default defineComponent({
         const { data } = await likesAPI.deleteLike(payLoad);
         if (data.status === "success") {
           tweet.isLike = false;
-          tweet.Likes.forEach(function (item: like) {
+          tweet.Likes.forEach(function (item: Like) {
             if (item.userId === currentUser.info.id) {
               tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
             }

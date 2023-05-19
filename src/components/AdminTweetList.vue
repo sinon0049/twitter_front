@@ -23,13 +23,13 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive } from "vue";
 import { adminTweetsAPI } from "@/apis/admin/tweet";
-import type { tweet } from "env";
+import type { Tweet } from "env";
 import dayjs from "dayjs";
 import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   setup() {
-    const tweetList: tweet[] = reactive([]);
+    const tweetList: Tweet[] = reactive([]);
 
     function dateFromNow(date: Date) {
       return dayjs().to(date);
@@ -56,7 +56,7 @@ export default defineComponent({
     onMounted(async () => {
       try {
         const { data } = await adminTweetsAPI.getAllTweets();
-        data.forEach((item: tweet) => tweetList.push(item));
+        data.forEach((item: Tweet) => tweetList.push(item));
       } catch (error) {
         console.log(error);
       }

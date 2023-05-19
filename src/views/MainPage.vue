@@ -90,7 +90,7 @@ import TweetList from "../components/TweetList.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { tweetsAPI } from "@/apis/tweet";
 import { useCurrentUser } from "@/stores/currentUser";
-import type { tweet, like, likeResponse, newReply } from "env";
+import type { Tweet, Like, ResponseOfAddingLike, NewReply } from "env";
 import { swalAlert } from "@/utils/helper";
 import * as bootstrap from "bootstrap";
 
@@ -98,9 +98,9 @@ export default defineComponent({
   setup() {
     const tweetContent = ref("");
     const tweetComment = ref("");
-    const tweetList: tweet[] = reactive([]);
+    const tweetList: Tweet[] = reactive([]);
     const currentUser = useCurrentUser();
-    const currentReplyingTweet: tweet = reactive({
+    const currentReplyingTweet: Tweet = reactive({
       id: -1,
       UserId: -1,
       description: "",
@@ -130,7 +130,7 @@ export default defineComponent({
     function handleToggleLike(
       action: string,
       tweetId: number,
-      resData: likeResponse
+      resData: ResponseOfAddingLike
     ) {
       if (action === "add") {
         return tweetList.forEach((tweet) => {
@@ -145,7 +145,7 @@ export default defineComponent({
         return tweetList.forEach((tweet) => {
           if (tweet.id === tweetId) {
             tweet.isLike = false;
-            tweet.Likes.forEach(function (item: like) {
+            tweet.Likes.forEach(function (item: Like) {
               if (item.userId === currentUser.info.id) {
                 tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
               }
@@ -186,7 +186,7 @@ export default defineComponent({
       }
     }
     //create reply
-    async function createReply(payLoad: newReply) {
+    async function createReply(payLoad: NewReply) {
       try {
         const replyModal = document.getElementById("replyModal") as Element;
         const modal = bootstrap.Modal.getInstance(replyModal);
@@ -213,8 +213,8 @@ export default defineComponent({
     onMounted(async () => {
       try {
         const { data } = await tweetsAPI.getAllTweets();
-        data.forEach(function (item: tweet) {
-          item.Likes.forEach(function (like: like) {
+        data.forEach(function (item: Tweet) {
+          item.Likes.forEach(function (like: Like) {
             if (like.userId === currentUser.info.id) item.isLike = true;
           });
           if (!item.isLike) item.isLike = false;

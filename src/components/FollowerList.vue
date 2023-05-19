@@ -21,8 +21,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import type { PropType } from "vue";
+import type { Followship } from "env";
 
 export default defineComponent({
-  props: ["followshipList"],
+  props: {
+    followshipList: {
+      type: Array as PropType<Followship[]>,
+    },
+  },
 });
 </script>

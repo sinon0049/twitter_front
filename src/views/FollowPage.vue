@@ -18,24 +18,24 @@
       <div class="follow-menu">
         <span
           class="cursor-pointer"
-          :class="{ selected: listStatus === followMenu.follower }"
-          @click.stop.prevent="changeList(followMenu.follower)"
+          :class="{ selected: listStatus === FollowMenu.follower }"
+          @click.stop.prevent="changeList(FollowMenu.follower)"
           >跟隨者</span
         >
         <span
           class="cursor-pointer"
-          :class="{ selected: listStatus === followMenu.following }"
-          @click.stop.prevent="changeList(followMenu.following)"
+          :class="{ selected: listStatus === FollowMenu.following }"
+          @click.stop.prevent="changeList(FollowMenu.following)"
           >正在跟隨</span
         >
       </div>
       <FollowerList
         :followshipList="followerList"
-        v-if="listStatus === followMenu.follower"
+        v-if="listStatus === FollowMenu.follower"
       />
       <FollowingList
         :followshipList="followingList"
-        v-if="listStatus === followMenu.following"
+        v-if="listStatus === FollowMenu.following"
       />
     </main>
     <PopularList />
@@ -50,21 +50,21 @@ import FollowingList from "@/components/FollowingList.vue";
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { followshipAPI } from "@/apis/followship";
-import type { followship, followingList } from "env";
+import type { Followship, Followings } from "env";
 import { tweetsAPI } from "@/apis/tweet";
 import { usersAPI } from "@/apis/user";
 
 export default defineComponent({
   setup() {
-    enum followMenu {
+    enum FollowMenu {
       following = "following",
       follower = "follower",
     }
     const router = useRouter();
     const route = useRoute();
-    const listStatus = ref(followMenu.follower);
-    const followerList: followship[] = reactive([]);
-    const followingList: followingList = reactive({
+    const listStatus = ref(FollowMenu.follower);
+    const followerList: Followship[] = reactive([]);
+    const followingList: Followings = reactive({
       Followings: [],
       Unfollowings: [],
     });
@@ -85,9 +85,10 @@ export default defineComponent({
         //assign list to reactive arrays
         followingList.Followings = [...followingData.data.Followings];
         followingList.Unfollowings = [...followingData.data.Unfollowings];
-        followerData.data.forEach((item: followship) =>
+        followerData.data.forEach((item: Followship) =>
           followerList.push(item)
         );
+        console.log(followerList[0]);
         tweetCount.value = tweetData.data.length;
         userName.value = userData.data.name;
       } catch (error) {
@@ -99,13 +100,13 @@ export default defineComponent({
       router.go(-1);
     }
     //control which list user is watching
-    function changeList(status: followMenu) {
+    function changeList(status: FollowMenu) {
       listStatus.value = status;
     }
     return {
       goBackToPrevPage,
       changeList,
-      followMenu,
+      FollowMenu,
       listStatus,
       followerList,
       followingList,

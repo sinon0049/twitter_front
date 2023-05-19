@@ -98,9 +98,16 @@ import { useRoute } from "vue-router";
 import { useCurrentUser } from "../stores/currentUser";
 import { useStoreFollowings } from "../stores/followship";
 import dayjs from "dayjs";
+import type { PropType } from "vue";
+import type { Followings } from "env";
 
 export default defineComponent({
-  props: ["followshipList"],
+  props: {
+    followshipList: {
+      type: Object as PropType<Followings>,
+      required: true,
+    },
+  },
   setup() {
     const currentUser = useCurrentUser();
     const storeFollowings = useStoreFollowings();

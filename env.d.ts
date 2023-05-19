@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-export interface userInfo {
+export interface User {
   id: number;
   name: string;
   account: string;
@@ -10,40 +10,34 @@ export interface userInfo {
   introduction?: string;
 }
 
-export interface fullUserInfo extends userInfo {
-  password: string;
+export interface CurrentUser extends User {
   role: string;
-  token: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface userDetail extends userInfo {
-  cover: string;
+export interface UserSocialStatus extends User {
   Followers: Array;
   Followings: Array;
-  Likes: Array;
-  Replies: Array;
   Tweets: tweet[];
   LikeCount?: number;
 }
 
-export interface reply {
+export interface Reply {
   id: number;
   UserId: number;
   TweetId: number;
   comment: string;
   createdAt: Date;
   updatedAt: Date;
-  User: userInfo;
+  User: User;
+  Tweet: Tweet;
 }
 
-interface newReply {
+interface NewReply {
   TweetId: number;
   content: string;
 }
 
-export interface like {
+export interface Like {
   id: number;
   userId: number;
   TweetId: number;
@@ -52,11 +46,11 @@ export interface like {
   Tweet: tweet;
 }
 
-export interface tweet {
+export interface Tweet {
   id: number;
   UserId: number;
   description: string;
-  User: userInfo;
+  User: User;
   Replies: reply[];
   Likes: like[];
   Like?: like;
@@ -65,7 +59,7 @@ export interface tweet {
   updatedAt: Date;
 }
 
-export interface request {
+export interface Request {
   id?: number;
   description?: string;
   TweetId?: number;
@@ -76,27 +70,27 @@ export interface request {
   email?: string;
 }
 
-export interface followship {
+export interface Followship {
   id: number;
   followerId: number;
   followingId: number;
   createdAt: Date | string;
   updatedAt: Date | string;
-  Following: userInfo;
+  Follower: User;
 }
 
-export interface followingList {
+export interface Followings {
   Followings: followship[];
-  Unfollowings: userInfo[];
+  Unfollowings: User[];
 }
 
-export interface likeResponse {
+export interface ResponseOfAddingLike {
   status: string;
   message: string;
-  like: like;
+  like: Like;
 }
 
-export interface userUpdateResponse {
+export interface UserUpdateResponse {
   status: string;
   message: string;
   avatar: string;

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import type { followingList } from "env";
+import type { Followings } from "env";
 import { reactive } from "vue";
 import { followshipAPI } from "@/apis/followship";
 import { swalAlert } from "@/utils/helper";
 
 export const useStoreFollowings = defineStore("storeFollowings", () => {
   //follow list used in PopularList.vue, SelfPage.vue & FollowingList.vue
-  const lists: followingList = reactive({
+  const lists: Followings = reactive({
     Followings: [],
     Unfollowings: [],
   });
@@ -26,7 +26,7 @@ export const useStoreFollowings = defineStore("storeFollowings", () => {
   }
 
   //assign followings from api to reactive object
-  function pushFollowings(payLoad: followingList) {
+  function pushFollowings(payLoad: Followings) {
     lists.Followings = [...payLoad.Followings];
     lists.Unfollowings = [...payLoad.Unfollowings];
   }

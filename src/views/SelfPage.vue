@@ -71,20 +71,20 @@
         <div class="self-tweet-menu">
           <span
             class="cursor-pointer"
-            :class="{ selected: listStatus === selfMenu.tweet }"
-            @click.stop.prevent="changeList(selfMenu.tweet)"
+            :class="{ selected: listStatus === SelfMenu.tweet }"
+            @click.stop.prevent="changeList(SelfMenu.tweet)"
             >推文</span
           >
           <span
             class="cursor-pointer"
-            :class="{ selected: listStatus === selfMenu.reply }"
-            @click.stop.prevent="changeList(selfMenu.reply)"
+            :class="{ selected: listStatus === SelfMenu.reply }"
+            @click.stop.prevent="changeList(SelfMenu.reply)"
             >推文及回覆</span
           >
           <span
             class="cursor-pointer"
-            :class="{ selected: listStatus === selfMenu.like }"
-            @click.stop.prevent="changeList(selfMenu.like)"
+            :class="{ selected: listStatus === SelfMenu.like }"
+            @click.stop.prevent="changeList(SelfMenu.like)"
             >喜歡的內容</span
           >
         </div>
@@ -92,12 +92,12 @@
           :tweetList="tweetList"
           @onReply="onReply"
           @handleToggleLike="handleToggleLike"
-          v-if="listStatus === selfMenu.tweet"
+          v-if="listStatus === SelfMenu.tweet"
         />
         <ReplyList
           :replyList="replyList"
           @onReply="onReply"
-          v-else-if="listStatus === selfMenu.reply"
+          v-else-if="listStatus === SelfMenu.reply"
         />
         <TweetList
           :tweetList="likeList"
@@ -223,13 +223,13 @@ import { useCurrentUser } from "@/stores/currentUser";
 import { useStoreFollowings } from "@/stores/followship";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import type {
-  reply,
-  tweet,
-  userDetail,
-  like,
-  likeResponse,
-  userUpdateResponse,
-  newReply,
+  Reply,
+  Tweet,
+  UserSocialStatus,
+  Like,
+  ResponseOfAddingLike,
+  UserUpdateResponse,
+  NewReply,
 } from "env";
 import { likesAPI } from "@/apis/like";
 import * as bootstrap from "bootstrap";
@@ -237,7 +237,7 @@ import { swalAlert } from "@/utils/helper";
 
 export default defineComponent({
   setup() {
-    enum selfMenu {
+    enum SelfMenu {
       tweet = "tweet",
       reply = "reply",
       like = "like",
@@ -248,11 +248,11 @@ export default defineComponent({
     const storeFollowings = useStoreFollowings();
     const router = useRouter();
     const route = useRoute();
-    const listStatus = ref(selfMenu.tweet);
-    const tweetList: tweet[] = reactive([]);
-    const likeList: tweet[] = reactive([]);
-    const replyList: reply[] = reactive([]);
-    const currentReplyingTweet: tweet = reactive({
+    const listStatus = ref(SelfMenu.tweet);
+    const tweetList: Tweet[] = reactive([]);
+    const likeList: Tweet[] = reactive([]);
+    const replyList: Reply[] = reactive([]);
+    const currentReplyingTweet: Tweet = reactive({
       id: -1,
       UserId: -1,
       description: "",
@@ -268,7 +268,7 @@ export default defineComponent({
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    const detailOfUser: userDetail = reactive({
+    const detailOfUser: UserSocialStatus = reactive({
       id: -1,
       name: "",
       account: "",
@@ -277,8 +277,6 @@ export default defineComponent({
       cover: "",
       Followings: [],
       Followers: [],
-      Likes: [],
-      Replies: [],
       Tweets: [],
     });
     const isProcessing = ref(true);
@@ -292,7 +290,7 @@ export default defineComponent({
         replyList.splice(0, replyList.length);
         //get data via api
         const payLoad = { id: userId };
-        const [userDetail, tweetsOfUser, replyOfUser, likeOfUser] =
+        const [UserSocialStatus, tweetsOfUser, replyOfUser, likeOfUser] =
           await Promise.all([
             usersAPI.getDetail(payLoad),
             tweetsAPI.getTweetOfSelectedUser(payLoad),
@@ -301,22 +299,22 @@ export default defineComponent({
           ]);
         isExactUser.value = userId === currentUser.info.id;
         storeFollowings.visitSelfPage(userId);
-        Object.assign(detailOfUser, userDetail.data);
+        Object.assign(detailOfUser, UserSocialStatus.data);
         //push data into list
-        tweetsOfUser.data.forEach(function (item: tweet) {
-          item.Likes.forEach(function (like: like) {
+        tweetsOfUser.data.forEach(function (item: Tweet) {
+          item.Likes.forEach(function (like: Like) {
             if (like.userId === currentUser.info.id) item.isLike = true;
           });
           if (!item.isLike) item.isLike = false;
           tweetList.push(item);
         });
-        likeOfUser.data.forEach(function (item: like) {
+        likeOfUser.data.forEach(function (item: Like) {
           likeList.push({
             ...item.Tweet,
             isLike: true,
           });
         });
-        replyOfUser.data.forEach(function (item: reply) {
+        replyOfUser.data.forEach(function (item: Reply) {
           replyList.push(item);
         });
         isProcessing.value = false;
@@ -340,7 +338,7 @@ export default defineComponent({
     function handleToggleLike(
       action: string,
       tweetId: number,
-      resData: likeResponse
+      resData: ResponseOfAddingLike
     ) {
       if (action === "add") {
         tweetList.forEach((tweet) => {
@@ -362,7 +360,7 @@ export default defineComponent({
         tweetList.forEach((tweet) => {
           if (tweet.id === tweetId) {
             tweet.isLike = false;
-            tweet.Likes.forEach(function (item: like) {
+            tweet.Likes.forEach(function (item: Like) {
               if (item.userId === currentUser.info.id) {
                 tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
               }
@@ -372,7 +370,7 @@ export default defineComponent({
         likeList.forEach((tweet) => {
           if (tweet.id === tweetId) {
             tweet.isLike = false;
-            tweet.Likes.forEach(function (item: like) {
+            tweet.Likes.forEach(function (item: Like) {
               if (item.userId === currentUser.info.id) {
                 tweet.Likes.splice(tweet.Likes.indexOf(item), 1);
               }
@@ -383,7 +381,7 @@ export default defineComponent({
       }
     }
     //update detailOfUser when successfully updated
-    function handleUpdateUser(data: userUpdateResponse) {
+    function handleUpdateUser(data: UserUpdateResponse) {
       detailOfUser.avatar = data.avatar;
       detailOfUser.cover = data.cover;
       detailOfUser.name = data.name;
@@ -391,7 +389,7 @@ export default defineComponent({
       return swalAlert.successMsg(data.message);
     }
     //create reply
-    async function createReply(payLoad: newReply) {
+    async function createReply(payLoad: NewReply) {
       try {
         const replyModal = document.getElementById("replyModal") as Element;
         const modal = bootstrap.Modal.getInstance(replyModal);
@@ -406,7 +404,7 @@ export default defineComponent({
               avatar: currentUser.info.avatar,
             },
           });
-          likeList.forEach(function (item: tweet) {
+          likeList.forEach(function (item: Tweet) {
             if (item.id === payLoad.TweetId) {
               item.Replies.unshift({
                 ...data.reply,
@@ -426,7 +424,7 @@ export default defineComponent({
       }
     }
     //change status of list
-    function changeList(status: selfMenu) {
+    function changeList(status: SelfMenu) {
       listStatus.value = status;
     }
     //onMounted action
@@ -439,7 +437,7 @@ export default defineComponent({
     });
 
     return {
-      selfMenu,
+      SelfMenu,
       listStatus,
       detailOfUser,
       tweetList,

@@ -46,9 +46,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import dayjs from "dayjs";
+import type { PropType } from "vue";
+import type { Reply } from "env";
 
 export default defineComponent({
-  props: ["replyList"],
+  props: {
+    replyList: {
+      type: Array as PropType<Reply[]>,
+    },
+  },
   setup() {
     //get time from now
     function dateFromNow(date: Date) {

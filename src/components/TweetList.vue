@@ -60,9 +60,15 @@
 import { defineComponent } from "vue";
 import dayjs from "dayjs";
 import { likesAPI } from "@/apis/like";
+import type { PropType } from "vue";
+import type { Tweet } from "env";
 
 export default defineComponent({
-  props: ["tweetList"],
+  props: {
+    tweetList: {
+      type: Array as PropType<Tweet[]>,
+    },
+  },
   setup(props, { emit }) {
     function dateFromNow(date: Date) {
       return dayjs().to(date);

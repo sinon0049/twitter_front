@@ -90,14 +90,14 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive } from "vue";
 import { adminAPI } from "@/apis/admin/user";
-import type { userDetail } from "env";
+import type { UserSocialStatus } from "env";
 
 export default defineComponent({
   setup() {
-    const userList: userDetail[] = reactive([]);
+    const userList: UserSocialStatus[] = reactive([]);
     onMounted(async () => {
       const { data } = await adminAPI.getAllUsers();
-      data.forEach((item: userDetail) => {
+      data.forEach((item: UserSocialStatus) => {
         let LikeCount = 0;
         item.Tweets.forEach((tweet) => {
           LikeCount += tweet.Likes.length;

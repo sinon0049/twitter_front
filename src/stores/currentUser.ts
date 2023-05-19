@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
-import type { fullUserInfo } from "env";
+import type { CurrentUser } from "env";
 
 export const useCurrentUser = defineStore("currentUser", () => {
   //currently sign-in user info
-  const info: fullUserInfo = reactive({
+  const info: CurrentUser = reactive({
     id: -1,
     name: "",
     account: "",
@@ -12,14 +12,10 @@ export const useCurrentUser = defineStore("currentUser", () => {
     cover: "",
     email: "",
     introduction: "",
-    password: "",
     role: "",
-    token: "",
-    createdAt: new Date(),
-    updatedAt: new Date(),
   });
   //assign info from api to reactive object
-  function storeCurrentUser(payLoad: fullUserInfo) {
+  function storeCurrentUser(payLoad: CurrentUser) {
     Object.assign(info, payLoad);
   }
   //clean info when sign out
