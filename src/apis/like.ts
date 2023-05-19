@@ -1,14 +1,14 @@
 import { api } from "@/utils/helper";
-import type { request } from "env";
+import type { Request } from "env";
 
 export const likesAPI = {
-  addLike: function (payLoad: request) {
+  addLike: function (payLoad: Request) {
     return api.post(`/like/${payLoad.id}`);
   },
-  deleteLike: function (payLoad: request) {
+  deleteLike: function (payLoad: Request) {
     return api.delete(`/like/${payLoad.id}`);
   },
-  getLike: function (payLoad: request) {
+  getLike: function (payLoad: Request) {
     return api.get(`/like/user/${payLoad.id}`);
   },
 };

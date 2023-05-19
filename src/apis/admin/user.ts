@@ -1,11 +1,11 @@
 import { api } from "../../utils/helper";
-import type { request } from "env";
+import type { Request } from "env";
 
 export const adminAPI = {
-  signIn: function (payLoad: request) {
+  signIn: function (payLoad: Request) {
     return api.post("/admin/signin", payLoad);
   },
-  signUp: function (payLoad: request) {
+  signUp: function (payLoad: Request) {
     return api.post("/admin/signup", payLoad);
   },
   getAllUsers: function () {

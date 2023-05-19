@@ -1,17 +1,17 @@
 import { api } from "../utils/helper";
-import type { request } from "env";
+import type { Request } from "env";
 
 export const usersAPI = {
-  signIn: function (payLoad: request) {
+  signIn: function (payLoad: Request) {
     return api.post("/user/signin", payLoad);
   },
-  signUp: function (payLoad: request) {
+  signUp: function (payLoad: Request) {
     return api.post("/user/signup", payLoad);
   },
   getCurrentUser: function () {
     return api.get("/user/current_user");
   },
-  getDetail: function (payLoad: request) {
+  getDetail: function (payLoad: Request) {
     return api.get(`/user/${payLoad.id}`);
   },
   modifyInfo: function (payLoad: FormData) {
@@ -21,7 +21,7 @@ export const usersAPI = {
       },
     });
   },
-  modifySetting: function (payLoad: request) {
+  modifySetting: function (payLoad: Request) {
     return api.put("/user/setting", payLoad);
   },
 };

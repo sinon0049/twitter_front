@@ -1,8 +1,8 @@
 import { api } from "@/utils/helper";
-import type { request } from "env";
+import type { Request } from "env";
 
 export const repliesAPI = {
-  getReplyOfSelectedUser: function (payLoad: request) {
+  getReplyOfSelectedUser: function (payLoad: Request) {
     return api.get(`/reply/user/${payLoad.id}`);
   },
 };

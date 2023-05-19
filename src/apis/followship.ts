@@ -1,17 +1,17 @@
 import { api } from "../utils/helper";
-import type { request } from "env";
+import type { Request } from "env";
 
 export const followshipAPI = {
-  getFollowingList: function (payLoad: request) {
+  getFollowingList: function (payLoad: Request) {
     return api.get(`/followship/following/${payLoad.id}`);
   },
-  getFollowerList: function (payLoad: request) {
+  getFollowerList: function (payLoad: Request) {
     return api.get(`/followship/follower/${payLoad.id}`);
   },
-  deleteFollowing: function (payLoad: request) {
+  deleteFollowing: function (payLoad: Request) {
     return api.delete(`/followship/following/${payLoad.id}`);
   },
-  addFollowing: function (payLoad: request) {
+  addFollowing: function (payLoad: Request) {
     return api.post(`/followship/following/${payLoad.id}`);
   },
 };
