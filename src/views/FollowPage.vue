@@ -88,7 +88,6 @@ export default defineComponent({
         followerData.data.forEach((item: Followship) =>
           followerList.push(item)
         );
-        console.log(followerList[0]);
         tweetCount.value = tweetData.data.length;
         userName.value = userData.data.name;
       } catch (error) {
